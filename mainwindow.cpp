@@ -8,11 +8,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    m_graphicsScene = new QGraphicsScene(ui->graphicsView);
-    ui->graphicsView->setScene(m_graphicsScene);
-    machine = new MachineDomain();
+    view = new GraphicsView(new QGraphicsScene(), this);
+    ui->centralWidget->layout()->addWidget(view);
 
-    m_graphicsScene->addItem(machine);
+    machine = new MachineDomain();
+    view->m_scene->addItem(machine);
 }
 
 MainWindow::~MainWindow()
@@ -31,19 +31,4 @@ void MainWindow::on_actionAbout_triggered()
     about->show();
     about->raise();
     about->activateWindow();
-}
-
-void MainWindow::mousePressEvent(QMouseEvent *event)
-{
-    if(event->GraphicsSceneMousePress == Qt::LeftButton)
-        QDebug << "Left mouse button pressed in graphicsscene";
-    if(event->button() == Qt::LeftButton) {
-        //QPoint remapped = ui->graphicsView->mapFromParent( event->pos() );
-        //if(ui->graphicsView->rect().contains( remapped )) {
-            //QPointF mousePoint = ui->graphicsView->mapToScene( remapped );
-            Domain *dom = new Domain(ui->graphicsView->mapFromParent( event->pos()));
-            m_graphicsScene->addItem(dom);
-            m_graphicsScene->update();
-        //}
-    }
 }

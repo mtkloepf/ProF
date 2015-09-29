@@ -18,14 +18,16 @@ SOURCES += main.cpp\
     phenomenon.cpp \
     about.cpp \
     machinedomain.cpp \
-    domain.cpp
+    domain.cpp \
+    graphicsview.cpp
 
 HEADERS  += mainwindow.h \
             component.h \
     phenomenon.h \
     about.h \
     machinedomain.h \
-    domain.h
+    domain.h \
+    graphicsview.h
 
 FORMS    += mainwindow.ui \
     about.ui

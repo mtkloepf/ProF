@@ -32,86 +32,9 @@
    <string>ProF</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_2">
+   <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QFrame" name="frame">
-        <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
-        </property>
-        <widget class="QGraphicsView" name="graphicsView">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>20</y>
-           <width>361</width>
-           <height>501</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label">
-         <property name="geometry">
-          <rect>
-           <x>16</x>
-           <y>0</y>
-           <width>361</width>
-           <height>20</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Context Diagram</string>
-         </property>
-        </widget>
-       </widget>
-      </item>
-      <item>
-       <widget class="QFrame" name="frame_2">
-        <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
-        </property>
-        <widget class="QTabWidget" name="tabWidget">
-         <property name="geometry">
-          <rect>
-           <x>6</x>
-           <y>-1</y>
-           <width>371</width>
-           <height>521</height>
-          </rect>
-         </property>
-         <property name="currentIndex">
-          <number>0</number>
-         </property>
-         <widget class="QWidget" name="ProblemDiagram1">
-          <attribute name="title">
-           <string>Problem Diagram 1</string>
-          </attribute>
-          <widget class="QGraphicsView" name="graphicsView_2">
-           <property name="geometry">
-            <rect>
-             <x>-5</x>
-             <y>-9</y>
-             <width>371</width>
-             <height>511</height>
-            </rect>
-           </property>
-          </widget>
-         </widget>
-         <widget class="QWidget" name="tab_2">
-          <attribute name="title">
-           <string>Problem Diagram 2</string>
-          </attribute>
-         </widget>
-        </widget>
-       </widget>
-      </item>
-     </layout>
+     <layout class="QHBoxLayout" name="horizontalLayout"/>
     </item>
    </layout>
   </widget>

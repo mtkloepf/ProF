@@ -5,6 +5,7 @@
 #include "about.h"
 #include "machinedomain.h"
 #include "domain.h"
+#include "graphicsview.h"
 #include <QMouseEvent>
 #include <QList>
 
@@ -21,14 +22,13 @@ public:
     ~MainWindow();
 
 protected:
-    QGraphicsScene *m_graphicsScene;
+    GraphicsView *view;
 
 public slots:
     void on_actionAbout_triggered();
 
 private slots:
     void on_actionClose_triggered();
-    void mousePressEvent(QMouseEvent *event);
 
 private:
     Ui::MainWindow *ui;

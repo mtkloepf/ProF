@@ -8,8 +8,12 @@
 class Domain : public QGraphicsItem
 {
 public:
-    Domain(QPointF position);
+    Domain(int x, int y);
 
+public slots:
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+
+public:
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
