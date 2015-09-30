@@ -25,7 +25,9 @@ void GraphicsView::mousePressEvent( QMouseEvent *event)
     }
     else if(event->button() == Qt::RightButton) {
         if(m_scene->itemAt(pos, QTransform()) == NULL) {
-            //TODO: Add in the code to create the designed domain
+            domain = new Domain(pos.x()-25, pos.y()-25);
+            domain->setColor(Qt::yellow);
+            m_scene->addItem(domain);
         }
     }
 

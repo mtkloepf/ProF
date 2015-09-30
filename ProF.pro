@@ -30,4 +30,5 @@ HEADERS  += mainwindow.h \
     graphicsview.h
 
 FORMS    += mainwindow.ui \
-    about.ui
+    about.ui \
+    ../editdomain.ui
