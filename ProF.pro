@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     about.cpp \
     machinedomain.cpp \
     domain.cpp \
-    graphicsview.cpp
+    graphicsview.cpp \
+    editdomain.cpp
 
 HEADERS  += mainwindow.h \
             component.h \
@@ -27,8 +28,9 @@ HEADERS  += mainwindow.h \
     about.h \
     machinedomain.h \
     domain.h \
-    graphicsview.h
+    graphicsview.h \
+    editdomain.h
 
 FORMS    += mainwindow.ui \
     about.ui \
-    ../editdomain.ui
+    editdomain.ui

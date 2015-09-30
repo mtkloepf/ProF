@@ -3,6 +3,7 @@
 #include <QGraphicsView>
 #include <QMouseEvent>
 #include "domain.h"
+#include <QGraphicsSceneContextMenuEvent>
 
 class GraphicsView : public QGraphicsView
 {

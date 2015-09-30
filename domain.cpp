@@ -1,6 +1,7 @@
 #include "domain.h"
 #include <QDebug>
 #include <QGraphicsSceneMouseEvent>
+#include <QObject>
 
 Domain::Domain(int x, int y)
 {
@@ -23,10 +24,21 @@ void Domain::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
     painter->drawRect(rect);
 }
 
-void Domain::mousePressEvent(QGraphicsSceneMouseEvent *event)
+void Domain::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
-    QGraphicsItem::mousePressEvent(event);
-    event->accept();
+    QMenu menu;
+    QAction *editAction = menu.addAction("Edit");
+    QAction *deleteAction = menu.addAction("Delete");
+
+    if(menu.exec( event->screenPos() ) == deleteAction) {
+        delete this;
+    }
+    else if(menu.exec( event->screenPos() ) == editAction) {
+        edit = new EditDomain();
+        edit->show();
+        //edit->raise();
+        edit->activateWindow();
+    }
 }
 
 Domain::~Domain()
