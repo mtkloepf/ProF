@@ -1,6 +1,11 @@
 #ifndef EDITDOMAIN_H
 #define EDITDOMAIN_H
 
+/*******************************************************************************
+/*! \class editdomain.h
+ *
+ *  A dialog that appears when editing domain properties
+*******************************************************************************/
 #include <QDialog>
 
 namespace Ui {
@@ -13,19 +18,19 @@ class EditDomain : public QDialog
 
 public:
     explicit EditDomain(QWidget *parent = 0);
-    void setDomainName(QString name);
     void setDomainDescription(QString desc);
+    void setDomainName(QString name);
     void setDomainType(QString type);
     ~EditDomain();
 
-signals:
-    void updateName(QString);
-    void updateDescription(QString);
-    void updateType(QString);
-
 private slots:
     void on_okButton_clicked();
+    void on_cancelButton_clicked();
 
+signals:
+    void updateDescription(QString);
+    void updateName(QString);
+    void updateType(QString);
 
 private:
     Ui::EditDomain *ui;

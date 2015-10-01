@@ -1,0 +1,60 @@
+Class Documentation:
+/*******************************************************************************
+/*! \class class.cpp or class.h
+ *
+ *  Detailed description starts here.
+*******************************************************************************/
+
+
+Function/Method Documentation:
+/*******************************************************************************
+/*! \brief Brief description.
+ *
+ *  Detailed description starts here.
+ *
+ * @param
+ * @return
+*******************************************************************************/
+
+
+Includes:
+The list of includes should start with the Qt classes first, followed by all
+project created classes -- separated by a newline. All includes should be in
+alphabetical order.
+Example:
+#include <QObject>
+#include <QWidget>
+
+#include "myfile.h"
+#include "myotherfile.h"
+
+
+Headers:
+The list of functions should be in the order of:
+    public: (functions)
+    protected: (functions)
+    private: (functions)
+    public slots:
+    private slots:
+    signals:
+    public: (data)
+    protected: (data)
+    private: (data)
+Data of the same type should be kept together
+
+
+General guidelines:
+No lines should exceed 80 characters (the function comment blocks are 80
+for reference)
+
+Retrieval/set functions should be kept together without newlines between them
+and in that particular order (retrieval first, set second). They should be
+implemented in the .cpp in the same order as listed in the .h
+There should be two newlines between each set of retrieval/set functions
+
+Simple functions that are described fully by the /brief do not need further
+detail
+
+Data of the same type should be listed in alphabetical order
+
+In general, one newline between each function that is not get/set

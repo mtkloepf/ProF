@@ -1,8 +1,13 @@
 #ifndef ABOUT_H
 #define ABOUT_H
 
-#include <QWidget>
+/*******************************************************************************
+/*! \class about.h
+ *
+ *  The about dialog displays information regarding the project to the user
+*******************************************************************************/
 #include <QDialog>
+#include <QWidget>
 
 namespace Ui {
 class About;

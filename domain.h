@@ -1,13 +1,17 @@
 #ifndef DOMAIN_H
 #define DOMAIN_H
 
-#include <QGraphicsItem>
-#include <QPoint>
-#include <QPainter>
-#include <QList>
-#include <QMenu>
+/*******************************************************************************
+/*! \class domain.h
+ *
+ *  Header file for the domain class
+*******************************************************************************/
 #include <QContextMenuEvent>
-#include "phenomenon.h"
+#include <QGraphicsItem>
+#include <QList>
+#include <QPainter>
+#include <QPoint>
+
 #include "editdomain.h"
 
 class Domain : public QGraphicsObject
@@ -15,36 +19,38 @@ class Domain : public QGraphicsObject
     Q_OBJECT
 public:
     Domain(int x, int y);
+    ~Domain();
+    QRectF boundingRect() const;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+               QWidget *widget);
 
 public slots:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
-public:
-    QRectF boundingRect() const;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-    ~Domain();
-
-public slots:
-    QString getType() const;
-    void setType(const QString &value);
+    QString getDescription() const;
+    void setDescription(const QString &value);
 
     QString getName() const;
     void setName(const QString &value);
 
-    QString getDescription() const;
-    void setDescription(const QString &value);
+    QString getType() const;
+    void setType(const QString &value);
 
     QColor getColor() const;
     void setColor(const QColor &value);
 
 private:
     QPointF pos;
-    QList<Phenomenon> phenomena;
-    QString type;
-    QString name;
+
     QString description;
+    QString name;
+    QString type;
+
     QColor color;
+
     EditDomain *edit;
+
+    //QList<Phenomenon> phenomena;
 };
 
 #endif // DOMAIN_H
