@@ -37,7 +37,7 @@ Domain::~Domain() {}
 *******************************************************************************/
 QRectF Domain::boundingRect() const
 {
-    return QRectF(pos.x(), pos.y(), 50, 50);
+    return QRectF(pos.x(), pos.y(), 75, 50);
 }
 
 /*******************************************************************************
@@ -53,10 +53,11 @@ QRectF Domain::boundingRect() const
 void Domain::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                    QWidget *widget)
 {
+    QRectF textRect(pos.x()+5, pos.y()+5, 70, 45);
     QBrush brush(color);
     painter->fillRect(boundingRect(), brush);
     painter->drawRect(boundingRect());
-    painter->drawText(boundingRect(), getName());
+    painter->drawText(textRect, getName());
 }
 
 /*******************************************************************************
@@ -162,7 +163,7 @@ void Domain::setType(const QString &value)
     if(value == "Designed")
         setColor(Qt::yellow);
     else
-        setColor(Qt::blue);
+        setColor(Qt::cyan);
 }
 
 
