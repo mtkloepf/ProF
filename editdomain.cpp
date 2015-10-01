@@ -19,6 +19,7 @@ EditDomain::EditDomain(QWidget *parent) :
     ui(new Ui::EditDomain)
 {
     ui->setupUi(this);
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 }
 
 /*******************************************************************************

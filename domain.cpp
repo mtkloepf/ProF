@@ -56,6 +56,7 @@ void Domain::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     QBrush brush(color);
     painter->fillRect(boundingRect(), brush);
     painter->drawRect(boundingRect());
+    painter->drawText(boundingRect(), getName());
 }
 
 /*******************************************************************************

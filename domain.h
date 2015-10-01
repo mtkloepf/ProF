@@ -8,6 +8,7 @@
 *******************************************************************************/
 #include <QContextMenuEvent>
 #include <QGraphicsItem>
+#include <QLabel>
 #include <QList>
 #include <QPainter>
 #include <QPoint>
