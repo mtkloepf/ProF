@@ -14,46 +14,53 @@
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="20" column="3">
-    <widget class="QPushButton" name="pushButton_6">
+   <item row="17" column="5">
+    <widget class="QPushButton" name="editPhenomena">
+     <property name="text">
+      <string>Edit</string>
+     </property>
+    </widget>
+   </item>
+   <item row="20" column="4">
+    <widget class="QPushButton" name="cancelButton">
      <property name="text">
       <string>Cancel</string>
      </property>
     </widget>
    </item>
-   <item row="20" column="1">
-    <widget class="QPushButton" name="pushButton_4">
+   <item row="20" column="2">
+    <widget class="QPushButton" name="okButton">
      <property name="text">
       <string>OK</string>
      </property>
     </widget>
    </item>
-   <item row="15" column="4">
-    <widget class="QPushButton" name="pushButton_3">
+   <item row="15" column="5">
+    <widget class="QPushButton" name="addPhenomena">
      <property name="text">
       <string>Add</string>
      </property>
     </widget>
    </item>
-   <item row="20" column="2">
-    <widget class="QPushButton" name="pushButton_5">
+   <item row="20" column="3">
+    <widget class="QPushButton" name="resetButton">
      <property name="text">
       <string>Reset</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="1" colspan="4">
-    <widget class="QLineEdit" name="lineEdit"/>
+   <item row="0" column="2" colspan="4">
+    <widget class="QLineEdit" name="nameLineEdit"/>
    </item>
    <item row="0" column="0">
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="nameLabel">
      <property name="text">
       <string>Name:</string>
      </property>
     </widget>
    </item>
    <item row="15" column="0">
-    <widget class="QLabel" name="label_3">
+    <widget class="QLabel" name="phenomenaLabel">
      <property name="text">
       <string>Phenomena:</string>
      </property>
@@ -63,14 +70,14 @@
     </widget>
    </item>
    <item row="5" column="0">
-    <widget class="QLabel" name="label_2">
+    <widget class="QLabel" name="domainLabel">
      <property name="text">
       <string>Domain Type:</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="1">
-    <widget class="QRadioButton" name="radioButton">
+   <item row="5" column="2">
+    <widget class="QRadioButton" name="designedRadio">
      <property name="text">
       <string>Designed</string>
      </property>
@@ -80,7 +87,7 @@
     </widget>
    </item>
    <item row="9" column="0" rowspan="4">
-    <widget class="QLabel" name="label_4">
+    <widget class="QLabel" name="descriptionLabel">
      <property name="text">
       <string>Description:</string>
      </property>
@@ -89,53 +96,46 @@
      </property>
     </widget>
    </item>
-   <item row="14" column="0" colspan="5">
+   <item row="14" column="0" colspan="6">
     <widget class="Line" name="line">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
-   <item row="1" column="0" colspan="5">
+   <item row="1" column="0" colspan="6">
     <widget class="Line" name="line_3">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
-   <item row="5" column="2">
-    <widget class="QRadioButton" name="radioButton_2">
+   <item row="5" column="3">
+    <widget class="QRadioButton" name="givenRadio">
      <property name="text">
       <string>Given</string>
      </property>
     </widget>
    </item>
-   <item row="6" column="0" colspan="5">
+   <item row="6" column="0" colspan="6">
     <widget class="Line" name="line_2">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
-   <item row="16" column="4">
-    <widget class="QPushButton" name="pushButton_2">
+   <item row="16" column="5">
+    <widget class="QPushButton" name="deletePhenomena">
      <property name="text">
       <string>Delete</string>
      </property>
     </widget>
    </item>
-   <item row="15" column="1" rowspan="3" colspan="3">
-    <widget class="QTextEdit" name="textEdit"/>
+   <item row="9" column="2" colspan="4">
+    <widget class="QTextEdit" name="descriptionTextEdit"/>
    </item>
-   <item row="17" column="4">
-    <widget class="QPushButton" name="pushButton">
-     <property name="text">
-      <string>Edit</string>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="1" rowspan="3" colspan="4">
-    <widget class="QListView" name="listView">
+   <item row="15" column="2" rowspan="3" colspan="3">
+    <widget class="QListView" name="phenomenaListView">
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>

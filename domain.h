@@ -24,6 +24,7 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     ~Domain();
 
+public slots:
     QString getType() const;
     void setType(const QString &value);
 

@@ -1,5 +1,4 @@
 #include "domain.h"
-#include <QDebug>
 #include <QGraphicsSceneMouseEvent>
 #include <QObject>
 
@@ -35,8 +34,15 @@ void Domain::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     }
     else if(menu.exec( event->screenPos() ) == editAction) {
         edit = new EditDomain();
+        edit->setDomainDescription(getDescription());
+        edit->setDomainName(getName());
+        edit->setDomainType(getType());
+        connect(edit, SIGNAL(updateDescription(QString)), this, SLOT(setDescription(QString)));
+        connect(edit, SIGNAL(updateName(QString)), this, SLOT(setName(QString)));
+        connect(edit, SIGNAL(updateType(QString)), this, SLOT(setType(QString)));
+
         edit->show();
-        //edit->raise();
+        edit->raise();
         edit->activateWindow();
     }
 }
