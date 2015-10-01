@@ -40,7 +40,9 @@ QRectF MachineDomain::boundingRect() const
  * @param option --unused
  * @param widget --unused
 *******************************************************************************/
-void MachineDomain::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void MachineDomain::paint(QPainter *painter,
+                          const QStyleOptionGraphicsItem *option,
+                          QWidget *widget)
 {
     QBrush brush(Qt::red); // Machine domain will always be red
     painter->fillRect(boundingRect(), brush);

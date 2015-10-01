@@ -26,6 +26,7 @@ public:
 private slots:
     void on_okButton_clicked();
     void on_cancelButton_clicked();
+    void on_resetButton_clicked();
 
 signals:
     void updateDescription(QString);

@@ -158,6 +158,10 @@ QString Domain::getType() const
 void Domain::setType(const QString &value)
 {
     type = value;
+    if(value == "Designed")
+        setColor(Qt::yellow);
+    else
+        setColor(Qt::blue);
 }
 
 

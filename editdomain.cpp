@@ -90,3 +90,14 @@ void EditDomain::on_cancelButton_clicked()
 {
     close();
 }
+
+/*******************************************************************************
+/*! \brief Slot called when the Reset button of this dialog is clicked
+ *
+ *  Resets all data in the form to NULL. Resets form to default domain values
+*******************************************************************************/
+void EditDomain::on_resetButton_clicked()
+{
+    ui->nameLineEdit->clear();
+    ui->descriptionTextEdit->clear();
+}

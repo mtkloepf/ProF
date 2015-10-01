@@ -11,11 +11,17 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Edit Domain</string>
+  </property>
+  <property name="toolTip">
+   <string/>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="17" column="5">
     <widget class="QPushButton" name="editPhenomena">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="text">
       <string>Edit</string>
      </property>
@@ -126,8 +132,14 @@
    </item>
    <item row="16" column="5">
     <widget class="QPushButton" name="deletePhenomena">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="text">
       <string>Delete</string>
+     </property>
+     <property name="checkable">
+      <bool>false</bool>
      </property>
     </widget>
    </item>
