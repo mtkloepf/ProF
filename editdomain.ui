@@ -156,6 +156,13 @@
      </property>
     </widget>
    </item>
+   <item row="5" column="4">
+    <widget class="QRadioButton" name="machineRadio">
+     <property name="text">
+      <string>Machine</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <resources/>

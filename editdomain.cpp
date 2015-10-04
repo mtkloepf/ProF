@@ -14,12 +14,22 @@
  *
  * @param parent widget that parents this dialog
 *******************************************************************************/
-EditDomain::EditDomain(QWidget *parent) :
+EditDomain::EditDomain(QWidget *parent, bool machine) :
     QDialog(parent),
-    ui(new Ui::EditDomain)
+    ui(new Ui::EditDomain),
+    isMachine(machine)
 {
     ui->setupUi(this);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
+    setFixedSize(geometry().width(), geometry().height());
+
+    //Special logic for the machine domain. Cannot edit the type for machine 
+    //domain
+    if(isMachine) {
+        ui->givenRadio->setEnabled(false);
+        ui->designedRadio->setEnabled(false);
+    } else ui->machineRadio->setEnabled(false);
+
 }
 
 /*******************************************************************************
@@ -61,8 +71,10 @@ void EditDomain::setDomainType(QString type)
 {
     if(type == "Designed")
         ui->designedRadio->setChecked(true);
-    else
+    else if(type == "Given")
         ui->givenRadio->setChecked(true);
+    else
+        ui->machineRadio->setChecked(true);
 }
 
 /*******************************************************************************

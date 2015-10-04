@@ -17,6 +17,8 @@ GraphicsView::GraphicsView( QGraphicsScene *graphicsScene, QWidget *parent)
       scene(graphicsScene)
 {
     setScene(scene);
+    setMouseTracking(true);
+    viewport()->setMouseTracking(true);
 }
 
 /*******************************************************************************
@@ -45,14 +47,12 @@ void GraphicsView::mousePressEvent( QMouseEvent *event)
         if(event->button() == Qt::LeftButton) {
             //Create a new given domain and center it on the mouse
             domain = new Domain(pos.x()-25, pos.y()-25);
-            domain->setColor(Qt::blue);
             domain->setType("Given");
             scene->addItem(domain);
         }
         else if(event->button() == Qt::RightButton) {
             //Create a new given domain and center it on the mouse
             domain = new Domain(pos.x()-25, pos.y()-25);
-            domain->setColor(Qt::yellow);
             domain->setType("Designed");
             scene->addItem(domain);
         }

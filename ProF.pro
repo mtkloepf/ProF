@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+QMAKE_CXXFLAGS_WARN_OFF += -Wno-unused-parameter
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -20,7 +21,9 @@ SOURCES += main.cpp\
     graphicsview.cpp \
     editdomain.cpp \
     interface.cpp \
-    editinterface.cpp
+    editinterface.cpp \
+    editphenomenon.cpp \
+    phenomenon.cpp
 
 HEADERS  += mainwindow.h \
     about.h \
@@ -30,12 +33,15 @@ HEADERS  += mainwindow.h \
     editdomain.h \
     Style Document \
     interface.h \
-    editinterface.h
+    editinterface.h \
+    editphenomenon.h \
+    phenomenon.h
 
 FORMS    += mainwindow.ui \
     about.ui \
     editdomain.ui \
-    editinterface.ui
+    editinterface.ui \
+    editphenomenon.ui
 
 DISTFILES += \
     StylingDocument.txt

@@ -17,10 +17,12 @@
  * @param x the x coordinate for the center of the domain in the scene
  * @param y the y coordinate for the center of the domain
 *******************************************************************************/
-Domain::Domain(int x, int y)
+Domain::Domain(float x, float y)
     : pos(QPointF(x, y))
 {
     setFlag(ItemIsMovable);
+    setAcceptHoverEvents(true);
+    defaultColor = Qt::cyan;
 }
 
 /*******************************************************************************
@@ -54,10 +56,47 @@ void Domain::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                    QWidget *widget)
 {
     QRectF textRect(pos.x()+5, pos.y()+5, 70, 45);
-    QBrush brush(color);
-    painter->fillRect(boundingRect(), brush);
+    painter->fillRect(boundingRect(), QBrush(color));
     painter->drawRect(boundingRect());
     painter->drawText(textRect, getName());
+}
+
+/*******************************************************************************
+/*! \brief Retrieval for the color the domain is painted
+ *
+ * @return color of the domain
+*******************************************************************************/
+QColor Domain::getColor() const
+{
+    return color;
+}
+/*******************************************************************************
+/*! \brief Sets the color the domain will be painted
+ *
+ * @param value color of the domain
+*******************************************************************************/
+void Domain::setColor(const QColor &value)
+{
+    color = value;
+}
+
+/*******************************************************************************
+/*! \brief Used to get the default color of the domain
+ *   
+ *  @return the default color of the domain
+*******************************************************************************/
+QColor Domain::getDefaultColor() const
+{
+    return defaultColor;
+}
+/*******************************************************************************
+/*! \brief Sets the default color of a domain
+ *         
+ *  @param value the color to set the default color to
+*******************************************************************************/
+void Domain::setDefaultColor(const QColor &value)
+{
+    defaultColor = value;
 }
 
 /*******************************************************************************
@@ -73,34 +112,40 @@ void Domain::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 void Domain::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     //Create a new context menu to hold edit and delete actions
+    //Then connect the slots functions for the menu actions
     QMenu menu;
     QAction *editAction = menu.addAction("Edit");
+    connect(editAction, SIGNAL(triggered()), this, SLOT(editDomain()));
     QAction *deleteAction = menu.addAction("Delete");
+    connect(deleteAction, SIGNAL(triggered()), this, SLOT(deleteDomain()));
 
-    //Delete the domain
-    if(menu.exec( event->screenPos() ) == deleteAction) {
-        delete this;
-    }
+    menu.exec(event->screenPos());
+}
 
-    // Bring up the edit domain menu, connect the slots to the OK button of
-    // the edit domain dialog, and give the current domain info for the
-    // edit domain dialog to display
-    else if(menu.exec( event->screenPos() ) == editAction) {
-        edit = new EditDomain();
-        edit->setDomainDescription(getDescription());
-        edit->setDomainName(getName());
-        edit->setDomainType(getType());
-        connect(edit, SIGNAL(updateDescription(QString)),
-                this, SLOT(setDescription(QString)));
-        connect(edit, SIGNAL(updateName(QString)), this,
-                SLOT(setName(QString)));
-        connect(edit, SIGNAL(updateType(QString)), this,
-                SLOT(setType(QString)));
+/*******************************************************************************
+/*! \brief Domain mouse hover enter
+ *
+ *  Darkens the color of the domain that's currently hovered over. This makes it 
+ *  easier for the use to see which domain is accepting the mouse
+ *
+ * @param event --unused
+*******************************************************************************/
+void Domain::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
+    setColor(defaultColor.darker(125));
+    update();
+}
 
-        edit->show();
-        edit->raise();
-        edit->activateWindow();
-    }
+/*******************************************************************************
+/*! \brief Domain mouse hover exit
+ *
+ *  Resets the color of the domain to the default after the mouse leaves the 
+ *  bounding rect
+ *
+ * @param event --unused
+*******************************************************************************/
+void Domain::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
+    setColor(defaultColor);
+    update();
 }
 
 /*******************************************************************************
@@ -160,28 +205,47 @@ QString Domain::getType() const
 void Domain::setType(const QString &value)
 {
     type = value;
-    if(value == "Designed")
+    if(value == "Designed") {
         setColor(Qt::yellow);
-    else
+        setDefaultColor(Qt::yellow);
+    }
+    else {
         setColor(Qt::cyan);
+        setDefaultColor(Qt::cyan);
+    }
 }
 
+/*******************************************************************************
+/*! \brief SLOT function used for editing the domain. Attached to the context 
+ *         menu for domains
+*******************************************************************************/
+void Domain::editDomain()
+{
+    // Bring up the edit domain menu, connect the slots to the OK button of
+    // the edit domain dialog, and give the current domain info for the
+    // edit domain dialog to display
+    edit = new EditDomain();
+    edit->setDomainDescription(getDescription());
+    edit->setDomainName(getName());
+    edit->setDomainType(getType());
+    connect(edit, SIGNAL(updateDescription(QString)),
+            this, SLOT(setDescription(QString)));
+    connect(edit, SIGNAL(updateName(QString)), this,
+            SLOT(setName(QString)));
+    connect(edit, SIGNAL(updateType(QString)), this,
+            SLOT(setType(QString)));
+
+    edit->show();
+    edit->raise();
+    edit->activateWindow();
+}
 
 /*******************************************************************************
-/*! \brief Retrieval for the color the domain is painted
- *
- * @return color of the domain
+/*! \brief SLOT function used for deleting the domain. Attached to the context 
+ *         menu for domains
 *******************************************************************************/
-QColor Domain::getColor() const
+void Domain::deleteDomain()
 {
-    return color;
+    delete this;
 }
-/*******************************************************************************
-/*! \brief Setter for domain color
- *
- * @param value new color for the domain
-*******************************************************************************/
-void Domain::setColor(const QColor &value)
-{
-    color = value;
-}
+

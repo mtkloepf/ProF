@@ -22,6 +22,7 @@ EditInterface::EditInterface(QWidget *parent) :
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->withArrowRadio->setVisible(false);
     ui->withoutArrowRadio->setVisible(false);
+    setFixedSize(geometry().width(), geometry().height());
 }
 
 /*******************************************************************************

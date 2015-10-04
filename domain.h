@@ -18,14 +18,22 @@ class Domain : public QGraphicsObject
 {
     Q_OBJECT
 public:
-    Domain(int x, int y);
+    Domain(float x, float y);
     ~Domain();
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                QWidget *widget);
 
+    QColor getColor() const;
+    void setColor(const QColor &value);
+
+    QColor getDefaultColor() const;
+    void setDefaultColor(const QColor &value);
+
 public slots:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
+    void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
 
     QString getDescription() const;
     void setDescription(const QString &value);
@@ -36,8 +44,8 @@ public slots:
     QString getType() const;
     void setType(const QString &value);
 
-    QColor getColor() const;
-    void setColor(const QColor &value);
+    void editDomain();
+    void deleteDomain();
 
 private:
     QPointF pos;
@@ -47,6 +55,7 @@ private:
     QString type;
 
     QColor color;
+    QColor defaultColor;
 
     EditDomain *edit;
 

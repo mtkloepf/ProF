@@ -61,7 +61,7 @@ void Interface::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 /*! \brief Used for opening the context menu for interfaces
  *
  *  Called when right clicking on a interface in the graphics scene. Spawns a
- *  context menu containing the edit and delete options for the interface 
+ *  context menu containing the edit and delete options for the interface
  *  clicked on.
  *
  * @param event the event that causes the context menu to appear (on windows it
@@ -72,29 +72,11 @@ void Interface::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     //Create a new context menu to hold edit and delete actions
     QMenu menu;
     QAction *editAction = menu.addAction("Edit");
+    connect(editAction, SIGNAL(triggered()), this, SLOT(editInterface()));
     QAction *deleteAction = menu.addAction("Delete");
+    connect(deleteAction, SIGNAL(triggered()), this, SLOT(deleteInterface()));
 
-    //Delete the domain
-    if(menu.exec( event->screenPos() ) == deleteAction) {
-        delete this;
-    }
-
-    // Bring up the edit domain menu, connect the slots to the OK button of
-    // the edit domain dialog, and give the current domain info for the
-    // edit domain dialog to display
-    else if(menu.exec( event->screenPos() ) == editAction) {
-        edit = new EditInterface();
-        edit->setInterfaceDescription(getDescription());
-        edit->setInterfaceName(getName());
-        connect(edit, SIGNAL(updateDescription(QString)),
-                this, SLOT(setDescription(QString)));
-        connect(edit, SIGNAL(updateName(QString)), this,
-                SLOT(setName(QString)));
-
-        edit->show();
-        edit->raise();
-        edit->activateWindow();
-    }
+    menu.exec(event->screenPos());
 }
 
 /*******************************************************************************
@@ -133,5 +115,39 @@ QString Interface::getName() const
 void Interface::setName(const QString &value)
 {
     name = value;
+}
+
+/*******************************************************************************
+/*! \brief SLOT connected to context menu edit action
+ *
+ *  When edit is selected from the context menu, bring up a new dialog to edit 
+ *  the interface
+*******************************************************************************/
+void Interface::editInterface()
+{
+    // Bring up the edit interface menu, connect the slots to the OK button of
+    // the edit domain dialog, and give the current interface info for the
+    // edit interface dialog to display
+    edit = new EditInterface();
+    edit->setInterfaceDescription(getDescription());
+    edit->setInterfaceName(getName());
+    connect(edit, SIGNAL(updateDescription(QString)),
+            this, SLOT(setDescription(QString)));
+    connect(edit, SIGNAL(updateName(QString)), this,
+            SLOT(setName(QString)));
+
+    edit->show();
+    edit->raise();
+    edit->activateWindow();
+}
+
+/*******************************************************************************
+/*! \brief SLOT connected to context menu delete action
+ *
+ *  When delete is selected from the context menu, delete the interface
+*******************************************************************************/
+void Interface::deleteInterface()
+{
+    delete this;
 }
 

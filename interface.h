@@ -32,6 +32,9 @@ public slots:
     QString getName() const;
     void setName(const QString &value);
 
+    void editInterface();
+    void deleteInterface();
+
 private:
     QPointF pos;
 

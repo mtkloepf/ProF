@@ -17,7 +17,7 @@ class EditDomain : public QDialog
     Q_OBJECT
 
 public:
-    explicit EditDomain(QWidget *parent = 0);
+    explicit EditDomain(QWidget *parent = 0, bool machine=false);
     void setDomainDescription(QString desc);
     void setDomainName(QString name);
     void setDomainType(QString type);
@@ -34,6 +34,7 @@ signals:
     void updateType(QString);
 
 private:
+    bool isMachine;
     Ui::EditDomain *ui;
 };
 
