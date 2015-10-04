@@ -18,7 +18,9 @@ SOURCES += main.cpp\
     machinedomain.cpp \
     domain.cpp \
     graphicsview.cpp \
-    editdomain.cpp
+    editdomain.cpp \
+    interface.cpp \
+    editinterface.cpp
 
 HEADERS  += mainwindow.h \
     about.h \
@@ -26,11 +28,14 @@ HEADERS  += mainwindow.h \
     domain.h \
     graphicsview.h \
     editdomain.h \
-    Style Document
+    Style Document \
+    interface.h \
+    editinterface.h
 
 FORMS    += mainwindow.ui \
     about.ui \
-    editdomain.ui
+    editdomain.ui \
+    editinterface.ui
 
 DISTFILES += \
     StylingDocument.txt

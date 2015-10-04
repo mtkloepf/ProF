@@ -1,28 +1,27 @@
-#ifndef DOMAIN_H
-#define DOMAIN_H
+#ifndef INTERFACE_H
+#define INTERFACE_H
 
 /*******************************************************************************
-/*! \class domain.h
+/*! \class interface.h
  *
- *  Header file for the domain class
+ *  Header file for the interface class
 *******************************************************************************/
 #include <QContextMenuEvent>
 #include <QGraphicsItem>
-#include <QLabel>
-#include <QList>
 #include <QPainter>
 
-#include "editdomain.h"
+#include "editinterface.h"
 
-class Domain : public QGraphicsObject
+class Interface : public QGraphicsObject
 {
     Q_OBJECT
+
 public:
-    Domain(int x, int y);
-    ~Domain();
+    Interface(int x, int y);
+    ~Interface();
+
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     QRectF boundingRect() const;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-               QWidget *widget);
 
 public slots:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
@@ -33,24 +32,13 @@ public slots:
     QString getName() const;
     void setName(const QString &value);
 
-    QString getType() const;
-    void setType(const QString &value);
-
-    QColor getColor() const;
-    void setColor(const QColor &value);
-
 private:
     QPointF pos;
 
     QString description;
     QString name;
-    QString type;
 
-    QColor color;
-
-    EditDomain *edit;
-
-    //QList<Phenomenon> phenomena;
+    EditInterface *edit;
 };
 
-#endif // DOMAIN_H
+#endif // INTERFACE_H

@@ -4,7 +4,6 @@
  *  Custom graphics view used for displaying the machine domain and any
  *  other domains
 *******************************************************************************/
-#include "domain.h"
 #include "graphicsview.h"
 
 /*******************************************************************************
@@ -56,6 +55,11 @@ void GraphicsView::mousePressEvent( QMouseEvent *event)
             domain->setColor(Qt::yellow);
             domain->setType("Designed");
             scene->addItem(domain);
+        }
+        else if(event->button() == Qt::MiddleButton) {
+            //Create a new interface and center it on the mouse
+            interface = new Interface(pos.x()-7.5, pos.y()-7.5);
+            scene->addItem(interface);
         }
         event->accept();
     }

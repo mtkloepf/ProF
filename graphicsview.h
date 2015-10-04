@@ -10,6 +10,7 @@
 #include <QMouseEvent>
 
 #include "domain.h"
+#include "interface.h"
 
 class GraphicsView : public QGraphicsView
 {
@@ -25,6 +26,7 @@ public:
 
 private:
     Domain *domain;
+    Interface *interface;
 };
 
 #endif // GRAPHICSVIEW_H
