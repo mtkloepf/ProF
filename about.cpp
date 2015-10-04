@@ -16,6 +16,8 @@ About::About(QWidget *parent) :
     ui(new Ui::About)
 {
     ui->setupUi(this);
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
+    setFixedSize(geometry().width(), geometry().height());
 }
 
 /*******************************************************************************

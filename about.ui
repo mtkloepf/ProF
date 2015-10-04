@@ -6,24 +6,27 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>376</width>
-    <height>256</height>
+    <width>350</width>
+    <height>250</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>Form</string>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>6</x>
-     <y>2</y>
-     <width>371</width>
-     <height>251</height>
-    </rect>
+  <property name="windowTitle">
+   <string>About ProF</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout" stretch="0">
+   <property name="sizeConstraint">
+    <enum>QLayout::SetDefaultConstraint</enum>
    </property>
-   <property name="text">
-    <string>ProF is a collaborative tool for designing software systems
+   <item>
+    <widget class="QLabel" name="aboutLabel">
+     <property name="text">
+      <string>ProF is a collaborative tool for designing software systems
 
 
 Designed by: Dr. Charles Wallace
@@ -31,11 +34,13 @@ Author(s): Mathew Kloepfer
 
 
 Michigan Technological University</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>
