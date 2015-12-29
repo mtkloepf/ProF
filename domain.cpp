@@ -23,6 +23,9 @@ Domain::Domain(float x, float y)
     setFlag(ItemIsMovable);
     setAcceptHoverEvents(true);
     defaultColor = Qt::cyan;
+
+    Phenomenon phen("Name", "Description");
+    phenomena.append(phen);
 }
 
 /*******************************************************************************
@@ -228,6 +231,7 @@ void Domain::editDomain()
     edit->setDomainDescription(getDescription());
     edit->setDomainName(getName());
     edit->setDomainType(getType());
+    edit->setPhenomena(phenomena);
     connect(edit, SIGNAL(updateDescription(QString)),
             this, SLOT(setDescription(QString)));
     connect(edit, SIGNAL(updateName(QString)), this,
@@ -247,5 +251,19 @@ void Domain::editDomain()
 void Domain::deleteDomain()
 {
     delete this;
+}
+
+QList<Phenomenon> Domain::getPhenomena() const
+{
+    return phenomena;
+}
+
+void Domain::setPhenomena(const QList<Phenomenon> &value)
+{
+    phenomena = value;
+}
+
+void Domain::addPhenomenon(const Phenomenon phen) {
+    phenomena.append(phen);
 }
 

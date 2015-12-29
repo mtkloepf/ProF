@@ -7,6 +7,10 @@
  *  A dialog that appears when editing domain properties
 *******************************************************************************/
 #include <QDialog>
+#include <QList>
+#include <QStandardItemModel>
+
+#include "phenomenon.h"
 
 namespace Ui {
 class EditDomain;
@@ -21,6 +25,7 @@ public:
     void setDomainDescription(QString desc);
     void setDomainName(QString name);
     void setDomainType(QString type);
+    void setPhenomena(QList<Phenomenon> phen);
     ~EditDomain();
 
 private slots:
@@ -34,6 +39,7 @@ signals:
     void updateType(QString);
 
 private:
+    QStandardItemModel *listModel;
     bool isMachine;
     Ui::EditDomain *ui;
 };

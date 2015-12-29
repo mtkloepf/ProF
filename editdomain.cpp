@@ -30,6 +30,10 @@ EditDomain::EditDomain(QWidget *parent, bool machine) :
         ui->designedRadio->setEnabled(false);
     } else ui->machineRadio->setEnabled(false);
 
+    //Create a model for the phenomena list view and set the prototype
+    listModel = new QStandardItemModel();
+    listModel->setItemPrototype(new Phenomenon("name", "description"));
+
 }
 
 /*******************************************************************************
@@ -75,6 +79,16 @@ void EditDomain::setDomainType(QString type)
         ui->givenRadio->setChecked(true);
     else
         ui->machineRadio->setChecked(true);
+}
+
+void EditDomain::setPhenomena(QList<Phenomenon> phen)
+{
+    foreach (Phenomenon phenomenon, phen) {
+        listModel->appendRow(&phenomenon);
+    }
+
+    ui->phenomenaListView->setModel(listModel);
+    ui->phenomenaListView->setEditTriggers(QAbstractItemView::NoEditTriggers);
 }
 
 /*******************************************************************************

@@ -13,6 +13,7 @@
 #include <QPainter>
 
 #include "editdomain.h"
+#include "phenomenon.h"
 
 class Domain : public QGraphicsObject
 {
@@ -29,6 +30,10 @@ public:
 
     QColor getDefaultColor() const;
     void setDefaultColor(const QColor &value);
+
+    QList<Phenomenon> getPhenomena() const;
+    void setPhenomena(const QList<Phenomenon> &value);
+    void addPhenomenon(const Phenomenon value);
 
 public slots:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
@@ -59,7 +64,7 @@ private:
 
     EditDomain *edit;
 
-    //QList<Phenomenon> phenomena;
+    QList<Phenomenon> phenomena;
 };
 
 #endif // DOMAIN_H

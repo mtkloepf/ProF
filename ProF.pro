@@ -6,6 +6,7 @@
 
 QT       += core gui
 QMAKE_CXXFLAGS_WARN_OFF += -Wno-unused-parameter
+CONFIG += warn_off
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
