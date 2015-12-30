@@ -12,6 +12,7 @@ public:
 
     QString name;
     QString description;
+    QString type = "Event";
 
     Phenomenon* clone();
 };

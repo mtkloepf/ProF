@@ -33,12 +33,13 @@ public:
 
     QList<Phenomenon> getPhenomena() const;
     void setPhenomena(const QList<Phenomenon> &value);
-    void addPhenomenon(const Phenomenon value);
 
 public slots:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
     void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
     void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
+
+    void addPhenomenon(const Phenomenon value);
 
     QString getDescription() const;
     void setDescription(const QString &value);
@@ -52,6 +53,10 @@ public slots:
     void editDomain();
     void deleteDomain();
 
+signals:
+    void phenomenonChanged(Phenomenon);
+    void phenomenonAdded(Phenomenon);
+    void phenomenonRemoved(Phenomenon);
 private:
     QPointF pos;
 

@@ -232,6 +232,16 @@ void Domain::editDomain()
     edit->setDomainName(getName());
     edit->setDomainType(getType());
     edit->setPhenomena(phenomena);
+    connect(this, SIGNAL(phenomenonAdded(Phenomenon)),
+            edit, SLOT(phenomenonAdded(Phenomenon)));
+    connect(this, SIGNAL(phenomenonChanged(Phenomenon)),
+            edit, SLOT(phenomenonChanged(Phenomenon)));
+    connect(this, SIGNAL(phenomenonRemoved(Phenomenon)),
+            edit, SLOT(phenomenonRemoved(Phenomenon)));
+    //connect(edit, SIGNAL(editPhenomenon(Phenomenon)),
+    //        this, SLOT(editPhenomenon(Phenomenon)));
+    connect(edit, SIGNAL(addPhenomenon(Phenomenon)),
+            this, SLOT(addPhenomenon(Phenomenon)));
     connect(edit, SIGNAL(updateDescription(QString)),
             this, SLOT(setDescription(QString)));
     connect(edit, SIGNAL(updateName(QString)), this,
@@ -265,5 +275,6 @@ void Domain::setPhenomena(const QList<Phenomenon> &value)
 
 void Domain::addPhenomenon(const Phenomenon phen) {
     phenomena.append(phen);
+    emit phenomenonAdded(phen);
 }
 

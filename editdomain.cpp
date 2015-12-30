@@ -9,6 +9,8 @@
 #include "editdomain.h"
 #include "ui_editdomain.h"
 
+#include <QDebug>
+
 /*******************************************************************************
 /*! \brief Constructor
  *
@@ -23,17 +25,18 @@ EditDomain::EditDomain(QWidget *parent, bool machine) :
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     setFixedSize(geometry().width(), geometry().height());
 
-    //Special logic for the machine domain. Cannot edit the type for machine 
+    //Special logic for the machine domain. Cannot edit the type for machine
     //domain
     if(isMachine) {
         ui->givenRadio->setEnabled(false);
         ui->designedRadio->setEnabled(false);
     } else ui->machineRadio->setEnabled(false);
 
-    //Create a model for the phenomena list view and set the prototype
-    listModel = new QStandardItemModel();
-    listModel->setItemPrototype(new Phenomenon("name", "description"));
+    ui->phenomenaListView->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
+    //Create a model for the phenomena list view and set the prototype
+    listModel = new QStringListModel();
+    ui->phenomenaListView->setModel(listModel);
 }
 
 /*******************************************************************************
@@ -42,6 +45,34 @@ EditDomain::EditDomain(QWidget *parent, bool machine) :
 EditDomain::~EditDomain()
 {
     delete ui;
+}
+
+void EditDomain::phenomenonChanged(Phenomenon phen)
+{
+
+}
+
+void EditDomain::phenomenonAdded(Phenomenon phen)
+{
+    bool exists = false;
+    QStringList list = listModel->stringList();
+    foreach(QString str, list) {
+        if(str.compare(phen.name) == 0) {
+            exists = true;
+        }
+    }
+    if(!exists) {
+        list << phen.name;
+        listModel->setStringList(list);
+    }
+    else {
+        qDebug() << "Phenomenon already exists in the list";
+    }
+}
+
+void EditDomain::phenomenonRemoved(Phenomenon phen)
+{
+
 }
 
 /*******************************************************************************
@@ -83,13 +114,22 @@ void EditDomain::setDomainType(QString type)
 
 void EditDomain::setPhenomena(QList<Phenomenon> phen)
 {
+    QStringList phenomena;
     foreach (Phenomenon phenomenon, phen) {
-        listModel->appendRow(&phenomenon);
+        phenomena << phenomenon.name;
     }
-
-    ui->phenomenaListView->setModel(listModel);
-    ui->phenomenaListView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    listModel->setStringList(phenomena);
 }
+
+/*void EditDomain::editPhenomenon(Phenomenon phen)
+{
+    if(phen != NULL) {
+
+    }
+    else {
+
+    }
+}*/
 
 /*******************************************************************************
 /*! \brief Slot called when the OK button of this dialog is clicked
@@ -127,4 +167,19 @@ void EditDomain::on_resetButton_clicked()
 {
     ui->nameLineEdit->clear();
     ui->descriptionTextEdit->clear();
+}
+
+void EditDomain::on_addPhenomena_clicked()
+{
+    edit = new EditPhenomenon();
+    connect(edit, SIGNAL(addPhenomenon(Phenomenon)),
+            this, SIGNAL(addPhenomenon(Phenomenon)));
+
+    edit->show();
+    edit->raise();
+    edit->activateWindow();
+
+
+    //connect(edit, SIGNAL(editPhenomenon(Phenomenon)),
+    //        this, SIGNAL(editPhenomenon(Phenomenon)));
 }

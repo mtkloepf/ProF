@@ -1,14 +1,14 @@
 #include "phenomenon.h"
 
-Phenomenon::Phenomenon(QString name, QString description)
+Phenomenon::Phenomenon(QString Name, QString description)
+    : name(Name), description(description)
 {
-    this->name = name;
-    this->description = description;
+    setFlags(flags() & ~Qt::ItemIsEditable);
 }
 
 Phenomenon::~Phenomenon()
 {
-    setFlags(flags() & ~Qt::ItemIsEditable);
+
 }
 
 Phenomenon* Phenomenon::clone()
