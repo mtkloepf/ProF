@@ -23,9 +23,6 @@ Domain::Domain(float x, float y)
     setFlag(ItemIsMovable);
     setAcceptHoverEvents(true);
     defaultColor = Qt::cyan;
-
-    Phenomenon phen("Name", "Description");
-    phenomena.append(phen);
 }
 
 /*******************************************************************************

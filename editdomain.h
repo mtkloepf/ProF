@@ -30,7 +30,7 @@ public:
     ~EditDomain();
 
 public slots:
-    void phenomenonAdded(Phenomenon phen);
+    void phenomenonUpdated(Phenomenon phen);
 
 private slots:
     void on_okButton_clicked();
@@ -52,6 +52,7 @@ private:
     QStringListModel *listModel;
     QList<Phenomenon> phenomena;
     bool isMachine;
+    QString name;
     Ui::EditDomain *ui;
 
     EditPhenomenon *edit;

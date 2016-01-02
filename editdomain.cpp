@@ -58,22 +58,28 @@ EditDomain::~EditDomain()
  *             created phenomenon. Used to put the name into the list of
  *             phenomena
 *******************************************************************************/
-void EditDomain::phenomenonAdded(Phenomenon phen)
+void EditDomain::phenomenonUpdated(Phenomenon phen)
 {
     bool exists = false;
     QStringList list = listModel->stringList();
-    foreach(QString str, list) {
-        if(str.compare(phen.name) == 0) {
+    int i;
+    for(i = 0; i < list.size(); i++) {
+        if(list.at(i) == name) {
+            list.replace((i), phen.name);
+            phenomena.replace(i, phen);
+            listModel->setStringList(list);
             exists = true;
+            break;
+        }
+        if(list.at(i) == phen.name) {
+            exists = true;
+            break;
         }
     }
     if(!exists) {
         list << phen.name;
         listModel->setStringList(list);
         phenomena.append(phen);
-    }
-    else {
-        qDebug() << "Phenomenon already exists in the list";
     }
 }
 
@@ -155,7 +161,7 @@ void EditDomain::on_cancelButton_clicked()
 /*******************************************************************************
 /*! \brief Slot called when the Reset button of this dialog is clicked
  *
- *  Resets all data in the form to NULL. Resets form to default domain values
+ *  Resets form to default domain values
 *******************************************************************************/
 void EditDomain::on_resetButton_clicked()
 {
@@ -170,21 +176,37 @@ void EditDomain::on_addPhenomenon_clicked()
 {
     edit = new EditPhenomenon();
 
-    connect(edit, SIGNAL(addPhenomenon(Phenomenon)),
-            this, SLOT(phenomenonAdded(Phenomenon)));
+    connect(edit, SIGNAL(updatePhenomenon(Phenomenon)),
+            this, SLOT(phenomenonUpdated(Phenomenon)));
 
     edit->show();
     edit->raise();
     edit->activateWindow();
-
-
-    //connect(edit, SIGNAL(editPhenomenon(Phenomenon)),
-    //        this, SIGNAL(editPhenomenon(Phenomenon)));
 }
 
 void EditDomain::on_editPhenomenon_clicked()
 {
-    qDebug() << "Edit phenomenon clicked";
+    edit = new EditPhenomenon();
+
+    //Get the name of the phenomenon that's selected in the list view
+    QString name = listModel->index( ui->phenomenaListView->currentIndex().row(),
+                                     0 ).data( Qt::DisplayRole ).toString();
+    this->name = name;
+    foreach(Phenomenon pheno, phenomena) {
+        if(pheno.name == name) {
+            edit->setPhenonemonName(name);
+            edit->setPhenomenonDesc(pheno.description);
+            edit->setPhenomenonType(pheno.type);
+            break;
+        }
+    }
+
+    connect(edit, SIGNAL(updatePhenomenon(Phenomenon)),
+            this, SLOT(phenomenonUpdated(Phenomenon)));
+
+    edit->show();
+    edit->raise();
+    edit->activateWindow();
 }
 
 void EditDomain::on_deletePhenomenon_clicked()

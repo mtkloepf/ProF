@@ -27,7 +27,7 @@ private slots:
     void on_resetButton_clicked();
 
 signals:
-    void addPhenomenon(Phenomenon);
+    void updatePhenomenon(Phenomenon);
 
 private:
     Ui::EditPhenomenon *ui;
