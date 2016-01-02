@@ -257,27 +257,6 @@ void Domain::deleteDomain()
     delete this;
 }
 
-void Domain::updatePhenomena(QList<Phenomenon> phens)
-{
-    /*for(int i = 0; i < phens.size(); i++) {
-        for(int j = 0; j < phenomena.size(); j++) {
-            //If there is a match, we're updating the phenomenon
-            if(phens.at(i).name == phenomena.at(j).name) {
-                phenomena.replace(j, phens.at(i));
-                phens.removeAt(i);
-                break;
-            }
-        }
-    }
-
-    //Everything left in the list of updated phenomena are new
-    foreach(Phenomenon phen, phens) {
-        phenomena.append(phen);
-    }*/
-
-    phenomena = phens;
-}
-
 QList<Phenomenon> Domain::getPhenomena() const
 {
     return phenomena;
@@ -288,11 +267,11 @@ void Domain::setPhenomena(const QList<Phenomenon> &value)
     phenomena = value;
 }
 
-void Domain::addPhenomenon(const Phenomenon phen) {
+void Domain::addPhenomenon(const Phenomenon &phen) {
     phenomena.append(phen);
 }
 
-void Domain::removePhenomenon(const Phenomenon phen)
+void Domain::removePhenomenon(const Phenomenon &phen)
 {
     phenomena.removeOne(phen);
 }

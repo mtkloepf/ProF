@@ -33,8 +33,8 @@ public:
 
     QList<Phenomenon> getPhenomena() const;
 
-    void addPhenomenon(const Phenomenon value);
-    void removePhenomenon(const Phenomenon value);
+    void addPhenomenon(const Phenomenon &value);
+    void removePhenomenon(const Phenomenon &value);
 
 public slots:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
@@ -54,9 +54,6 @@ public slots:
     void deleteDomain();
 
     void setPhenomena(const QList<Phenomenon> &value);
-
-private slots:
-    void updatePhenomena(QList<Phenomenon>);
 
 private:
     QPointF pos;
