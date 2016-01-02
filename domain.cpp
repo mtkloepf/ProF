@@ -232,16 +232,13 @@ void Domain::editDomain()
     edit->setDomainName(getName());
     edit->setDomainType(getType());
     edit->setPhenomena(phenomena);
-    connect(this, SIGNAL(phenomenonAdded(Phenomenon)),
-            edit, SLOT(phenomenonAdded(Phenomenon)));
-    connect(this, SIGNAL(phenomenonChanged(Phenomenon)),
-            edit, SLOT(phenomenonChanged(Phenomenon)));
+
+    connect(edit, SIGNAL(updatePhenomena(QList<Phenomenon>)),
+            this, SLOT(updatePhenomena(QList<Phenomenon>)));
+
     connect(this, SIGNAL(phenomenonRemoved(Phenomenon)),
             edit, SLOT(phenomenonRemoved(Phenomenon)));
-    //connect(edit, SIGNAL(editPhenomenon(Phenomenon)),
-    //        this, SLOT(editPhenomenon(Phenomenon)));
-    connect(edit, SIGNAL(addPhenomenon(Phenomenon)),
-            this, SLOT(addPhenomenon(Phenomenon)));
+
     connect(edit, SIGNAL(updateDescription(QString)),
             this, SLOT(setDescription(QString)));
     connect(edit, SIGNAL(updateName(QString)), this,
@@ -263,6 +260,25 @@ void Domain::deleteDomain()
     delete this;
 }
 
+void Domain::updatePhenomena(QList<Phenomenon> phens)
+{
+    for(int i = 0; i < phens.size(); i++) {
+        for(int j = 0; j < phenomena.size(); j++) {
+            //If there is a match, we're updating the phenomenon
+            if(phens.at(i).name == phenomena.at(j).name) {
+                phenomena.replace(j, phens.at(i));
+                phens.removeAt(i);
+                break;
+            }
+        }
+    }
+
+    //Everything left in the list of updated phenomena are new
+    foreach(Phenomenon phen, phens) {
+        phenomena.append(phen);
+    }
+}
+
 QList<Phenomenon> Domain::getPhenomena() const
 {
     return phenomena;
@@ -275,6 +291,5 @@ void Domain::setPhenomena(const QList<Phenomenon> &value)
 
 void Domain::addPhenomenon(const Phenomenon phen) {
     phenomena.append(phen);
-    emit phenomenonAdded(phen);
 }
 

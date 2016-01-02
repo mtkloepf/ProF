@@ -32,11 +32,13 @@ EditDomain::EditDomain(QWidget *parent, bool machine) :
         ui->designedRadio->setEnabled(false);
     } else ui->machineRadio->setEnabled(false);
 
+    //Turn off editing of phenomena names
     ui->phenomenaListView->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     //Create a model for the phenomena list view and set the prototype
     listModel = new QStringListModel();
     ui->phenomenaListView->setModel(listModel);
+    QList<Phenomenon> phenomena();
 }
 
 /*******************************************************************************
@@ -47,11 +49,15 @@ EditDomain::~EditDomain()
     delete ui;
 }
 
-void EditDomain::phenomenonChanged(Phenomenon phen)
-{
-
-}
-
+/*******************************************************************************
+/*! \brief Called when a phenomenon has been added through the add phenomenon
+ *         button. Duplicates are not allowed. Adds the new phenomenon to the
+ *         list to be displayed in the list.
+ *
+ * @param phen a phenomenon object that holds the information for the newly
+ *             created phenomenon. Used to put the name into the list of
+ *             phenomena
+*******************************************************************************/
 void EditDomain::phenomenonAdded(Phenomenon phen)
 {
     bool exists = false;
@@ -64,6 +70,7 @@ void EditDomain::phenomenonAdded(Phenomenon phen)
     if(!exists) {
         list << phen.name;
         listModel->setStringList(list);
+        phenomena.append(phen);
     }
     else {
         qDebug() << "Phenomenon already exists in the list";
@@ -121,16 +128,6 @@ void EditDomain::setPhenomena(QList<Phenomenon> phen)
     listModel->setStringList(phenomena);
 }
 
-/*void EditDomain::editPhenomenon(Phenomenon phen)
-{
-    if(phen != NULL) {
-
-    }
-    else {
-
-    }
-}*/
-
 /*******************************************************************************
 /*! \brief Slot called when the OK button of this dialog is clicked
  *
@@ -144,6 +141,7 @@ void EditDomain::on_okButton_clicked()
         emit updateType("Designed");
     else
         emit updateType("Given");
+    emit updatePhenomena(phenomena);
     close();
 }
 
@@ -172,8 +170,9 @@ void EditDomain::on_resetButton_clicked()
 void EditDomain::on_addPhenomena_clicked()
 {
     edit = new EditPhenomenon();
+
     connect(edit, SIGNAL(addPhenomenon(Phenomenon)),
-            this, SIGNAL(addPhenomenon(Phenomenon)));
+            this, SLOT(phenomenonAdded(Phenomenon)));
 
     edit->show();
     edit->raise();

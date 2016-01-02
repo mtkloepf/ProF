@@ -47,7 +47,6 @@ void EditPhenomenon::on_okButton_clicked()
     else
         phen.type = "Event";
     phen.description = ui->descriptionTextEdit->toPlainText();
-    emit editPhenomenon(phen);
     emit addPhenomenon(phen);
     close();
 }

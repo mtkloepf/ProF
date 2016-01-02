@@ -31,7 +31,6 @@ public:
     ~EditDomain();
 
 public slots:
-    void phenomenonChanged(Phenomenon phen);
     void phenomenonAdded(Phenomenon phen);
     void phenomenonRemoved(Phenomenon phen);
 
@@ -46,11 +45,17 @@ signals:
     void updateDescription(QString);
     void updateName(QString);
     void updateType(QString);
-    void editPhenomenon(Phenomenon);
-    void addPhenomenon(Phenomenon);
 
+    //Add/remove phenomena
+    void addPhenomenon(Phenomenon);
+    void removePhenomenon(Phenomenon);
+
+    //Update the phenomena of the domain when done editing
+    void updatePhenomena(QList<Phenomenon>);
+\
 private:
     QStringListModel *listModel;
+    QList<Phenomenon> phenomena;
     bool isMachine;
     Ui::EditDomain *ui;
 

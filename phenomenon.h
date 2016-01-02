@@ -10,6 +10,8 @@ public:
     Phenomenon(QString name, QString description);
     ~Phenomenon();
 
+    bool operator==(const Phenomenon &phen);
+
     QString name;
     QString description;
     QString type = "Event";

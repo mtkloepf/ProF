@@ -27,7 +27,6 @@ private slots:
     void on_resetButton_clicked();
 
 signals:
-    void editPhenomenon(Phenomenon);
     void addPhenomenon(Phenomenon);
 
 private:

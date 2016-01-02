@@ -11,6 +11,13 @@ Phenomenon::~Phenomenon()
 
 }
 
+bool Phenomenon::operator==(const Phenomenon &phen)
+{
+    return name == phen.name &&
+            description == phen.description &&
+            type == phen.type;
+}
+
 Phenomenon* Phenomenon::clone()
 {
     return new Phenomenon(*this);
