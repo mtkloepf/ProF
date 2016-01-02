@@ -77,11 +77,6 @@ void EditDomain::phenomenonAdded(Phenomenon phen)
     }
 }
 
-void EditDomain::phenomenonRemoved(Phenomenon phen)
-{
-
-}
-
 /*******************************************************************************
 /*! \brief Sends the text of the description text edit to the domain once OK is
  *         clicked
@@ -121,11 +116,12 @@ void EditDomain::setDomainType(QString type)
 
 void EditDomain::setPhenomena(QList<Phenomenon> phen)
 {
-    QStringList phenomena;
-    foreach (Phenomenon phenomenon, phen) {
-        phenomena << phenomenon.name;
+    phenomena = phen;
+    QStringList pheno;
+    foreach (Phenomenon phenomenon, phenomena) {
+        pheno << phenomenon.name;
     }
-    listModel->setStringList(phenomena);
+    listModel->setStringList(pheno);
 }
 
 /*******************************************************************************
@@ -165,9 +161,12 @@ void EditDomain::on_resetButton_clicked()
 {
     ui->nameLineEdit->clear();
     ui->descriptionTextEdit->clear();
+    phenomena.clear();
+    QStringList list;
+    listModel->setStringList(list);
 }
 
-void EditDomain::on_addPhenomena_clicked()
+void EditDomain::on_addPhenomenon_clicked()
 {
     edit = new EditPhenomenon();
 
@@ -181,4 +180,22 @@ void EditDomain::on_addPhenomena_clicked()
 
     //connect(edit, SIGNAL(editPhenomenon(Phenomenon)),
     //        this, SIGNAL(editPhenomenon(Phenomenon)));
+}
+
+void EditDomain::on_editPhenomenon_clicked()
+{
+    qDebug() << "Edit phenomenon clicked";
+}
+
+void EditDomain::on_deletePhenomenon_clicked()
+{
+    QString name = listModel->index( ui->phenomenaListView->currentIndex().row(),
+                                     0 ).data( Qt::DisplayRole ).toString();
+    listModel->removeRow(ui->phenomenaListView->currentIndex().row());
+    foreach(Phenomenon phenomenon, phenomena) {
+        if(phenomenon.name == name) {
+            phenomena.removeOne(phenomenon);
+            break;
+        }
+    }
 }

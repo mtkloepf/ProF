@@ -32,9 +32,9 @@ public:
     void setDefaultColor(const QColor &value);
 
     QList<Phenomenon> getPhenomena() const;
-    void setPhenomena(const QList<Phenomenon> &value);
 
     void addPhenomenon(const Phenomenon value);
+    void removePhenomenon(const Phenomenon value);
 
 public slots:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
@@ -53,11 +53,10 @@ public slots:
     void editDomain();
     void deleteDomain();
 
+    void setPhenomena(const QList<Phenomenon> &value);
+
 private slots:
     void updatePhenomena(QList<Phenomenon>);
-
-signals:
-    void phenomenonRemoved(Phenomenon);
 
 private:
     QPointF pos;

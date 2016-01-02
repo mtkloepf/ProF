@@ -27,28 +27,23 @@ public:
     void setDomainName(QString name);
     void setDomainType(QString type);
     void setPhenomena(QList<Phenomenon> phen);
-    //void editPhenomenon();
     ~EditDomain();
 
 public slots:
     void phenomenonAdded(Phenomenon phen);
-    void phenomenonRemoved(Phenomenon phen);
 
 private slots:
     void on_okButton_clicked();
     void on_cancelButton_clicked();
     void on_resetButton_clicked();
-    void on_addPhenomena_clicked();
-    //void on_editPhenomenon_clicked();
+    void on_addPhenomenon_clicked();
+    void on_editPhenomenon_clicked();
+    void on_deletePhenomenon_clicked();
 
 signals:
     void updateDescription(QString);
     void updateName(QString);
     void updateType(QString);
-
-    //Add/remove phenomena
-    void addPhenomenon(Phenomenon);
-    void removePhenomenon(Phenomenon);
 
     //Update the phenomena of the domain when done editing
     void updatePhenomena(QList<Phenomenon>);
