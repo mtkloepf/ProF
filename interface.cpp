@@ -21,6 +21,9 @@ Interface::Interface(int x, int y)
     : pos(QPointF(x, y))
 {
     setFlag(ItemIsMovable);
+    defaultColor = Qt::green;
+    color = defaultColor;
+    setAcceptHoverEvents(true);
 }
 
 /*******************************************************************************
@@ -53,7 +56,7 @@ QRectF Interface::boundingRect() const
 void Interface::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     QRectF rec = boundingRect();
-    painter->setBrush(Qt::green);
+    painter->setBrush(color);
     painter->drawEllipse(rec);
 }
 
@@ -77,6 +80,18 @@ void Interface::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     connect(deleteAction, SIGNAL(triggered()), this, SLOT(deleteInterface()));
 
     menu.exec(event->screenPos());
+}
+
+void Interface::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+{
+    setColor(defaultColor.darker(125));
+    update();
+}
+
+void Interface::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
+{
+    setColor(defaultColor);
+    update();
 }
 
 /*******************************************************************************
@@ -149,5 +164,25 @@ void Interface::editInterface()
 void Interface::deleteInterface()
 {
     delete this;
+}
+
+QColor Interface::getDefaultColor() const
+{
+    return defaultColor;
+}
+
+void Interface::setDefaultColor(const QColor &value)
+{
+    defaultColor = value;
+}
+
+QColor Interface::getColor() const
+{
+    return color;
+}
+
+void Interface::setColor(const QColor &value)
+{
+    color = value;
 }
 

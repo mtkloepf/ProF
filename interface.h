@@ -23,8 +23,16 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     QRectF boundingRect() const;
 
+    QColor getColor() const;
+    void setColor(const QColor &value);
+
+    QColor getDefaultColor() const;
+    void setDefaultColor(const QColor &value);
+
 public slots:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
+    void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
 
     QString getDescription() const;
     void setDescription(const QString &value);
@@ -37,6 +45,9 @@ public slots:
 
 private:
     QPointF pos;
+
+    QColor color;
+    QColor defaultColor;
 
     QString description;
     QString name;

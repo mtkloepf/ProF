@@ -18,6 +18,7 @@ class EditInterface : public QDialog
 
 public:
     explicit EditInterface(QWidget *parent = 0);
+
     void setInterfaceDescription(QString desc);
     void setInterfaceName(QString name);
     ~EditInterface();

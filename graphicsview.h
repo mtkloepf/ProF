@@ -25,6 +25,10 @@ public:
     QGraphicsScene *scene;
 
 private:
+    bool drawingLine;
+    QPointF startPos;
+    QPointF endPos;
+    QLineF line;
     Domain *domain;
     Interface *interface;
 };
