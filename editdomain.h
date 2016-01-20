@@ -47,7 +47,7 @@ signals:
 
     //Update the phenomena of the domain when done editing
     void updatePhenomena(QList<Phenomenon>);
-\
+
 private:
     QStringListModel *listModel;
     QList<Phenomenon> phenomena;

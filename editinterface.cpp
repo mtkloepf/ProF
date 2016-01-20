@@ -23,6 +23,13 @@ EditInterface::EditInterface(QWidget *parent) :
     ui->withArrowRadio->setVisible(false);
     ui->withoutArrowRadio->setVisible(false);
     setFixedSize(geometry().width(), geometry().height());
+
+    //Turn off editing of phenomena names
+    ui->phenomenaListView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+    //Create a model for the phenomena list view and set the prototype
+    listModel = new QStringListModel();
+    ui->phenomenaListView->setModel(listModel);
 }
 
 /*******************************************************************************
@@ -39,7 +46,7 @@ EditInterface::~EditInterface()
  *
  * @param desc the text held in the text edit
 *******************************************************************************/
-void EditInterface::setInterfaceDescription(QString desc)
+void EditInterface::setInterfaceDescription(const QString desc)
 {
     ui->descriptionTextEdit->setText(desc);
 }
@@ -50,9 +57,16 @@ void EditInterface::setInterfaceDescription(QString desc)
  *
  * @param name the text held in the name line edit
 *******************************************************************************/
-void EditInterface::setInterfaceName(QString name)
+void EditInterface::setInterfaceName(const QString name)
 {
     ui->nameLineEdit->setText(name);
+}
+
+void EditInterface::setDomainNames(const QStringList names)
+{
+    domains = names;
+    ui->domainOne->addItems(domains);
+    ui->domainTwo->addItems(domains);
 }
 
 /*******************************************************************************

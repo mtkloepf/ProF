@@ -184,6 +184,7 @@ QString Domain::getName() const
 *******************************************************************************/
 void Domain::setName(const QString &value)
 {
+    emit updateName(name, value);
     name = value;
 }
 
@@ -232,7 +233,6 @@ void Domain::editDomain()
 
     connect(edit, SIGNAL(updatePhenomena(QList<Phenomenon>)),
             this, SLOT(setPhenomena(QList<Phenomenon>)));
-
     connect(edit, SIGNAL(updateDescription(QString)),
             this, SLOT(setDescription(QString)));
     connect(edit, SIGNAL(updateName(QString)), this,

@@ -36,6 +36,9 @@ public:
     void addPhenomenon(const Phenomenon &value);
     void removePhenomenon(const Phenomenon &value);
 
+signals:
+    void updateName(QString, QString);
+
 public slots:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
     void hoverEnterEvent(QGraphicsSceneHoverEvent* event);

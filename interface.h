@@ -10,7 +10,9 @@
 #include <QGraphicsItem>
 #include <QPainter>
 
+#include "domain.h"
 #include "editinterface.h"
+#include "phenomenon.h"
 
 class Interface : public QGraphicsObject
 {
@@ -43,8 +45,14 @@ public slots:
     void editInterface();
     void deleteInterface();
 
+    void updateDomains(QStringList value);
+
 private:
+    Domain *firstConn;
+    Domain *secondConn;
+    QStringList domains;
     QPointF pos;
+    QList<Phenomenon> phenomena;
 
     QColor color;
     QColor defaultColor;

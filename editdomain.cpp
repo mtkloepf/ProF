@@ -38,7 +38,6 @@ EditDomain::EditDomain(QWidget *parent, bool machine) :
     //Create a model for the phenomena list view and set the prototype
     listModel = new QStringListModel();
     ui->phenomenaListView->setModel(listModel);
-    QList<Phenomenon> phenomena();
 }
 
 /*******************************************************************************

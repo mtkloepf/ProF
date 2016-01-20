@@ -14,12 +14,17 @@
 
 class GraphicsView : public QGraphicsView
 {
+    Q_OBJECT
 public:
     GraphicsView( QGraphicsScene *graphicsScene, QWidget *parent=0);
     ~GraphicsView();
 
 public slots:
     void mousePressEvent (QMouseEvent *event);
+    void updateDomainNames(QString prev, QString current);
+
+signals:
+    void updateDomainList(QStringList);
 
 public:
     QGraphicsScene *scene;
@@ -31,6 +36,7 @@ private:
     QLineF line;
     Domain *domain;
     Interface *interface;
+    QStringList domains;
 };
 
 #endif // GRAPHICSVIEW_H

@@ -146,6 +146,7 @@ void Interface::editInterface()
     edit = new EditInterface();
     edit->setInterfaceDescription(getDescription());
     edit->setInterfaceName(getName());
+    edit->setDomainNames(domains);
     connect(edit, SIGNAL(updateDescription(QString)),
             this, SLOT(setDescription(QString)));
     connect(edit, SIGNAL(updateName(QString)), this,
@@ -164,6 +165,11 @@ void Interface::editInterface()
 void Interface::deleteInterface()
 {
     delete this;
+}
+
+void Interface::updateDomains(QStringList value)
+{
+    domains = value;
 }
 
 QColor Interface::getDefaultColor() const
