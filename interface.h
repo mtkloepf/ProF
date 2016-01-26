@@ -45,11 +45,12 @@ public slots:
     void editInterface();
     void deleteInterface();
 
-    void updateDomains(QStringList value);
+    void updateDomains(const QStringList &value);
+    void setDomains(const QString first, const QString second);
 
 private:
-    Domain *firstConn;
-    Domain *secondConn;
+    QString firstDomain;
+    QString secondDomain;
     QStringList domains;
     QPointF pos;
     QList<Phenomenon> phenomena;

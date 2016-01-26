@@ -251,6 +251,7 @@ void Domain::editDomain()
 *******************************************************************************/
 void Domain::deleteDomain()
 {
+    emit deleteDomain(name);
     delete this;
 }
 
@@ -271,5 +272,13 @@ void Domain::addPhenomenon(const Phenomenon &phen) {
 void Domain::removePhenomenon(const Phenomenon &phen)
 {
     phenomena.removeOne(phen);
+}
+
+void Domain::copyDomainAttributes(const Domain &dom)
+{
+    name = dom.getName();
+    phenomena = dom.getPhenomena();
+    type = dom.getType();
+    description = dom.getDescription();
 }
 

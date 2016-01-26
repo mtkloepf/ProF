@@ -18,6 +18,7 @@ EditInterface::EditInterface(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::EditInterface)
 {
+    errorMsg = new QMessageBox();
     ui->setupUi(this);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->withArrowRadio->setVisible(false);
@@ -72,13 +73,29 @@ void EditInterface::setDomainNames(const QStringList names)
 /*******************************************************************************
 /*! \brief Slot called when the OK button of this dialog is clicked
  *
- *  This function is used to send all data currently in the form to the 
+ *  This function is used to send all data currently in the form to the
  *  interface
 *******************************************************************************/
 void EditInterface::on_okButton_clicked()
 {
     emit updateName(ui->nameLineEdit->text());
     emit updateDescription(ui->descriptionTextEdit->toPlainText());
+
+    //Domain connections must be unique and must have both or no connections
+    if(ui->domainOne->currentText() == ui->domainTwo->currentText() &&
+            (ui->domainOne->currentText() != "None" &&
+             ui->domainTwo->currentText() != "None")) {
+        errorMsg->setText("Error: Two unique domains must be "
+                          "connected to an interface.");
+        errorMsg->setStandardButtons(QMessageBox::Ok);
+        errorMsg->setWindowTitle("Error");
+        errorMsg->exec();
+        return;
+    }
+
+    //Update the domain connections to the current combo box settings
+    emit updateDomains(ui->domainOne->currentText(),
+                       ui->domainTwo->currentText());
     close();
 }
 

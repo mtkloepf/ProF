@@ -135,7 +135,7 @@ void Interface::setName(const QString &value)
 /*******************************************************************************
 /*! \brief SLOT connected to context menu edit action
  *
- *  When edit is selected from the context menu, bring up a new dialog to edit 
+ *  When edit is selected from the context menu, bring up a new dialog to edit
  *  the interface
 *******************************************************************************/
 void Interface::editInterface()
@@ -151,7 +151,8 @@ void Interface::editInterface()
             this, SLOT(setDescription(QString)));
     connect(edit, SIGNAL(updateName(QString)), this,
             SLOT(setName(QString)));
-
+    connect(edit, SIGNAL(updateDomains(QString,QString)),
+            this, SLOT(setDomains(QString,QString)));
     edit->show();
     edit->raise();
     edit->activateWindow();
@@ -167,9 +168,15 @@ void Interface::deleteInterface()
     delete this;
 }
 
-void Interface::updateDomains(QStringList value)
+void Interface::updateDomains(const QStringList &value)
 {
     domains = value;
+}
+
+void Interface::setDomains(const QString first, const QString second)
+{
+    firstDomain = first;
+    secondDomain = second;
 }
 
 QColor Interface::getDefaultColor() const

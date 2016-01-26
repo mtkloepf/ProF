@@ -36,8 +36,11 @@ public:
     void addPhenomenon(const Phenomenon &value);
     void removePhenomenon(const Phenomenon &value);
 
+    void copyDomainAttributes(const Domain &dom);
+
 signals:
     void updateName(QString, QString);
+    void deleteDomain(QString);
 
 public slots:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);

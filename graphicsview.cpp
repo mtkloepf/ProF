@@ -51,6 +51,8 @@ void GraphicsView::mousePressEvent( QMouseEvent *event)
             domains.append(domain->getName());
             connect(domain, SIGNAL(updateName(QString,QString)),
                     this, SLOT(updateDomainNames(QString,QString)));
+            connect(domain, SIGNAL(deleteDomain(QString)),
+                    this, SLOT(deleteDomain(QString)));
             scene->addItem(domain);
         }
         else if(event->button() == Qt::RightButton) {
@@ -60,6 +62,8 @@ void GraphicsView::mousePressEvent( QMouseEvent *event)
             domains.append(domain->getName());
             connect(domain, SIGNAL(updateName(QString,QString)),
                     this, SLOT(updateDomainNames(QString,QString)));
+            connect(domain, SIGNAL(deleteDomain(QString)),
+                    this, SLOT(deleteDomain(QString)));
             scene->addItem(domain);
         }
         else if(event->button() == Qt::MiddleButton) {
@@ -84,5 +88,11 @@ void GraphicsView::updateDomainNames(QString prev, QString current)
             break;
         }
     }
+    emit updateDomainList(domains);
+}
+
+void GraphicsView::deleteDomain(QString name)
+{
+    domains.removeOne(name);
     emit updateDomainList(domains);
 }

@@ -22,6 +22,7 @@ public:
 public slots:
     void mousePressEvent (QMouseEvent *event);
     void updateDomainNames(QString prev, QString current);
+    void deleteDomain(QString name);
 
 signals:
     void updateDomainList(QStringList);

@@ -7,6 +7,7 @@
  *  A dialog that appears when editing interface properties
 *******************************************************************************/
 #include <QDialog>
+#include <QMessageBox>
 #include <QStringListModel>
 
 #include "editphenomenon.h"
@@ -36,11 +37,13 @@ private slots:
 signals:
     void updateDescription(QString);
     void updateName(QString);
+    void updateDomains(QString first, QString second);
 
 private:
     QStringListModel *listModel;
     QList<Phenomenon> phenomena;
     QStringList domains;
+    QMessageBox *errorMsg;
 
     Ui::EditInterface *ui;
 };
