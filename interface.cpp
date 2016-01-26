@@ -18,7 +18,9 @@
  * @param y the y coordinate for the center of the interface
 *******************************************************************************/
 Interface::Interface(int x, int y)
-    : pos(QPointF(x, y))
+    : pos(QPointF(x, y)),
+      firstDomain("None"),
+      secondDomain("None")
 {
     setFlag(ItemIsMovable);
     defaultColor = Qt::green;
@@ -147,15 +149,14 @@ void Interface::editInterface()
     edit->setInterfaceDescription(getDescription());
     edit->setInterfaceName(getName());
     edit->setDomainNames(domains);
+    edit->setConnections(firstDomain, secondDomain);
     connect(edit, SIGNAL(updateDescription(QString)),
             this, SLOT(setDescription(QString)));
     connect(edit, SIGNAL(updateName(QString)), this,
             SLOT(setName(QString)));
     connect(edit, SIGNAL(updateDomains(QString,QString)),
             this, SLOT(setDomains(QString,QString)));
-    edit->show();
-    edit->raise();
-    edit->activateWindow();
+    edit->exec();
 }
 
 /*******************************************************************************

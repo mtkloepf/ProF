@@ -70,6 +70,12 @@ void EditInterface::setDomainNames(const QStringList names)
     ui->domainTwo->addItems(domains);
 }
 
+void EditInterface::setConnections(const QString first, const QString second)
+{
+    ui->domainOne->setCurrentIndex(ui->domainOne->findText(first));
+    ui->domainTwo->setCurrentIndex(ui->domainTwo->findText(second));
+}
+
 /*******************************************************************************
 /*! \brief Slot called when the OK button of this dialog is clicked
  *

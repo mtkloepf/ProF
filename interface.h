@@ -51,6 +51,8 @@ public slots:
 private:
     QString firstDomain;
     QString secondDomain;
+    Domain *firstDom;
+    Domain *secondDom;
     QStringList domains;
     QPointF pos;
     QList<Phenomenon> phenomena;

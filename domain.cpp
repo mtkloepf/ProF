@@ -240,9 +240,7 @@ void Domain::editDomain()
     connect(edit, SIGNAL(updateType(QString)), this,
             SLOT(setType(QString)));
 
-    edit->show();
-    edit->raise();
-    edit->activateWindow();
+    edit->exec();
 }
 
 /*******************************************************************************

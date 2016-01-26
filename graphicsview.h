@@ -37,7 +37,8 @@ private:
     QLineF line;
     Domain *domain;
     Interface *interface;
-    QStringList domains;
+    QStringList domainNames;
+    QList<Domain *> domains;
 };
 
 #endif // GRAPHICSVIEW_H

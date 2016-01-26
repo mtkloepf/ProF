@@ -27,6 +27,7 @@ public:
     void setInterfaceDescription(const QString desc);
     void setInterfaceName(const QString name);
     void setDomainNames(const QStringList names);
+    void setConnections(const QString first, const QString second);
     ~EditInterface();
 
 private slots:

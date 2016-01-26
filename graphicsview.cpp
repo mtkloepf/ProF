@@ -48,28 +48,30 @@ void GraphicsView::mousePressEvent( QMouseEvent *event)
             //Create a new given domain and center it on the mouse
             domain = new Domain(pos.x()-25, pos.y()-25);
             domain->setType("Given");
-            domains.append(domain->getName());
             connect(domain, SIGNAL(updateName(QString,QString)),
                     this, SLOT(updateDomainNames(QString,QString)));
             connect(domain, SIGNAL(deleteDomain(QString)),
                     this, SLOT(deleteDomain(QString)));
+            domains.append(domain);
+            domainNames.append(domain->getName());
             scene->addItem(domain);
         }
         else if(event->button() == Qt::RightButton) {
             //Create a new given domain and center it on the mouse
             domain = new Domain(pos.x()-25, pos.y()-25);
             domain->setType("Designed");
-            domains.append(domain->getName());
             connect(domain, SIGNAL(updateName(QString,QString)),
                     this, SLOT(updateDomainNames(QString,QString)));
             connect(domain, SIGNAL(deleteDomain(QString)),
                     this, SLOT(deleteDomain(QString)));
+            domains.append(domain);
+            domainNames.append(domain->getName());
             scene->addItem(domain);
         }
         else if(event->button() == Qt::MiddleButton) {
             //Create a new interface and center it on the mouse
             interface = new Interface(pos.x()-7.5, pos.y()-7.5);
-            interface->updateDomains(domains);
+            interface->updateDomains(domainNames);
             connect(this, SIGNAL(updateDomainList(QStringList)),
                     interface, SLOT(updateDomains(QStringList)));
             scene->addItem(interface);
@@ -82,17 +84,17 @@ void GraphicsView::mousePressEvent( QMouseEvent *event)
 
 void GraphicsView::updateDomainNames(QString prev, QString current)
 {
-    for(int i = 0; i < domains.size(); i++) {
-        if(domains.at(i) == prev) {
-            domains.replace(i, current);
+    for(int i = 0; i < domainNames.size(); i++) {
+        if(domainNames.at(i) == prev) {
+            domainNames.replace(i, current);
             break;
         }
     }
-    emit updateDomainList(domains);
+    emit updateDomainList(domainNames);
 }
 
 void GraphicsView::deleteDomain(QString name)
 {
-    domains.removeOne(name);
-    emit updateDomainList(domains);
+    domainNames.removeOne(name);
+    emit updateDomainList(domainNames);
 }
