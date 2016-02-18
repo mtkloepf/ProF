@@ -19,8 +19,11 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    //Data structure that stores every domain that exists
+    data = new ContextData();
+
     //Create the custom graphics view and add it to the main window
-    m_view = new GraphicsView(new QGraphicsScene(), this);
+    m_view = new GraphicsView(new QGraphicsScene(), data, this);
     ui->centralWidget->layout()->addWidget(m_view);
 
     //Create the machine domain and add it to the graphics view
@@ -42,9 +45,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_actionAbout_triggered()
 {
     about = new About(this);
-    about->show();
-    about->raise();
-    about->activateWindow();
+    about->exec();
 }
 
 /*******************************************************************************

@@ -39,8 +39,7 @@ public:
     void copyDomainAttributes(const Domain &dom);
 
 signals:
-    void updateName(QString, QString);
-    void deleteDomain(QString);
+    void deleteDomain(Domain*);
 
 public slots:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);

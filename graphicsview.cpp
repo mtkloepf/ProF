@@ -4,7 +4,11 @@
  *  Custom graphics view used for displaying the machine domain and any
  *  other domains
 *******************************************************************************/
+#include <QMenu>
+
 #include "graphicsview.h"
+
+#include <qdebug.h>
 
 /*******************************************************************************
 /*! \brief Constructor
@@ -12,8 +16,9 @@
  * @param graphicsScene the scene to attach to this graphics view
  * @param parent        widget that parents this dialog
 *******************************************************************************/
-GraphicsView::GraphicsView( QGraphicsScene *graphicsScene, QWidget *parent)
+GraphicsView::GraphicsView( QGraphicsScene *graphicsScene, ContextData *data, QWidget *parent)
     : QGraphicsView( graphicsScene, parent),
+      context(data),
       scene(graphicsScene)
 {
     setScene(scene);
@@ -48,53 +53,48 @@ void GraphicsView::mousePressEvent( QMouseEvent *event)
             //Create a new given domain and center it on the mouse
             domain = new Domain(pos.x()-25, pos.y()-25);
             domain->setType("Given");
-            connect(domain, SIGNAL(updateName(QString,QString)),
-                    this, SLOT(updateDomainNames(QString,QString)));
-            connect(domain, SIGNAL(deleteDomain(QString)),
-                    this, SLOT(deleteDomain(QString)));
-            domains.append(domain);
-            domainNames.append(domain->getName());
+
+            connect(domain, SIGNAL(deleteDomain(Domain*)),
+                    this, SLOT(deleteDomain(Domain*)));
+
+            QString name = QString("Domain %1").arg(context->getDomainCount());
+            domain->setName(name);
+            context->addDomain(*domain);
             scene->addItem(domain);
         }
         else if(event->button() == Qt::RightButton) {
-            //Create a new given domain and center it on the mouse
+            //Create a new designed domain and center it on the mouse
             domain = new Domain(pos.x()-25, pos.y()-25);
             domain->setType("Designed");
-            connect(domain, SIGNAL(updateName(QString,QString)),
-                    this, SLOT(updateDomainNames(QString,QString)));
-            connect(domain, SIGNAL(deleteDomain(QString)),
-                    this, SLOT(deleteDomain(QString)));
-            domains.append(domain);
-            domainNames.append(domain->getName());
+
+            connect(domain, SIGNAL(deleteDomain(Domain*)),
+                    this, SLOT(deleteDomain(Domain*)));
+
+            QString name = QString("Domain %1").arg(context->getDomainCount());
+            domain->setName(name);
+            context->addDomain(*domain);
             scene->addItem(domain);
         }
         else if(event->button() == Qt::MiddleButton) {
             //Create a new interface and center it on the mouse
-            interface = new Interface(pos.x()-7.5, pos.y()-7.5);
-            interface->updateDomains(domainNames);
-            connect(this, SIGNAL(updateDomainList(QStringList)),
-                    interface, SLOT(updateDomains(QStringList)));
+            interface = new Interface(pos.x()-7.5, pos.y()-7.5, context);
             scene->addItem(interface);
         }
         event->accept();
     }
-    //Propogate the mouse event down to the domain objects
+    //Propogate the mouse event down to the scene objects
     else QGraphicsView::mousePressEvent(event);
 }
 
-void GraphicsView::updateDomainNames(QString prev, QString current)
+/*******************************************************************************
+/*! \brief Removes a domain from the context data once a domain deletes itself
+ *
+ * @param dom a pointer to the domain to be removed
+*******************************************************************************/
+void GraphicsView::deleteDomain(Domain *dom)
 {
-    for(int i = 0; i < domainNames.size(); i++) {
-        if(domainNames.at(i) == prev) {
-            domainNames.replace(i, current);
-            break;
-        }
+    //If the domain to be removed exists in the context, remove it
+    if(context->getDomains().contains(dom)) {
+        context->removeDomain(*dom);
     }
-    emit updateDomainList(domainNames);
-}
-
-void GraphicsView::deleteDomain(QString name)
-{
-    domainNames.removeOne(name);
-    emit updateDomainList(domainNames);
 }

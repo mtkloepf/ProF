@@ -23,11 +23,12 @@ class EditDomain : public QDialog
 
 public:
     explicit EditDomain(QWidget *parent = 0, bool machine=false);
+    ~EditDomain();
+
     void setDomainDescription(QString desc);
     void setDomainName(QString name);
     void setDomainType(QString type);
     void setPhenomena(QList<Phenomenon> phen);
-    ~EditDomain();
 
 public slots:
     void phenomenonUpdated(Phenomenon phen);
@@ -50,9 +51,13 @@ signals:
 
 private:
     QStringListModel *listModel;
+
     QList<Phenomenon> phenomena;
+
     bool isMachine;
+
     QString name;
+
     Ui::EditDomain *ui;
 
     EditPhenomenon *edit;

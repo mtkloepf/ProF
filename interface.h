@@ -10,7 +10,7 @@
 #include <QGraphicsItem>
 #include <QPainter>
 
-#include "domain.h"
+#include "contextdata.h"
 #include "editinterface.h"
 #include "phenomenon.h"
 
@@ -19,17 +19,17 @@ class Interface : public QGraphicsObject
     Q_OBJECT
 
 public:
-    Interface(int x, int y);
+    Interface(int x, int y, ContextData *data);
     ~Interface();
 
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     QRectF boundingRect() const;
-
-    QColor getColor() const;
-    void setColor(const QColor &value);
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
     QColor getDefaultColor() const;
     void setDefaultColor(const QColor &value);
+
+    QColor getColor() const;
+    void setColor(const QColor &value);
 
 public slots:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
@@ -45,15 +45,11 @@ public slots:
     void editInterface();
     void deleteInterface();
 
-    void updateDomains(const QStringList &value);
     void setDomains(const QString first, const QString second);
 
 private:
-    QString firstDomain;
-    QString secondDomain;
-    Domain *firstDom;
-    Domain *secondDom;
-    QStringList domains;
+    Domain *firstDomain;
+    Domain *secondDomain;
     QPointF pos;
     QList<Phenomenon> phenomena;
 
@@ -62,6 +58,8 @@ private:
 
     QString description;
     QString name;
+
+    ContextData *context;
 
     EditInterface *edit;
 };

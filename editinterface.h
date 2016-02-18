@@ -10,6 +10,7 @@
 #include <QMessageBox>
 #include <QStringListModel>
 
+#include "domain.h"
 #include "editphenomenon.h"
 #include "phenomenon.h"
 
@@ -23,12 +24,12 @@ class EditInterface : public QDialog
 
 public:
     explicit EditInterface(QWidget *parent = 0);
+    ~EditInterface();
 
     void setInterfaceDescription(const QString desc);
     void setInterfaceName(const QString name);
     void setDomainNames(const QStringList names);
-    void setConnections(const QString first, const QString second);
-    ~EditInterface();
+    void setConnections(const Domain *first, const Domain *second);
 
 private slots:
     void on_okButton_clicked();
@@ -42,8 +43,11 @@ signals:
 
 private:
     QStringListModel *listModel;
+
     QList<Phenomenon> phenomena;
+
     QStringList domains;
+
     QMessageBox *errorMsg;
 
     Ui::EditInterface *ui;

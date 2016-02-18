@@ -82,7 +82,7 @@ void Domain::setColor(const QColor &value)
 
 /*******************************************************************************
 /*! \brief Used to get the default color of the domain
- *   
+ *
  *  @return the default color of the domain
 *******************************************************************************/
 QColor Domain::getDefaultColor() const
@@ -91,13 +91,62 @@ QColor Domain::getDefaultColor() const
 }
 /*******************************************************************************
 /*! \brief Sets the default color of a domain
- *         
+ *
  *  @param value the color to set the default color to
 *******************************************************************************/
 void Domain::setDefaultColor(const QColor &value)
 {
     defaultColor = value;
 }
+
+/*******************************************************************************
+/*! \brief Retrieves the list of phenomena attached to this domain
+ *
+ * @return A list of phenomena
+*******************************************************************************/
+QList<Phenomenon> Domain::getPhenomena() const
+{
+    return phenomena;
+}
+
+/*******************************************************************************
+/*! \brief Adds a phenomenon to the list associated with this domain
+ *
+ * @param phen the phenomenon to add to the domain
+*******************************************************************************/
+void Domain::addPhenomenon(const Phenomenon &phen) {
+    phenomena.append(phen);
+}
+
+/*******************************************************************************
+/*! \brief Removes a specific phenomenon associated with this domain
+ *
+ * @param phen the phenomenon to remove from the domain
+*******************************************************************************/
+void Domain::removePhenomenon(const Phenomenon &phen)
+{
+    phenomena.removeOne(phen);
+}
+
+/*******************************************************************************
+/*! \brief Takes a domain as a parameter and copies all of its attributes into
+ *         this domain
+ *
+ * @param dom the domain to copy the attributes from
+*******************************************************************************/
+void Domain::copyDomainAttributes(const Domain &dom)
+{
+    name = dom.getName();
+    phenomena = dom.getPhenomena();
+    type = dom.getType();
+    description = dom.getDescription();
+}
+
+
+/******************************************************************************/
+/* Slot Functions
+/******************************************************************************/
+
 
 /*******************************************************************************
 /*! \brief Used for opening the context menu for domains
@@ -112,7 +161,7 @@ void Domain::setDefaultColor(const QColor &value)
 void Domain::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     //Create a new context menu to hold edit and delete actions
-    //Then connect the slots functions for the menu actions
+    //Then connect the signals to slot functions for the menu actions
     QMenu menu;
     QAction *editAction = menu.addAction("Edit");
     connect(editAction, SIGNAL(triggered()), this, SLOT(editDomain()));
@@ -123,9 +172,9 @@ void Domain::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 }
 
 /*******************************************************************************
-/*! \brief Domain mouse hover enter
+/*! \brief Darkens the domain color when hovered over
  *
- *  Darkens the color of the domain that's currently hovered over. This makes it 
+ *  Darkens the color of the domain that's currently hovered over. This makes it
  *  easier for the use to see which domain is accepting the mouse
  *
  * @param event --unused
@@ -136,9 +185,9 @@ void Domain::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
 }
 
 /*******************************************************************************
-/*! \brief Domain mouse hover exit
+/*! \brief Lightens the domain color when hover event ends
  *
- *  Resets the color of the domain to the default after the mouse leaves the 
+ *  Resets the color of the domain to the default after the mouse leaves the
  *  bounding rect
  *
  * @param event --unused
@@ -184,7 +233,6 @@ QString Domain::getName() const
 *******************************************************************************/
 void Domain::setName(const QString &value)
 {
-    emit updateName(name, value);
     name = value;
 }
 
@@ -205,7 +253,10 @@ QString Domain::getType() const
 *******************************************************************************/
 void Domain::setType(const QString &value)
 {
+    //Change the type of the domain
     type = value;
+
+    //Handle changing the color when the type changes
     if(value == "Designed") {
         setColor(Qt::yellow);
         setDefaultColor(Qt::yellow);
@@ -231,6 +282,7 @@ void Domain::editDomain()
     edit->setDomainType(getType());
     edit->setPhenomena(phenomena);
 
+    //Connect signals for updating the domain attributes for phenomena
     connect(edit, SIGNAL(updatePhenomena(QList<Phenomenon>)),
             this, SLOT(setPhenomena(QList<Phenomenon>)));
     connect(edit, SIGNAL(updateDescription(QString)),
@@ -239,7 +291,7 @@ void Domain::editDomain()
             SLOT(setName(QString)));
     connect(edit, SIGNAL(updateType(QString)), this,
             SLOT(setType(QString)));
-
+    edit->setAttribute( Qt::WA_DeleteOnClose );
     edit->exec();
 }
 
@@ -249,34 +301,15 @@ void Domain::editDomain()
 *******************************************************************************/
 void Domain::deleteDomain()
 {
-    emit deleteDomain(name);
+    emit deleteDomain(this);
     delete this;
 }
 
-QList<Phenomenon> Domain::getPhenomena() const
-{
-    return phenomena;
-}
-
+/*******************************************************************************
+/*! \brief SLOT function used for setting the list of phenomena owned by
+ *         the domain
+*******************************************************************************/
 void Domain::setPhenomena(const QList<Phenomenon> &value)
 {
     phenomena = value;
 }
-
-void Domain::addPhenomenon(const Phenomenon &phen) {
-    phenomena.append(phen);
-}
-
-void Domain::removePhenomenon(const Phenomenon &phen)
-{
-    phenomena.removeOne(phen);
-}
-
-void Domain::copyDomainAttributes(const Domain &dom)
-{
-    name = dom.getName();
-    phenomena = dom.getPhenomena();
-    type = dom.getType();
-    description = dom.getDescription();
-}
-

@@ -9,20 +9,21 @@
 #include <QGraphicsView>
 #include <QMouseEvent>
 
+#include "contextdata.h"
 #include "domain.h"
+#include "editdomain.h"
 #include "interface.h"
 
 class GraphicsView : public QGraphicsView
 {
     Q_OBJECT
 public:
-    GraphicsView( QGraphicsScene *graphicsScene, QWidget *parent=0);
+    GraphicsView( QGraphicsScene *graphicsScene, ContextData *data, QWidget *parent=0);
     ~GraphicsView();
 
 public slots:
     void mousePressEvent (QMouseEvent *event);
-    void updateDomainNames(QString prev, QString current);
-    void deleteDomain(QString name);
+    void deleteDomain(Domain *dom);
 
 signals:
     void updateDomainList(QStringList);
@@ -31,14 +32,20 @@ public:
     QGraphicsScene *scene;
 
 private:
-    bool drawingLine;
-    QPointF startPos;
-    QPointF endPos;
-    QLineF line;
+    ContextData *context;
+
+    bool drawingLine; //Unused
+    QPointF startPos; //Unused
+    QPointF endPos;   //Unused
+    QLineF line;      //Unused
+
     Domain *domain;
     Interface *interface;
+
     QStringList domainNames;
     QList<Domain *> domains;
+
+    EditDomain *editDom;
 };
 
 #endif // GRAPHICSVIEW_H

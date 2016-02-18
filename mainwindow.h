@@ -9,6 +9,7 @@
 #include <QMainWindow>
 
 #include "about.h"
+#include "contextdata.h"
 #include "graphicsview.h"
 #include "machinedomain.h"
 
@@ -35,6 +36,7 @@ private:
     Ui::MainWindow *ui;
     About *about;
     MachineDomain *machine;
+    ContextData *data;
 };
 
 #endif // MAINWINDOW_H

@@ -136,7 +136,7 @@
    <item row="16" column="5">
     <widget class="QPushButton" name="deletePhenomenon">
      <property name="enabled">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
      <property name="text">
       <string>Delete</string>

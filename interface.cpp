@@ -1,10 +1,8 @@
 /*******************************************************************************
 /*! \class interface.cpp
  *
- *  Implementation of the interface. This class holds all information about
- *  the interface and the methods of using and changing interface data
- *
- *  Interfaces also have a method of creating the edit interface dialog
+ *  Implementation for interfaces which connect to domains and are used to
+ *  display common phenomena between the connections
 *******************************************************************************/
 #include <QGraphicsSceneMouseEvent>
 #include <QMenu>
@@ -17,14 +15,15 @@
  * @param x the x coordinate for the center of the interface in the scene
  * @param y the y coordinate for the center of the interface
 *******************************************************************************/
-Interface::Interface(int x, int y)
+Interface::Interface(int x, int y, ContextData *data)
     : pos(QPointF(x, y)),
-      firstDomain("None"),
-      secondDomain("None")
+      context(data),
+      firstDomain(NULL),
+      secondDomain(NULL),
+      defaultColor(Qt::green),
+      color(defaultColor)
 {
     setFlag(ItemIsMovable);
-    defaultColor = Qt::green;
-    color = defaultColor;
     setAcceptHoverEvents(true);
 }
 
@@ -55,12 +54,58 @@ QRectF Interface::boundingRect() const
  * @param option --unused
  * @param widget --unused
 *******************************************************************************/
-void Interface::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void Interface::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+                      QWidget *widget)
 {
     QRectF rec = boundingRect();
     painter->setBrush(color);
     painter->drawEllipse(rec);
 }
+
+/*******************************************************************************
+/*! \brief Returns the default color for interfaces
+ *
+ * @return the default color of the interface
+*******************************************************************************/
+QColor Interface::getDefaultColor() const
+{
+    return defaultColor;
+}
+
+/*******************************************************************************
+/*! \brief Changes the default color of interfaces
+ *
+ * @param value the color to set the default color to
+*******************************************************************************/
+void Interface::setDefaultColor(const QColor &value)
+{
+    defaultColor = value;
+}
+
+/*******************************************************************************
+/*! \brief Returns the color of the interface
+ *
+ * @return the current color of the interface
+*******************************************************************************/
+QColor Interface::getColor() const
+{
+    return color;
+}
+
+/*******************************************************************************
+/*! \brief Changes the current color of interfaces
+ *
+ * @param value the color to set the current color to
+*******************************************************************************/
+void Interface::setColor(const QColor &value)
+{
+    color = value;
+}
+
+
+/*******************************************************************************
+ * SLOT functions
+/******************************************************************************/
 
 /*******************************************************************************
 /*! \brief Used for opening the context menu for interfaces
@@ -84,12 +129,23 @@ void Interface::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     menu.exec(event->screenPos());
 }
 
+/*******************************************************************************
+/*! \brief Darkens the color of the interface when the mouse hovers over it
+ *
+ * @param event unused variable
+*******************************************************************************/
 void Interface::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     setColor(defaultColor.darker(125));
     update();
 }
 
+/*******************************************************************************
+/*! \brief Lightens the color of the interface when the mouse stops hovering
+ *         over the interface
+ *
+ * @param event unused variable
+*******************************************************************************/
 void Interface::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
     setColor(defaultColor);
@@ -148,7 +204,7 @@ void Interface::editInterface()
     edit = new EditInterface();
     edit->setInterfaceDescription(getDescription());
     edit->setInterfaceName(getName());
-    edit->setDomainNames(domains);
+    edit->setDomainNames(context->getDomainNames());
     edit->setConnections(firstDomain, secondDomain);
     connect(edit, SIGNAL(updateDescription(QString)),
             this, SLOT(setDescription(QString)));
@@ -156,6 +212,7 @@ void Interface::editInterface()
             SLOT(setName(QString)));
     connect(edit, SIGNAL(updateDomains(QString,QString)),
             this, SLOT(setDomains(QString,QString)));
+    edit->setAttribute( Qt::WA_DeleteOnClose );
     edit->exec();
 }
 
@@ -163,40 +220,24 @@ void Interface::editInterface()
 /*! \brief SLOT connected to context menu delete action
  *
  *  When delete is selected from the context menu, delete the interface
+ *  from memory
 *******************************************************************************/
 void Interface::deleteInterface()
 {
     delete this;
 }
 
-void Interface::updateDomains(const QStringList &value)
-{
-    domains = value;
-}
-
+/*******************************************************************************
+/*! \brief SLOT function intended to set the domain connections when the edit
+ *         interface dialog is closed
+ *
+ *  @param first  String value for the name of the first domain connection
+ *  @param second String value for the name of the second domain connection
+*******************************************************************************/
 void Interface::setDomains(const QString first, const QString second)
 {
-    firstDomain = first;
-    secondDomain = second;
+    if(first != "None")
+        firstDomain = context->findDomain(first);
+    if(second != "None")
+        secondDomain = context->findDomain(second);
 }
-
-QColor Interface::getDefaultColor() const
-{
-    return defaultColor;
-}
-
-void Interface::setDefaultColor(const QColor &value)
-{
-    defaultColor = value;
-}
-
-QColor Interface::getColor() const
-{
-    return color;
-}
-
-void Interface::setColor(const QColor &value)
-{
-    color = value;
-}
-

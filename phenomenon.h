@@ -1,6 +1,11 @@
 #ifndef PHENOMENON_H
 #define PHENOMENON_H
 
+/*******************************************************************************
+/*! \class phenomenon.h
+ *
+ *  Storage for attributes of phenomena
+*******************************************************************************/
 #include <QStandardItem>
 #include <QString>
 
@@ -12,6 +17,7 @@ public:
 
     bool operator==(const Phenomenon &phen);
 
+public:
     QString name;
     QString description;
     QString type = "Event";

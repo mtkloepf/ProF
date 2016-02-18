@@ -24,7 +24,8 @@ SOURCES += main.cpp\
     interface.cpp \
     editinterface.cpp \
     editphenomenon.cpp \
-    phenomenon.cpp
+    phenomenon.cpp \
+    contextdata.cpp
 
 HEADERS  += mainwindow.h \
     about.h \
@@ -36,7 +37,8 @@ HEADERS  += mainwindow.h \
     interface.h \
     editinterface.h \
     editphenomenon.h \
-    phenomenon.h
+    phenomenon.h \
+    contextdata.h
 
 FORMS    += mainwindow.ui \
     about.ui \

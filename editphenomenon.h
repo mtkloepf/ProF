@@ -1,6 +1,11 @@
 #ifndef EDITPHENOMENON_H
 #define EDITPHENOMENON_H
 
+/*******************************************************************************
+/*! \class editphenomenon.h
+ *
+ *  A dialog that appears when editing phenomenon properties
+*******************************************************************************/
 #include <QDialog>
 
 #include "phenomenon.h"
@@ -17,9 +22,9 @@ public:
     explicit EditPhenomenon(QWidget *parent = 0);
     ~EditPhenomenon();
 
-    void setPhenonemonName(QString name);
-    void setPhenomenonType(QString type);
-    void setPhenomenonDesc(QString desc);
+    void setPhenonemonName(const QString name);
+    void setPhenomenonType(const QString type);
+    void setPhenomenonDesc(const QString desc);
 
 private slots:
     void on_okButton_clicked();

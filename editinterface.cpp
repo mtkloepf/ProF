@@ -18,15 +18,21 @@ EditInterface::EditInterface(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::EditInterface)
 {
-    errorMsg = new QMessageBox();
     ui->setupUi(this);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->withArrowRadio->setVisible(false);
     ui->withoutArrowRadio->setVisible(false);
     setFixedSize(geometry().width(), geometry().height());
 
-    //Turn off editing of phenomena names
+    //Create the error message box for having duplicate connections
+    errorMsg = new QMessageBox();
+
+    //Turn off editing of phenomena names directly through the list view
     ui->phenomenaListView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+    //Add a "no connection" option for the combo boxes if it doesn't exist
+    if(!domains.contains("None"))
+        domains.append("None");
 
     //Create a model for the phenomena list view and set the prototype
     listModel = new QStringListModel();
@@ -38,6 +44,7 @@ EditInterface::EditInterface(QWidget *parent) :
 *******************************************************************************/
 EditInterface::~EditInterface()
 {
+    delete errorMsg;
     delete ui;
 }
 
@@ -63,6 +70,11 @@ void EditInterface::setInterfaceName(const QString name)
     ui->nameLineEdit->setText(name);
 }
 
+/*******************************************************************************
+/*! \brief Used to populate the list of domains to choose as connections
+ *
+ * @param names the list of domains that can be chosen as connections
+*******************************************************************************/
 void EditInterface::setDomainNames(const QStringList names)
 {
     domains = names;
@@ -70,14 +82,22 @@ void EditInterface::setDomainNames(const QStringList names)
     ui->domainTwo->addItems(domains);
 }
 
-void EditInterface::setConnections(const QString first, const QString second)
+/*******************************************************************************
+/*! \brief Used to set the connections that already exist for the interface
+ *
+ * @param first  the first domain connection
+ * @param second the second domain connection
+*******************************************************************************/
+void EditInterface::setConnections(const Domain *first, const Domain *second)
 {
-    ui->domainOne->setCurrentIndex(ui->domainOne->findText(first));
-    ui->domainTwo->setCurrentIndex(ui->domainTwo->findText(second));
+    if(first)
+        ui->domainOne->setCurrentIndex(ui->domainOne->findText(first->getName()));
+    if(second)
+        ui->domainTwo->setCurrentIndex(ui->domainTwo->findText(second->getName()));
 }
 
 /*******************************************************************************
-/*! \brief Slot called when the OK button of this dialog is clicked
+/*! \brief SLOT called when the OK button of this dialog is clicked
  *
  *  This function is used to send all data currently in the form to the
  *  interface
@@ -91,8 +111,8 @@ void EditInterface::on_okButton_clicked()
     if(ui->domainOne->currentText() == ui->domainTwo->currentText() &&
             (ui->domainOne->currentText() != "None" &&
              ui->domainTwo->currentText() != "None")) {
-        errorMsg->setText("Error: Two unique domains must be "
-                          "connected to an interface.");
+        errorMsg->setText("An interface must be "
+                          "connected to two unique domains.");
         errorMsg->setStandardButtons(QMessageBox::Ok);
         errorMsg->setWindowTitle("Error");
         errorMsg->exec();
@@ -106,7 +126,7 @@ void EditInterface::on_okButton_clicked()
 }
 
 /*******************************************************************************
-/*! \brief Slot called when the Cancel button of this dialog is clicked
+/*! \brief SLOT called when the Cancel button of this dialog is clicked
  *
  *  Exits the interface editing dialog.
  *  If called, NO data will be saved to the interface
@@ -117,7 +137,7 @@ void EditInterface::on_cancelButton_clicked()
 }
 
 /*******************************************************************************
-/*! \brief Slot called when the Reset button of this dialog is clicked
+/*! \brief SLOT called when the Reset button of this dialog is clicked
  *
  *  Resets all data in the form to NULL. Resets form to default interface values
 *******************************************************************************/

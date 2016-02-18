@@ -1,7 +1,9 @@
 /*******************************************************************************
 /*! \class machinedomain.cpp
  *
- *  Implementation of machine domain class
+ *  Custom graphics object to act as the machine domain. Similar behavior to the
+ *  domain class, but cannot be deleted, can only have on instance, and has
+ *  limited editing options
 *******************************************************************************/
 #include <QGraphicsSceneMouseEvent>
 #include <QMenu>
@@ -172,9 +174,8 @@ void MachineDomain::editDomain()
     connect(edit, SIGNAL(updateName(QString)), this,
             SLOT(setName(QString)));
 
-    edit->show();
-    edit->raise();
-    edit->activateWindow();
+    edit->setAttribute( Qt::WA_DeleteOnClose );
+    edit->exec();
 }
 
 /*******************************************************************************
