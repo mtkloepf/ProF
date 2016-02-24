@@ -90,10 +90,14 @@ void EditInterface::setDomainNames(const QStringList names)
 *******************************************************************************/
 void EditInterface::setConnections(const Domain *first, const Domain *second)
 {
-    if(first)
+    if(first != NULL)
         ui->domainOne->setCurrentIndex(ui->domainOne->findText(first->getName()));
-    if(second)
+    else if(first == NULL)
+        ui->domainOne->setCurrentIndex(ui->domainOne->findText("None"));
+    if(second != NULL)
         ui->domainTwo->setCurrentIndex(ui->domainTwo->findText(second->getName()));
+    else if(second == NULL)
+        ui->domainTwo->setCurrentIndex(ui->domainTwo->findText("None"));
 }
 
 /*******************************************************************************
@@ -145,4 +149,6 @@ void EditInterface::on_resetButton_clicked()
 {
     ui->nameLineEdit->clear();
     ui->descriptionTextEdit->clear();
+    ui->domainOne->setCurrentIndex(0);
+    ui->domainTwo->setCurrentIndex(0);
 }

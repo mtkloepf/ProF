@@ -238,6 +238,10 @@ void Interface::setDomains(const QString first, const QString second)
 {
     if(first != "None")
         firstDomain = context->findDomain(first);
+    else
+        firstDomain = NULL;
     if(second != "None")
         secondDomain = context->findDomain(second);
+    else
+        secondDomain = NULL;
 }

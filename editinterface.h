@@ -12,7 +12,6 @@
 
 #include "domain.h"
 #include "editphenomenon.h"
-#include "phenomenon.h"
 
 namespace Ui {
 class EditInterface;

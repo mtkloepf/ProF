@@ -11,6 +11,8 @@
 
 #include "domain.h"
 
+class Interface;
+
 class ContextData
 {
 public:
@@ -30,6 +32,7 @@ public:
 
 private:
     QList<Domain *> domains;
+    QList<Interface *> interfaces;
     int domainCount;
 };
 

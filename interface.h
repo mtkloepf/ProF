@@ -12,7 +12,6 @@
 
 #include "contextdata.h"
 #include "editinterface.h"
-#include "phenomenon.h"
 
 class Interface : public QGraphicsObject
 {
