@@ -20,9 +20,9 @@ Interface::Interface(int x, int y, ContextData *data)
       context(data),
       firstDomain(NULL),
       secondDomain(NULL),
-      defaultColor(Qt::green),
-      color(defaultColor)
+      defaultColor(Qt::green)
 {
+    setColor(defaultColor);
     setFlag(ItemIsMovable);
     setAcceptHoverEvents(true);
 }

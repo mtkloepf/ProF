@@ -63,24 +63,11 @@ void GraphicsView::mousePressEvent( QMouseEvent *event)
             scene->addItem(domain);
         }
         else if(event->button() == Qt::RightButton) {
-            //Create a new designed domain and center it on the mouse
-            domain = new Domain(pos.x()-25, pos.y()-25);
-            domain->setType("Designed");
-
-            connect(domain, SIGNAL(deleteDomain(Domain*)),
-                    this, SLOT(deleteDomain(Domain*)));
-
-            QString name = QString("Domain %1").arg(context->getDomainCount());
-            domain->setName(name);
-            context->addDomain(*domain);
-            scene->addItem(domain);
-        }
-        else if(event->button() == Qt::MiddleButton) {
             //Create a new interface and center it on the mouse
             interface = new Interface(pos.x()-7.5, pos.y()-7.5, context);
             scene->addItem(interface);
         }
-        event->accept();
+        //event->accept();
     }
     //Propogate the mouse event down to the scene objects
     else QGraphicsView::mousePressEvent(event);
