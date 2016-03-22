@@ -19,16 +19,18 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    machine = new MachineDomain();
     //Data structure that stores every domain that exists
-    data = new ContextData();
+    data = new ContextData(machine);
 
     //Create the custom graphics view and add it to the main window
-    m_view = new GraphicsView(new QGraphicsScene(), data, this);
-    ui->centralWidget->layout()->addWidget(m_view);
+    m_ContextView = new GraphicsView(new QGraphicsScene(), data, true, this);
+    m_ProblemView = new GraphicsView(new QGraphicsScene(), data, false, this);
+    ui->centralWidget->layout()->addWidget(m_ContextView);
+    ui->centralWidget->layout()->addWidget(m_ProblemView);
 
     //Create the machine domain and add it to the graphics view
-    machine = new MachineDomain();
-    m_view->scene->addItem(machine);
+    m_ContextView->scene->addItem(machine);
 }
 
 /*******************************************************************************

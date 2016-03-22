@@ -5,15 +5,16 @@
 *******************************************************************************/
 #include "contextdata.h"
 
-ContextData::ContextData()
-    : domainCount(0)
+ContextData::ContextData(MachineDomain *machineDom)
+    : domainCount(0),
+      machine(machineDom)
 {
 
 }
 
 ContextData::~ContextData()
 {
-
+    delete machine;
 }
 
 /*******************************************************************************
@@ -99,4 +100,9 @@ Domain* ContextData::findDomain(const QString name) const
 int ContextData::getDomainCount() const
 {
     return domainCount;
+}
+
+QList<Interface *> ContextData::getInterfaces() const
+{
+    return interfaces;
 }

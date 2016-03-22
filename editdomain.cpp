@@ -36,17 +36,6 @@ EditDomain::EditDomain(QWidget *parent, bool machine) :
     //Create a model for the phenomena list view
     listModel = new QStringListModel();
     ui->phenomenaListView->setModel(listModel);
-
-    //Disable the delete and edit buttons when the list is empty
-    if(listModel->rowCount() == 0) {
-        ui->deletePhenomenon->setEnabled(false);
-        ui->editPhenomenon->setEnabled(false);
-    }
-    //Enable the delete and edit buttons when the list has something in it
-    else {
-        ui->deletePhenomenon->setEnabled(true);
-        ui->editPhenomenon->setEnabled(true);
-    }
 }
 
 /*******************************************************************************
@@ -108,6 +97,16 @@ void EditDomain::setPhenomena(QList<Phenomenon> phen)
         pheno << phenomenon.name;
     }
     listModel->setStringList(pheno);
+
+    if(listModel->rowCount() == 0) {
+        ui->deletePhenomenon->setEnabled(false);
+        ui->editPhenomenon->setEnabled(false);
+    }
+    //Enable the delete and edit buttons when the list has something in it
+    else {
+        ui->deletePhenomenon->setEnabled(true);
+        ui->editPhenomenon->setEnabled(true);
+    }
 }
 
 

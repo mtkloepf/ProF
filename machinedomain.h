@@ -10,7 +10,7 @@
 #include <QList>
 #include <QPainter>
 
-#include "editdomain.h"
+#include "domain.h"
 
 class MachineDomain : public QGraphicsObject
 {

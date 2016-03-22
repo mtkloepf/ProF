@@ -26,7 +26,8 @@ public:
     ~MainWindow();
 
 protected:
-    GraphicsView *m_view;
+    GraphicsView *m_ContextView;
+    GraphicsView *m_ProblemView;
 
 public slots:
     void on_actionAbout_triggered();

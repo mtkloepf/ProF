@@ -25,7 +25,8 @@ SOURCES += main.cpp\
     editinterface.cpp \
     editphenomenon.cpp \
     phenomenon.cpp \
-    contextdata.cpp
+    contextdata.cpp \
+    editsharedphenomenon.cpp
 
 HEADERS  += mainwindow.h \
     about.h \
@@ -38,13 +39,15 @@ HEADERS  += mainwindow.h \
     editinterface.h \
     editphenomenon.h \
     phenomenon.h \
-    contextdata.h
+    contextdata.h \
+    editsharedphenomenon.h
 
 FORMS    += mainwindow.ui \
     about.ui \
     editdomain.ui \
     editinterface.ui \
-    editphenomenon.ui
+    editphenomenon.ui \
+    editsharedphenomenon.ui
 
 DISTFILES += \
     StylingDocument.txt

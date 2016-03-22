@@ -201,17 +201,23 @@ void Interface::editInterface()
     // Bring up the edit interface menu, connect the slots to the OK button of
     // the edit domain dialog, and give the current interface info for the
     // edit interface dialog to display
-    edit = new EditInterface();
+    edit = new EditInterface(context);
     edit->setInterfaceDescription(getDescription());
     edit->setInterfaceName(getName());
     edit->setDomainNames(context->getDomainNames());
     edit->setConnections(firstDomain, secondDomain);
+    edit->setDom1SharedPhenomena(dom1SharedPhenomena);
+    edit->setDom2SharedPhenomena(dom2SharedPhenomena);
     connect(edit, SIGNAL(updateDescription(QString)),
             this, SLOT(setDescription(QString)));
     connect(edit, SIGNAL(updateName(QString)), this,
             SLOT(setName(QString)));
     connect(edit, SIGNAL(updateDomains(QString,QString)),
             this, SLOT(setDomains(QString,QString)));
+    connect(edit, SIGNAL(updateDom1SharedPhenomena(QList<Phenomenon>)),
+            this, SLOT(updateDom1SharedPhenomena(QList<Phenomenon>)));
+    connect(edit, SIGNAL(updateDom2SharedPhenomena(QList<Phenomenon>)),
+            this, SLOT(updateDom2SharedPhenomena(QList<Phenomenon>)));
     edit->setAttribute( Qt::WA_DeleteOnClose );
     edit->exec();
 }
@@ -244,4 +250,34 @@ void Interface::setDomains(const QString first, const QString second)
         secondDomain = context->findDomain(second);
     else
         secondDomain = NULL;
+}
+
+void Interface::updateDom1SharedPhenomena(QList<Phenomenon> phen)
+{
+    dom1SharedPhenomena = phen;
+}
+
+void Interface::updateDom2SharedPhenomena(QList<Phenomenon> phen)
+{
+    dom2SharedPhenomena = phen;
+}
+
+void Interface::setSecondDomain(Domain *value)
+{
+    secondDomain = value;
+}
+
+void Interface::setFirstDomain(Domain *value)
+{
+    firstDomain = value;
+}
+
+Domain *Interface::getSecondDomain() const
+{
+    return secondDomain;
+}
+
+Domain *Interface::getFirstDomain() const
+{
+    return firstDomain;
 }

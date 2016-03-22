@@ -10,13 +10,14 @@
 #include <qlist.h>
 
 #include "domain.h"
+#include "machinedomain.h"
 
 class Interface;
 
 class ContextData
 {
 public:
-    ContextData();
+    ContextData(MachineDomain *machineDom);
     ~ContextData();
 
     QList<Domain *> getDomains() const;
@@ -30,7 +31,10 @@ public:
 
     int getDomainCount() const;
 
+    QList<Interface *> getInterfaces() const;
+
 private:
+    MachineDomain *machine;
     QList<Domain *> domains;
     QList<Interface *> interfaces;
     int domainCount;

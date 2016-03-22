@@ -18,7 +18,8 @@ class GraphicsView : public QGraphicsView
 {
     Q_OBJECT
 public:
-    GraphicsView( QGraphicsScene *graphicsScene, ContextData *data, QWidget *parent=0);
+    GraphicsView( QGraphicsScene *graphicsScene, ContextData *data,
+                  bool contextView=false, QWidget *parent=0);
     ~GraphicsView();
 
 public slots:
@@ -32,6 +33,7 @@ public:
     QGraphicsScene *scene;
 
 private:
+    bool isContextDiagram;
     ContextData *context;
 
     bool drawingLine; //Unused
