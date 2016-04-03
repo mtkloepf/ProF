@@ -26,6 +26,8 @@ MainWindow::MainWindow(QWidget *parent) :
     //Create the custom graphics view and add it to the main window
     m_ContextView = new GraphicsView(new QGraphicsScene(), data, true, this);
     m_ProblemView = new GraphicsView(new QGraphicsScene(), data, false, this);
+    connect(m_ContextView, SIGNAL(addItem(Domain*)),
+            this, SLOT(addItem(Domain*)));
     ui->centralWidget->layout()->addWidget(m_ContextView);
     ui->centralWidget->layout()->addWidget(m_ProblemView);
 
@@ -56,4 +58,10 @@ void MainWindow::on_actionAbout_triggered()
 void MainWindow::on_actionClose_triggered()
 {
     QApplication::quit();
+}
+
+void MainWindow::addItem(Domain *item)
+{
+    Domain *item2 = new Domain(item->x(), item->y());
+    m_ProblemView->scene->addItem(item2);
 }

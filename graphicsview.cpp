@@ -46,10 +46,11 @@ GraphicsView::~GraphicsView() {}
 void GraphicsView::mousePressEvent( QMouseEvent *event)
 {
     //Context diagrams have domains and interfaces
-    if(isContextDiagram) {
-        //Get the coordinates of the mouse event from the scene
-        QPointF pos = mapToScene( event->pos() );
 
+    //Get the coordinates of the mouse event from the scene
+    QPointF pos = mapToScene( event->pos() );
+
+    if(isContextDiagram) {
         //Check to see if we are clicking on an empty space in the scene
         //We do not want to spawn another domain if clicking on a current one
         if(scene->itemAt(pos, QTransform()) == NULL) {
@@ -65,6 +66,7 @@ void GraphicsView::mousePressEvent( QMouseEvent *event)
                 domain->setName(name);
                 context->addDomain(*domain);
                 scene->addItem(domain);
+                emit addItem(domain);
             }
             else if(event->button() == Qt::RightButton) {
                 //Create a new interface and center it on the mouse
@@ -78,7 +80,13 @@ void GraphicsView::mousePressEvent( QMouseEvent *event)
 
     //Problem diagrams have requirements
     else {
-
+        if(scene->itemAt(pos, QTransform()) == NULL) {
+            if(event->button() == Qt::LeftButton) {
+                requirement = new Requirement(pos.x()-25, pos.y()-25);
+                requirement->setType("Requirement");
+                scene->addItem(requirement);
+            }
+        }
     }
 }
 

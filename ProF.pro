@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     editphenomenon.cpp \
     phenomenon.cpp \
     contextdata.cpp \
-    editsharedphenomenon.cpp
+    editsharedphenomenon.cpp \
+    requirement.cpp
 
 HEADERS  += mainwindow.h \
     about.h \
@@ -40,7 +41,8 @@ HEADERS  += mainwindow.h \
     editphenomenon.h \
     phenomenon.h \
     contextdata.h \
-    editsharedphenomenon.h
+    editsharedphenomenon.h \
+    requirement.h
 
 FORMS    += mainwindow.ui \
     about.ui \

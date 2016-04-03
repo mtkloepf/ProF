@@ -13,6 +13,7 @@
 #include "domain.h"
 #include "editdomain.h"
 #include "interface.h"
+#include "requirement.h"
 
 class GraphicsView : public QGraphicsView
 {
@@ -28,6 +29,7 @@ public slots:
 
 signals:
     void updateDomainList(QStringList);
+    void addItem(Domain *item);
 
 public:
     QGraphicsScene *scene;
@@ -43,6 +45,7 @@ private:
 
     Domain *domain;
     Interface *interface;
+    Requirement *requirement;
 
     QStringList domainNames;
     QList<Domain *> domains;
