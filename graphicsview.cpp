@@ -64,7 +64,7 @@ void GraphicsView::mousePressEvent( QMouseEvent *event)
 
                 QString name = QString("Domain %1").arg(context->getDomainCount());
                 domain->setName(name);
-                context->addDomain(*domain);
+                context->addDomain(*domain);                        
                 scene->addItem(domain);
                 emit addItem(domain);
             }
@@ -87,6 +87,8 @@ void GraphicsView::mousePressEvent( QMouseEvent *event)
                 scene->addItem(requirement);
             }
         }
+        //Propogate the mouse event down to the scene objects
+        else QGraphicsView::mousePressEvent(event);
     }
 }
 

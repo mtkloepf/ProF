@@ -6,6 +6,7 @@
  *
  *  Custom graphics view
 *******************************************************************************/
+#include <QGraphicsItemGroup>
 #include <QGraphicsView>
 #include <QMouseEvent>
 

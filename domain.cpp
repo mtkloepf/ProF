@@ -11,6 +11,8 @@
 
 #include "domain.h"
 
+#include <qdebug.h>
+
 /*******************************************************************************
 /*! \brief Constructor for the domain
  *
@@ -18,7 +20,8 @@
  * @param y the y coordinate for the center of the domain
 *******************************************************************************/
 Domain::Domain(float x, float y)
-    : pos(QPointF(x, y))
+    : pos(QPointF(x, y)),
+      enabled(true)
 {
     setFlag(ItemIsMovable);
     setAcceptHoverEvents(true);
@@ -78,6 +81,7 @@ QColor Domain::getColor() const
 void Domain::setColor(const QColor &value)
 {
     color = value;
+    update();
 }
 
 /*******************************************************************************
@@ -136,10 +140,10 @@ void Domain::removePhenomenon(const Phenomenon &phen)
 *******************************************************************************/
 void Domain::copyDomainAttributes(const Domain &dom)
 {
-    name = dom.getName();
-    phenomena = dom.getPhenomena();
-    type = dom.getType();
-    description = dom.getDescription();
+    setName(dom.getName());
+    setPhenomena(dom.getPhenomena());
+    setType(dom.getType());
+    setDescription(dom.getDescription());
 }
 
 
@@ -163,10 +167,17 @@ void Domain::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     //Create a new context menu to hold edit and delete actions
     //Then connect the signals to slot functions for the menu actions
     QMenu menu;
-    QAction *editAction = menu.addAction("Edit");
-    connect(editAction, SIGNAL(triggered()), this, SLOT(editDomain()));
-    QAction *deleteAction = menu.addAction("Delete");
-    connect(deleteAction, SIGNAL(triggered()), this, SLOT(deleteDomain()));
+    QAction *disableAction;
+    if(enabled) {
+        QAction *editAction = menu.addAction("Edit");
+        connect(editAction, SIGNAL(triggered()), this, SLOT(editDomain()));
+        QAction *deleteAction = menu.addAction("Delete");
+        connect(deleteAction, SIGNAL(triggered()), this, SLOT(deleteDomain()));
+        disableAction = menu.addAction("Disable");
+    }
+    else
+        disableAction = menu.addAction("Enable");
+    connect(disableAction, SIGNAL(triggered()), this, SLOT(disableDomain()));
 
     menu.exec(event->screenPos());
 }
@@ -312,4 +323,28 @@ void Domain::deleteDomain()
 void Domain::setPhenomena(const QList<Phenomenon> &value)
 {
     phenomena = value;
+}
+
+void Domain::disableDomain()
+{
+    if(enabled) {
+        setColor(Qt::gray);
+        this->setAcceptHoverEvents(false);
+        enabled = false;
+    }
+    else {
+        setColor(defaultColor);
+        this->setAcceptHoverEvents(true);
+        enabled = true;
+    }
+}
+
+QPointF Domain::getPos() const
+{
+    return pos;
+}
+
+void Domain::setPos(const QPointF &value)
+{
+    pos = value;
 }

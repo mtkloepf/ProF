@@ -38,6 +38,9 @@ public:
 
     void copyDomainAttributes(const Domain &dom);
 
+    QPointF getPos() const;
+    void setPos(const QPointF &value);
+
 signals:
     void deleteDomain(Domain*);
 
@@ -60,7 +63,10 @@ public slots:
 
     void setPhenomena(const QList<Phenomenon> &value);
 
+    void disableDomain();
+
 private:
+    bool enabled;
     QPointF pos;
 
     QString description;

@@ -8,6 +8,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <qdebug.h>
+
 /*******************************************************************************
 /*! \brief Constructor
  *
@@ -24,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
     data = new ContextData(machine);
 
     //Create the custom graphics view and add it to the main window
+    QGraphicsScene *scene = new QGraphicsScene();
     m_ContextView = new GraphicsView(new QGraphicsScene(), data, true, this);
     m_ProblemView = new GraphicsView(new QGraphicsScene(), data, false, this);
     connect(m_ContextView, SIGNAL(addItem(Domain*)),
@@ -62,6 +65,18 @@ void MainWindow::on_actionClose_triggered()
 
 void MainWindow::addItem(Domain *item)
 {
-    Domain *item2 = new Domain(item->x(), item->y());
+    Domain *item2 = new Domain(item->getPos().x(), item->getPos().y());
+    item2->setParentItem(item);
+    item2->copyDomainAttributes(*item);
+    connect(item, SIGNAL(deleteDomain(Domain*)),
+            item2, SLOT(deleteDomain()));
     m_ProblemView->scene->addItem(item2);
+}
+
+void MainWindow::updateDomain(Domain *item, QString prevName) {
+    foreach(Domain *dom, data->getDomains()) {
+        if(dom->getName() == prevName) {
+            dom->copyDomainAttributes(*item);
+        }
+    }
 }
