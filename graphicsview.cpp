@@ -21,7 +21,8 @@ GraphicsView::GraphicsView( QGraphicsScene *graphicsScene, ContextData *data,
                             QWidget *parent)
     : QGraphicsView( graphicsScene, parent),
       context(data),
-      scene(graphicsScene)
+      scene(graphicsScene),
+      diagram(diagram)
 {
     setScene(scene);
     setMouseTracking(true);
@@ -45,39 +46,42 @@ GraphicsView::~GraphicsView() {}
 *******************************************************************************/
 void GraphicsView::mousePressEvent( QMouseEvent *event)
 {
-    //Context diagrams have domains and interfaces
 
     //Get the coordinates of the mouse event from the scene
     QPointF pos = mapToScene( event->pos() );
 
-    //Check to see if we are clicking on an empty space in the scene
-    //We do not want to spawn another domain if clicking on a current one
-    if(scene->itemAt(pos, QTransform()) == NULL) {
-        if(event->button() == Qt::LeftButton) {
-            //Create a new given domain and center it on the mouse
-            domain = new Domain(pos.x()-25, pos.y()-25);
-            domain->setType("Given");
+    //Context diagrams have domains and interfaces
+    if(diagram->currentText() == "Context Diagram") {
 
-            connect(domain, SIGNAL(deleteDomain(Domain*)),
-                    this, SLOT(deleteDomain(Domain*)));
+        //Check to see if we are clicking on an empty space in the scene
+        //We do not want to spawn another domain if clicking on a current one
+        if(scene->itemAt(pos, QTransform()) == NULL) {
+            if(event->button() == Qt::LeftButton) {
+                //Create a new given domain and center it on the mouse
+                domain = new Domain(pos.x()-25, pos.y()-25);
+                domain->setType("Given");
 
-            QString name = QString("Domain %1").arg(context->getDomainCount());
-            domain->setName(name);
-            context->addDomain(*domain);
-            scene->addItem(domain);
-            emit addItem(domain);
+                connect(domain, SIGNAL(deleteDomain(Domain*)),
+                        this, SLOT(deleteDomain(Domain*)));
+
+                QString name = QString("Domain %1").arg(context->getDomainCount());
+                domain->setName(name);
+                context->addDomain(*domain);
+                scene->addItem(domain);
+                emit addItem(domain);
+            }
+            else if(event->button() == Qt::RightButton) {
+                //Create a new interface and center it on the mouse
+                interface = new Interface(pos.x()-7.5, pos.y()-7.5, context);
+                scene->addItem(interface);
+            }
         }
-        else if(event->button() == Qt::RightButton) {
-            //Create a new interface and center it on the mouse
-            interface = new Interface(pos.x()-7.5, pos.y()-7.5, context);
-            scene->addItem(interface);
-        }
+        //Propogate the mouse event down to the scene objects
+        else QGraphicsView::mousePressEvent(event);
+
     }
-    //Propogate the mouse event down to the scene objects
-    else QGraphicsView::mousePressEvent(event);
-
-    /*
-    //Problem diagrams have requirements
+    else {
+        //Problem diagrams have requirements
         if(scene->itemAt(pos, QTransform()) == NULL) {
             if(event->button() == Qt::LeftButton) {
                 requirement = new Requirement(pos.x()-25, pos.y()-25);
@@ -87,7 +91,7 @@ void GraphicsView::mousePressEvent( QMouseEvent *event)
         }
         //Propogate the mouse event down to the scene objects
         else QGraphicsView::mousePressEvent(event);
-        */
+    }
 }
 
 /*******************************************************************************

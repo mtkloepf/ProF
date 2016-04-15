@@ -36,6 +36,29 @@
     <item>
      <layout class="QGridLayout" name="gridLayout">
       <item row="3" column="0">
+       <widget class="QPushButton" name="DeleteDiagramButton">
+        <property name="text">
+         <string>Delete Problem Diagram</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QComboBox" name="diagramCombo">
+        <item>
+         <property name="text">
+          <string>Context Diagram</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QPushButton" name="addDiagramButton">
+        <property name="text">
+         <string>Add Problem Diagram</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
        <spacer name="verticalSpacer">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
@@ -47,29 +70,6 @@
          </size>
         </property>
        </spacer>
-      </item>
-      <item row="0" column="0">
-       <widget class="QComboBox" name="diagramCombo">
-        <item>
-         <property name="text">
-          <string>Context Diagram</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QPushButton" name="addDiagramButton">
-        <property name="text">
-         <string>Add Problem Diagram</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QPushButton" name="DeleteDiagramButton">
-        <property name="text">
-         <string>Delete Problem Diagram</string>
-        </property>
-       </widget>
       </item>
      </layout>
     </item>

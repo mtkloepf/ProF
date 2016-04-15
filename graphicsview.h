@@ -38,6 +38,7 @@ public:
 
 private:
     ContextData *context;
+    QComboBox *diagram;
 
     bool drawingLine; //Unused
     QPointF startPos; //Unused
