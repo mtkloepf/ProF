@@ -27,16 +27,14 @@ public:
 
 protected:
     GraphicsView *m_ContextView;
-    GraphicsView *m_ProblemView;
 
 public slots:
     void on_actionAbout_triggered();
     void on_actionClose_triggered();
 
-    void updateDomain(Domain *dom, QString prevName);
-
 private slots:
-    void addItem(Domain *item);
+    void addProblemDiagram();
+    void deleteProblemDiagram();
 
 private:
     Ui::MainWindow *ui;

@@ -6,7 +6,7 @@
  *
  *  Custom graphics view
 *******************************************************************************/
-#include <QGraphicsItemGroup>
+#include <QComboBox>
 #include <QGraphicsView>
 #include <QMouseEvent>
 
@@ -21,7 +21,8 @@ class GraphicsView : public QGraphicsView
     Q_OBJECT
 public:
     GraphicsView( QGraphicsScene *graphicsScene, ContextData *data,
-                  bool contextView=false, QWidget *parent=0);
+                  QComboBox *diagram,
+                  QWidget *parent=0);
     ~GraphicsView();
 
 public slots:
@@ -36,7 +37,6 @@ public:
     QGraphicsScene *scene;
 
 private:
-    bool isContextDiagram;
     ContextData *context;
 
     bool drawingLine; //Unused

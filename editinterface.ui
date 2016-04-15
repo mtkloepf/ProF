@@ -21,13 +21,6 @@
      </property>
     </widget>
    </item>
-   <item row="12" column="1">
-    <widget class="QPushButton" name="okButton">
-     <property name="text">
-      <string>OK</string>
-     </property>
-    </widget>
-   </item>
    <item row="11" column="4">
     <widget class="QPushButton" name="editDom2Phen">
      <property name="enabled">
@@ -101,9 +94,6 @@
      </property>
     </widget>
    </item>
-   <item row="11" column="1" colspan="3">
-    <widget class="QListView" name="domain2SharedListView"/>
-   </item>
    <item row="8" column="2">
     <widget class="QLabel" name="sharedPhenomenaLabel">
      <property name="text">
@@ -113,20 +103,6 @@
    </item>
    <item row="5" column="1" rowspan="2" colspan="4">
     <widget class="QTextEdit" name="descriptionTextEdit"/>
-   </item>
-   <item row="12" column="3">
-    <widget class="QPushButton" name="cancelButton">
-     <property name="text">
-      <string>Cancel</string>
-     </property>
-    </widget>
-   </item>
-   <item row="12" column="2">
-    <widget class="QPushButton" name="resetButton">
-     <property name="text">
-      <string>Reset</string>
-     </property>
-    </widget>
    </item>
    <item row="3" column="2">
     <widget class="QRadioButton" name="withoutArrowRadio">
@@ -161,16 +137,6 @@
      </property>
     </widget>
    </item>
-   <item row="10" column="1" colspan="3">
-    <widget class="QListView" name="domain1SharedListView">
-     <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
-     </property>
-    </widget>
-   </item>
    <item row="10" column="0">
     <widget class="QLabel" name="domain1SharedLabel">
      <property name="text">
@@ -184,6 +150,33 @@
       <string>Domain 2:</string>
      </property>
     </widget>
+   </item>
+   <item row="12" column="1">
+    <widget class="QPushButton" name="okButton">
+     <property name="text">
+      <string>OK</string>
+     </property>
+    </widget>
+   </item>
+   <item row="12" column="2">
+    <widget class="QPushButton" name="cancelButton">
+     <property name="text">
+      <string>Cancel</string>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="1" colspan="3">
+    <widget class="QListView" name="domain1SharedListView">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="1" colspan="3">
+    <widget class="QListView" name="domain2SharedListView"/>
    </item>
   </layout>
  </widget>

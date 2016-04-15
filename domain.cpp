@@ -338,13 +338,3 @@ void Domain::disableDomain()
         enabled = true;
     }
 }
-
-QPointF Domain::getPos() const
-{
-    return pos;
-}
-
-void Domain::setPos(const QPointF &value)
-{
-    pos = value;
-}

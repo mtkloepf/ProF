@@ -22,20 +22,20 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     machine = new MachineDomain();
-    //Data structure that stores every domain that exists
+    //Data structure that stores all relevant items for the diagrams
     data = new ContextData(machine);
 
     //Create the custom graphics view and add it to the main window
-    QGraphicsScene *scene = new QGraphicsScene();
-    m_ContextView = new GraphicsView(new QGraphicsScene(), data, true, this);
-    m_ProblemView = new GraphicsView(new QGraphicsScene(), data, false, this);
-    connect(m_ContextView, SIGNAL(addItem(Domain*)),
-            this, SLOT(addItem(Domain*)));
+    m_ContextView = new GraphicsView(new QGraphicsScene(), data, ui->diagramCombo, this);
     ui->centralWidget->layout()->addWidget(m_ContextView);
-    ui->centralWidget->layout()->addWidget(m_ProblemView);
 
     //Create the machine domain and add it to the graphics view
     m_ContextView->scene->addItem(machine);
+
+    connect(ui->addDiagramButton, SIGNAL(clicked(bool)),
+            this, SLOT(addProblemDiagram()));
+    connect(ui->DeleteDiagramButton, SIGNAL(clicked(bool)),
+            this, SLOT(deleteProblemDiagram()));
 }
 
 /*******************************************************************************
@@ -63,20 +63,15 @@ void MainWindow::on_actionClose_triggered()
     QApplication::quit();
 }
 
-void MainWindow::addItem(Domain *item)
+void MainWindow::addProblemDiagram()
 {
-    Domain *item2 = new Domain(item->getPos().x(), item->getPos().y());
-    item2->setParentItem(item);
-    item2->copyDomainAttributes(*item);
-    connect(item, SIGNAL(deleteDomain(Domain*)),
-            item2, SLOT(deleteDomain()));
-    m_ProblemView->scene->addItem(item2);
+    ui->diagramCombo->addItem(QString("Problem Diagram %1").arg(ui->diagramCombo->count()-1));
+    ui->diagramCombo->setCurrentIndex(ui->diagramCombo->count()-1);
 }
 
-void MainWindow::updateDomain(Domain *item, QString prevName) {
-    foreach(Domain *dom, data->getDomains()) {
-        if(dom->getName() == prevName) {
-            dom->copyDomainAttributes(*item);
-        }
+void MainWindow::deleteProblemDiagram()
+{
+    if(ui->diagramCombo->currentText() != "Context Diagram") {
+        ui->diagramCombo->removeItem(ui->diagramCombo->currentIndex());
     }
 }

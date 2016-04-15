@@ -214,24 +214,6 @@ void EditInterface::on_cancelButton_clicked()
     close();
 }
 
-/*******************************************************************************
-/*! \brief SLOT called when the Reset button of this dialog is clicked
- *
- *  Resets all data in the form to NULL. Resets form to default interface values
-*******************************************************************************/
-void EditInterface::on_resetButton_clicked()
-{
-    ui->nameLineEdit->clear();
-    ui->descriptionTextEdit->clear();
-    ui->domainOne->setCurrentIndex(0);
-    ui->domainTwo->setCurrentIndex(0);
-    QStringList list;
-    dom1SharedListModel->setStringList(list);
-    dom2SharedListModel->setStringList(list);
-    dom1SharedPhenomena = dom1SharedPrevious;
-    dom2SharedPhenomena = dom2SharedPrevious;
-}
-
 void EditInterface::on_editDom1Phen_clicked()
 {
     QList<Phenomenon> phen;

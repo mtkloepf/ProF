@@ -30,13 +30,6 @@
      </property>
     </widget>
    </item>
-   <item row="20" column="4">
-    <widget class="QPushButton" name="cancelButton">
-     <property name="text">
-      <string>Cancel</string>
-     </property>
-    </widget>
-   </item>
    <item row="20" column="2">
     <widget class="QPushButton" name="okButton">
      <property name="text">
@@ -163,6 +156,13 @@
     <widget class="QRadioButton" name="machineRadio">
      <property name="text">
       <string>Machine</string>
+     </property>
+    </widget>
+   </item>
+   <item row="20" column="4">
+    <widget class="QPushButton" name="cancelButton">
+     <property name="text">
+      <string>Cancel</string>
      </property>
     </widget>
    </item>

@@ -38,9 +38,6 @@ public:
 
     void copyDomainAttributes(const Domain &dom);
 
-    QPointF getPos() const;
-    void setPos(const QPointF &value);
-
 signals:
     void deleteDomain(Domain*);
 

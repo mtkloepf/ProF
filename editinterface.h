@@ -39,7 +39,6 @@ public slots:
 private slots:
     void on_okButton_clicked();
     void on_cancelButton_clicked();
-    void on_resetButton_clicked();
     void on_editDom1Phen_clicked();
     void on_editDom2Phen_clicked();
     void domain1ConnectionChanged();
