@@ -38,6 +38,8 @@ public:
 
     int type() const;
 
+    void disableInterface();
+
 public slots:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
     void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
@@ -63,6 +65,8 @@ private:
     QPointF pos;
     QList<Phenomenon> dom1SharedPhenomena;
     QList<Phenomenon> dom2SharedPhenomena;
+
+    bool enabled;
 
     QColor color;
     QColor defaultColor;

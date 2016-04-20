@@ -93,5 +93,5 @@ void Requirement::setType(const QString &value)
 
 int Requirement::type() const
 {
-    return 3;
+    return 1;
 }

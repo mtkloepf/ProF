@@ -30,6 +30,8 @@ public:
     QColor getDefaultColor() const;
     void setDefaultColor(const QColor &value);
 
+    int type() const;
+
 public slots:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
     void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
@@ -45,12 +47,16 @@ public slots:
     QString getDescription() const;
     void setDescription(const QString &value);
 
+    void disableDomain();
+
 private:
     QPointF pos;
 
+    bool enabled;
+
     QString description;
     QString name;
-    QString type;
+    QString domainType;
 
     QColor color;
     QColor defaultColor;

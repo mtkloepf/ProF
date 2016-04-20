@@ -148,7 +148,7 @@ void Domain::copyDomainAttributes(const Domain &dom)
 
 int Domain::type() const
 {
-    return 1;
+    return 3;
 }
 
 
@@ -172,19 +172,14 @@ void Domain::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     //Create a new context menu to hold edit and delete actions
     //Then connect the signals to slot functions for the menu actions
     QMenu menu;
-    QAction *disableAction;
     if(enabled) {
         QAction *editAction = menu.addAction("Edit");
         connect(editAction, SIGNAL(triggered()), this, SLOT(editDomain()));
         QAction *deleteAction = menu.addAction("Delete");
         connect(deleteAction, SIGNAL(triggered()), this, SLOT(deleteDomain()));
-        disableAction = menu.addAction("Disable");
-    }
-    else
-        disableAction = menu.addAction("Enable");
-    connect(disableAction, SIGNAL(triggered()), this, SLOT(disableDomain()));
 
-    menu.exec(event->screenPos());
+        menu.exec(event->screenPos());
+    }
 }
 
 /*******************************************************************************
@@ -335,11 +330,13 @@ void Domain::disableDomain()
     if(enabled) {
         setColor(Qt::gray);
         this->setAcceptHoverEvents(false);
+        this->setAcceptedMouseButtons(Qt::NoButton);
         enabled = false;
     }
     else {
         setColor(defaultColor);
         this->setAcceptHoverEvents(true);
+        this->setAcceptedMouseButtons(Qt::AllButtons);
         enabled = true;
     }
 }

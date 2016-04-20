@@ -14,7 +14,8 @@
 /*! \brief Constructor
 *******************************************************************************/
 MachineDomain::MachineDomain()
-    : pos(QPointF(0, 0))
+    : pos(QPointF(0, 0)),
+      enabled(true)
 {
     setFlag(ItemIsMovable);
     setColor(Qt::red);
@@ -77,11 +78,12 @@ QColor MachineDomain::getColor() const
 void MachineDomain::setColor(const QColor &value)
 {
     color = value;
+    update();
 }
 
 /*******************************************************************************
 /*! \brief Used to get the default color of the domain
- *   
+ *
  *  @return the default color of the domain
 *******************************************************************************/
 QColor MachineDomain::getDefaultColor() const
@@ -90,7 +92,7 @@ QColor MachineDomain::getDefaultColor() const
 }
 /*******************************************************************************
 /*! \brief Sets the default color of a domain
- *         
+ *
  *  @param value the color to set the default color to
 *******************************************************************************/
 void MachineDomain::setDefaultColor(const QColor &value)
@@ -98,10 +100,15 @@ void MachineDomain::setDefaultColor(const QColor &value)
     defaultColor = value;
 }
 
+int MachineDomain::type() const
+{
+    return 4;
+}
+
 /*******************************************************************************
 /*! \brief Used for opening the context menu for the machine domain
  *
- *  Called when right clicking on the machine domain in the graphics scene.  
+ *  Called when right clicking on the machine domain in the graphics scene.
  *  Opens a context menu containing the edit option for the machine domain
  *
  * @param event the event that causes the context menu to appear (on windows it
@@ -111,17 +118,20 @@ void MachineDomain::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     //Create a new context menu to hold edit and delete actions
     //Connect the slot for editing the machine domain
-    QMenu menu;
-    QAction *editAction = menu.addAction("Edit");
-    connect(editAction, SIGNAL(triggered()), this, SLOT(editDomain()));
+    if(enabled) {
+        QMenu menu;
 
-    menu.exec(event->screenPos());
+        QAction *editAction = menu.addAction("Edit");
+        connect(editAction, SIGNAL(triggered()), this, SLOT(editDomain()));
+
+        menu.exec(event->screenPos());
+    }
 }
 
 /*******************************************************************************
 /*! \brief Domain mouse hover enter
  *
- *  Darkens the color of the domain that's currently hovered over. This makes it 
+ *  Darkens the color of the domain that's currently hovered over. This makes it
  *  easier for the use to see which domain is accepting the mouse
  *
  * @param event --unused
@@ -135,7 +145,7 @@ void MachineDomain::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 /*******************************************************************************
 /*! \brief Domain mouse hover exit
  *
- *  Resets the color of the domain to the default after the mouse leaves the 
+ *  Resets the color of the domain to the default after the mouse leaves the
  *  bounding rect
  *
  * @param event --unused
@@ -143,7 +153,6 @@ void MachineDomain::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 void MachineDomain::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
     setColor(defaultColor);
-    update();
 }
 
 /*******************************************************************************
@@ -153,7 +162,7 @@ void MachineDomain::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 *******************************************************************************/
 QString MachineDomain::getType() const
 {
-    return type;
+    return domainType;
 }
 
 /*******************************************************************************
@@ -213,5 +222,21 @@ QString MachineDomain::getDescription() const
 void MachineDomain::setDescription(const QString &value)
 {
     description = value;
+}
+
+void MachineDomain::disableDomain()
+{
+    if(enabled) {
+        setColor(Qt::gray);
+        this->setAcceptHoverEvents(false);
+        this->setAcceptedMouseButtons(Qt::NoButton);
+        enabled = false;
+    }
+    else {
+        setColor(defaultColor);
+        this->setAcceptHoverEvents(true);
+        this->setAcceptedMouseButtons(Qt::AllButtons);
+        enabled = true;
+    }
 }
 

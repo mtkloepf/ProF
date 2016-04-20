@@ -88,7 +88,6 @@ void GraphicsView::mousePressEvent( QMouseEvent *event)
                 requirement = new Requirement(pos.x()-25, pos.y()-25);
                 requirement->setType("Requirement");
                 requirements[diagramNum].addRequirement(*requirement);
-                qDebug() << "Requirement added to diagram: " << diagramNum;
 
                 scene->addItem(requirement);
             }
@@ -122,12 +121,32 @@ void GraphicsView::contextDiagToggled(bool state)
     if(state) {
         diagramNum=0;
         foreach(QGraphicsItem *item, scene->items()) {
-            if(qgraphicsitem_cast<Domain *>(item) == 0 && qgraphicsitem_cast<Interface *>(item) == 0) item->show();
+            if(item->type() == 3) {
+                qgraphicsitem_cast<Domain *>(item)->disableDomain();
+                item->show();
+            }
+            else if(item->type() == 2) {
+                qgraphicsitem_cast<Interface *>(item)->disableInterface();
+                item->show();
+            }
+            else if(item->type() == 4) {
+                qgraphicsitem_cast<MachineDomain *>(item)->disableDomain();
+                item->show();
+            }
         }
-        qDebug() << "Context button on";
     }
     else {
-        qDebug() << "           Context button off";
+        foreach(QGraphicsItem *item, scene->items()) {
+            if(item->type() == 3) {
+                qgraphicsitem_cast<Domain *>(item)->disableDomain();
+            }
+            else if(item->type() == 2 ) {
+                qgraphicsitem_cast<Interface *>(item)->disableInterface();
+            }
+            else if(item->type() == 4) {
+                qgraphicsitem_cast<MachineDomain *>(item)->disableDomain();
+            }
+        }
     }
 
 }
@@ -135,10 +154,9 @@ void GraphicsView::contextDiagToggled(bool state)
 void GraphicsView::problemDiag1Toggled(bool state)
 {
     if(state) {
-        qDebug() << "Diagram 1 button on";
         diagramNum=1;
         foreach(QGraphicsItem *item, scene->items()) {
-            if(item->type() == 3) {
+            if(item->type() == 1) {
                 if(requirements.value(diagramNum).getRequirements()
                         .contains(qgraphicsitem_cast<Requirement *>(item))) {
                     item->show();
@@ -152,8 +170,7 @@ void GraphicsView::problemDiag1Toggled(bool state)
     }
     else {
         foreach(QGraphicsItem *item, scene->items()) {
-            //if(qgraphicsitem_cast<Requirement *>(item) == 0) item->hide();
-            if(item->type()==3) item->hide();
+            if(item->type()== 1) item->hide();
         }
     }
 }
@@ -161,10 +178,9 @@ void GraphicsView::problemDiag1Toggled(bool state)
 void GraphicsView::problemDiag2Toggled(bool state)
 {
     if(state) {
-        qDebug() << "Diagram 1 button on";
         diagramNum=2;
         foreach(QGraphicsItem *item, scene->items()) {
-            if(item->type() == 3) {
+            if(item->type() == 1) {
                 if(requirements.value(diagramNum).getRequirements()
                         .contains(qgraphicsitem_cast<Requirement *>(item))) {
                     item->show();
@@ -178,8 +194,7 @@ void GraphicsView::problemDiag2Toggled(bool state)
     }
     else {
         foreach(QGraphicsItem *item, scene->items()) {
-            //if(qgraphicsitem_cast<Requirement *>(item) == 0) item->hide();
-            if(item->type()==3) item->hide();
+            if(item->type()== 1) item->hide();
         }
     }
 }
@@ -187,10 +202,9 @@ void GraphicsView::problemDiag2Toggled(bool state)
 void GraphicsView::problemDiag3Toggled(bool state)
 {
     if(state) {
-        qDebug() << "Diagram 1 button on";
         diagramNum=3;
         foreach(QGraphicsItem *item, scene->items()) {
-            if(item->type() == 3) {
+            if(item->type() == 1) {
                 if(requirements.value(diagramNum).getRequirements()
                         .contains(qgraphicsitem_cast<Requirement *>(item))) {
                     item->show();
@@ -204,8 +218,7 @@ void GraphicsView::problemDiag3Toggled(bool state)
     }
     else {
         foreach(QGraphicsItem *item, scene->items()) {
-            //if(qgraphicsitem_cast<Requirement *>(item) == 0) item->hide();
-            if(item->type()==3) item->hide();
+            if(item->type()== 1) item->hide();
         }
     }
 }
@@ -213,10 +226,9 @@ void GraphicsView::problemDiag3Toggled(bool state)
 void GraphicsView::problemDiag4Toggled(bool state)
 {
     if(state) {
-        qDebug() << "Diagram 1 button on";
         diagramNum=4;
         foreach(QGraphicsItem *item, scene->items()) {
-            if(item->type() == 3) {
+            if(item->type() == 1) {
                 if(requirements.value(diagramNum).getRequirements()
                         .contains(qgraphicsitem_cast<Requirement *>(item))) {
                     item->show();
@@ -230,8 +242,7 @@ void GraphicsView::problemDiag4Toggled(bool state)
     }
     else {
         foreach(QGraphicsItem *item, scene->items()) {
-            //if(qgraphicsitem_cast<Requirement *>(item) == 0) item->hide();
-            if(item->type()==3) item->hide();
+            if(item->type()== 1) item->hide();
         }
     }
 }
@@ -239,10 +250,9 @@ void GraphicsView::problemDiag4Toggled(bool state)
 void GraphicsView::problemDiag5Toggled(bool state)
 {
     if(state) {
-        qDebug() << "Diagram 1 button on";
         diagramNum=5;
         foreach(QGraphicsItem *item, scene->items()) {
-            if(item->type() == 3) {
+            if(item->type() == 1) {
                 if(requirements.value(diagramNum).getRequirements()
                         .contains(qgraphicsitem_cast<Requirement *>(item))) {
                     item->show();
@@ -256,8 +266,7 @@ void GraphicsView::problemDiag5Toggled(bool state)
     }
     else {
         foreach(QGraphicsItem *item, scene->items()) {
-            //if(qgraphicsitem_cast<Requirement *>(item) == 0) item->hide();
-            if(item->type()==3) item->hide();
+            if(item->type()== 1) item->hide();
         }
     }
 
@@ -266,10 +275,9 @@ void GraphicsView::problemDiag5Toggled(bool state)
 void GraphicsView::problemDiag6Toggled(bool state)
 {
     if(state) {
-        qDebug() << "Diagram 1 button on";
         diagramNum=6;
         foreach(QGraphicsItem *item, scene->items()) {
-            if(item->type() == 3) {
+            if(item->type() == 1) {
                 if(requirements.value(diagramNum).getRequirements()
                         .contains(qgraphicsitem_cast<Requirement *>(item))) {
                     item->show();
@@ -283,8 +291,7 @@ void GraphicsView::problemDiag6Toggled(bool state)
     }
     else {
         foreach(QGraphicsItem *item, scene->items()) {
-            //if(qgraphicsitem_cast<Requirement *>(item) == 0) item->hide();
-            if(item->type()==3) item->hide();
+            if(item->type()== 1) item->hide();
         }
     }
 
@@ -293,10 +300,9 @@ void GraphicsView::problemDiag6Toggled(bool state)
 void GraphicsView::problemDiag7Toggled(bool state)
 {
     if(state) {
-        qDebug() << "Diagram 1 button on";
         diagramNum=7;
         foreach(QGraphicsItem *item, scene->items()) {
-            if(item->type() == 3) {
+            if(item->type() == 1) {
                 if(requirements.value(diagramNum).getRequirements()
                         .contains(qgraphicsitem_cast<Requirement *>(item))) {
                     item->show();
@@ -310,8 +316,7 @@ void GraphicsView::problemDiag7Toggled(bool state)
     }
     else {
         foreach(QGraphicsItem *item, scene->items()) {
-            //if(qgraphicsitem_cast<Requirement *>(item) == 0) item->hide();
-            if(item->type()==3) item->hide();
+            if(item->type()== 1) item->hide();
         }
     }
 
@@ -320,10 +325,9 @@ void GraphicsView::problemDiag7Toggled(bool state)
 void GraphicsView::problemDiag8Toggled(bool state)
 {
     if(state) {
-        qDebug() << "Diagram 1 button on";
         diagramNum=8;
         foreach(QGraphicsItem *item, scene->items()) {
-            if(item->type() == 3) {
+            if(item->type() == 1) {
                 if(requirements.value(diagramNum).getRequirements()
                         .contains(qgraphicsitem_cast<Requirement *>(item))) {
                     item->show();
@@ -337,8 +341,7 @@ void GraphicsView::problemDiag8Toggled(bool state)
     }
     else {
         foreach(QGraphicsItem *item, scene->items()) {
-            //if(qgraphicsitem_cast<Requirement *>(item) == 0) item->hide();
-            if(item->type()==3) item->hide();
+            if(item->type()== 1) item->hide();
         }
     }
 
@@ -347,10 +350,9 @@ void GraphicsView::problemDiag8Toggled(bool state)
 void GraphicsView::problemDiag9Toggled(bool state)
 {
     if(state) {
-        qDebug() << "Diagram 1 button on";
         diagramNum=9;
         foreach(QGraphicsItem *item, scene->items()) {
-            if(item->type() == 3) {
+            if(item->type() == 1) {
                 if(requirements.value(diagramNum).getRequirements()
                         .contains(qgraphicsitem_cast<Requirement *>(item))) {
                     item->show();
@@ -364,8 +366,7 @@ void GraphicsView::problemDiag9Toggled(bool state)
     }
     else {
         foreach(QGraphicsItem *item, scene->items()) {
-            //if(qgraphicsitem_cast<Requirement *>(item) == 0) item->hide();
-            if(item->type()==3) item->hide();
+            if(item->type()== 1) item->hide();
         }
     }
 
@@ -374,10 +375,9 @@ void GraphicsView::problemDiag9Toggled(bool state)
 void GraphicsView::problemDiag10Toggled(bool state)
 {
     if(state) {
-        qDebug() << "Diagram 1 button on";
         diagramNum=10;
         foreach(QGraphicsItem *item, scene->items()) {
-            if(item->type() == 3) {
+            if(item->type() == 1) {
                 if(requirements.value(diagramNum).getRequirements()
                         .contains(qgraphicsitem_cast<Requirement *>(item))) {
                     item->show();
@@ -391,8 +391,7 @@ void GraphicsView::problemDiag10Toggled(bool state)
     }
     else {
         foreach(QGraphicsItem *item, scene->items()) {
-            //if(qgraphicsitem_cast<Requirement *>(item) == 0) item->hide();
-            if(item->type()==3) item->hide();
+            if(item->type()== 1) item->hide();
         }
     }
 
@@ -401,10 +400,9 @@ void GraphicsView::problemDiag10Toggled(bool state)
 void GraphicsView::problemDiag11Toggled(bool state)
 {
     if(state) {
-        qDebug() << "Diagram 1 button on";
         diagramNum=11;
         foreach(QGraphicsItem *item, scene->items()) {
-            if(item->type() == 3) {
+            if(item->type() == 1) {
                 if(requirements.value(diagramNum).getRequirements()
                         .contains(qgraphicsitem_cast<Requirement *>(item))) {
                     item->show();
@@ -418,8 +416,7 @@ void GraphicsView::problemDiag11Toggled(bool state)
     }
     else {
         foreach(QGraphicsItem *item, scene->items()) {
-            //if(qgraphicsitem_cast<Requirement *>(item) == 0) item->hide();
-            if(item->type()==3) item->hide();
+            if(item->type()== 1) item->hide();
         }
     }
 
@@ -428,10 +425,9 @@ void GraphicsView::problemDiag11Toggled(bool state)
 void GraphicsView::problemDiag12Toggled(bool state)
 {
     if(state) {
-        qDebug() << "Diagram 1 button on";
         diagramNum=12;
         foreach(QGraphicsItem *item, scene->items()) {
-            if(item->type() == 3) {
+            if(item->type() == 1) {
                 if(requirements.value(diagramNum).getRequirements()
                         .contains(qgraphicsitem_cast<Requirement *>(item))) {
                     item->show();
@@ -445,8 +441,7 @@ void GraphicsView::problemDiag12Toggled(bool state)
     }
     else {
         foreach(QGraphicsItem *item, scene->items()) {
-            //if(qgraphicsitem_cast<Requirement *>(item) == 0) item->hide();
-            if(item->type()==3) item->hide();
+            if(item->type()== 1) item->hide();
         }
     }
 

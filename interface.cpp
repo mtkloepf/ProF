@@ -20,7 +20,8 @@ Interface::Interface(int x, int y, ContextData *data)
       context(data),
       firstDomain(NULL),
       secondDomain(NULL),
-      defaultColor(Qt::green)
+      defaultColor(Qt::green),
+      enabled(true)
 {
     setColor(defaultColor);
     setFlag(ItemIsMovable);
@@ -100,6 +101,7 @@ QColor Interface::getColor() const
 void Interface::setColor(const QColor &value)
 {
     color = value;
+    update();
 }
 
 
@@ -273,6 +275,22 @@ void Interface::setSecondDomain(Domain *value)
 int Interface::type() const
 {
     return 2;
+}
+
+void Interface::disableInterface()
+{
+    if(enabled) {
+        setColor(Qt::gray);
+        this->setAcceptHoverEvents(false);
+        this->setAcceptedMouseButtons(Qt::NoButton);
+        enabled = false;
+    }
+    else {
+        setColor(defaultColor);
+        this->setAcceptHoverEvents(true);
+        this->setAcceptedMouseButtons(Qt::AllButtons);
+        enabled = true;
+    }
 }
 
 void Interface::setFirstDomain(Domain *value)
