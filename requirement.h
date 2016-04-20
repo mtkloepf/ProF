@@ -31,13 +31,14 @@ public slots:
     QString getType() const;
     void setType(const QString &value);
 
+    int type() const;
 
 private:
     QPointF pos;
 
     QString description;
     QString name;
-    QString type;
+    QString reqType;
 
     QColor color;
     QColor defaultColor;

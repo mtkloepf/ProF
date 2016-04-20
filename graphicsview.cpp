@@ -10,6 +10,8 @@
 
 #include <qdebug.h>
 
+#include <iostream>
+
 /*******************************************************************************
 /*! \brief Constructor
  *
@@ -17,12 +19,11 @@
  * @param parent        widget that parents this dialog
 *******************************************************************************/
 GraphicsView::GraphicsView( QGraphicsScene *graphicsScene, ContextData *data,
-                            QComboBox *diagram,
                             QWidget *parent)
     : QGraphicsView( graphicsScene, parent),
       context(data),
       scene(graphicsScene),
-      diagram(diagram)
+      diagramNum(0)
 {
     setScene(scene);
     setMouseTracking(true);
@@ -51,7 +52,7 @@ void GraphicsView::mousePressEvent( QMouseEvent *event)
     QPointF pos = mapToScene( event->pos() );
 
     //Context diagrams have domains and interfaces
-    if(diagram->currentText() == "Context Diagram") {
+    if(diagramNum == 0) {
 
         //Check to see if we are clicking on an empty space in the scene
         //We do not want to spawn another domain if clicking on a current one
@@ -86,6 +87,9 @@ void GraphicsView::mousePressEvent( QMouseEvent *event)
             if(event->button() == Qt::LeftButton) {
                 requirement = new Requirement(pos.x()-25, pos.y()-25);
                 requirement->setType("Requirement");
+                requirements[diagramNum].addRequirement(*requirement);
+                qDebug() << "Requirement added to diagram: " << diagramNum;
+
                 scene->addItem(requirement);
             }
         }
@@ -93,6 +97,7 @@ void GraphicsView::mousePressEvent( QMouseEvent *event)
         else QGraphicsView::mousePressEvent(event);
     }
 }
+
 
 /*******************************************************************************
 /*! \brief Removes a domain from the context data once a domain deletes itself
@@ -110,4 +115,339 @@ void GraphicsView::deleteDomain(Domain *dom)
         if(interface->getFirstDomain() == dom) interface->setFirstDomain(NULL);
         else if(interface->getSecondDomain() == dom) interface->setSecondDomain(NULL);
     }
+}
+
+void GraphicsView::contextDiagToggled(bool state)
+{
+    if(state) {
+        diagramNum=0;
+        foreach(QGraphicsItem *item, scene->items()) {
+            if(qgraphicsitem_cast<Domain *>(item) == 0 && qgraphicsitem_cast<Interface *>(item) == 0) item->show();
+        }
+        qDebug() << "Context button on";
+    }
+    else {
+        qDebug() << "           Context button off";
+    }
+
+}
+
+void GraphicsView::problemDiag1Toggled(bool state)
+{
+    if(state) {
+        qDebug() << "Diagram 1 button on";
+        diagramNum=1;
+        foreach(QGraphicsItem *item, scene->items()) {
+            if(item->type() == 3) {
+                if(requirements.value(diagramNum).getRequirements()
+                        .contains(qgraphicsitem_cast<Requirement *>(item))) {
+                    item->show();
+                }
+                else if(!requirements.value(diagramNum).getRequirements()
+                        .contains(qgraphicsitem_cast<Requirement *>(item))) {
+                    item->hide();
+                }
+            }
+        }
+    }
+    else {
+        foreach(QGraphicsItem *item, scene->items()) {
+            //if(qgraphicsitem_cast<Requirement *>(item) == 0) item->hide();
+            if(item->type()==3) item->hide();
+        }
+    }
+}
+
+void GraphicsView::problemDiag2Toggled(bool state)
+{
+    if(state) {
+        qDebug() << "Diagram 1 button on";
+        diagramNum=2;
+        foreach(QGraphicsItem *item, scene->items()) {
+            if(item->type() == 3) {
+                if(requirements.value(diagramNum).getRequirements()
+                        .contains(qgraphicsitem_cast<Requirement *>(item))) {
+                    item->show();
+                }
+                else if(!requirements.value(diagramNum).getRequirements()
+                        .contains(qgraphicsitem_cast<Requirement *>(item))) {
+                    item->hide();
+                }
+            }
+        }
+    }
+    else {
+        foreach(QGraphicsItem *item, scene->items()) {
+            //if(qgraphicsitem_cast<Requirement *>(item) == 0) item->hide();
+            if(item->type()==3) item->hide();
+        }
+    }
+}
+
+void GraphicsView::problemDiag3Toggled(bool state)
+{
+    if(state) {
+        qDebug() << "Diagram 1 button on";
+        diagramNum=3;
+        foreach(QGraphicsItem *item, scene->items()) {
+            if(item->type() == 3) {
+                if(requirements.value(diagramNum).getRequirements()
+                        .contains(qgraphicsitem_cast<Requirement *>(item))) {
+                    item->show();
+                }
+                else if(!requirements.value(diagramNum).getRequirements()
+                        .contains(qgraphicsitem_cast<Requirement *>(item))) {
+                    item->hide();
+                }
+            }
+        }
+    }
+    else {
+        foreach(QGraphicsItem *item, scene->items()) {
+            //if(qgraphicsitem_cast<Requirement *>(item) == 0) item->hide();
+            if(item->type()==3) item->hide();
+        }
+    }
+}
+
+void GraphicsView::problemDiag4Toggled(bool state)
+{
+    if(state) {
+        qDebug() << "Diagram 1 button on";
+        diagramNum=4;
+        foreach(QGraphicsItem *item, scene->items()) {
+            if(item->type() == 3) {
+                if(requirements.value(diagramNum).getRequirements()
+                        .contains(qgraphicsitem_cast<Requirement *>(item))) {
+                    item->show();
+                }
+                else if(!requirements.value(diagramNum).getRequirements()
+                        .contains(qgraphicsitem_cast<Requirement *>(item))) {
+                    item->hide();
+                }
+            }
+        }
+    }
+    else {
+        foreach(QGraphicsItem *item, scene->items()) {
+            //if(qgraphicsitem_cast<Requirement *>(item) == 0) item->hide();
+            if(item->type()==3) item->hide();
+        }
+    }
+}
+
+void GraphicsView::problemDiag5Toggled(bool state)
+{
+    if(state) {
+        qDebug() << "Diagram 1 button on";
+        diagramNum=5;
+        foreach(QGraphicsItem *item, scene->items()) {
+            if(item->type() == 3) {
+                if(requirements.value(diagramNum).getRequirements()
+                        .contains(qgraphicsitem_cast<Requirement *>(item))) {
+                    item->show();
+                }
+                else if(!requirements.value(diagramNum).getRequirements()
+                        .contains(qgraphicsitem_cast<Requirement *>(item))) {
+                    item->hide();
+                }
+            }
+        }
+    }
+    else {
+        foreach(QGraphicsItem *item, scene->items()) {
+            //if(qgraphicsitem_cast<Requirement *>(item) == 0) item->hide();
+            if(item->type()==3) item->hide();
+        }
+    }
+
+}
+
+void GraphicsView::problemDiag6Toggled(bool state)
+{
+    if(state) {
+        qDebug() << "Diagram 1 button on";
+        diagramNum=6;
+        foreach(QGraphicsItem *item, scene->items()) {
+            if(item->type() == 3) {
+                if(requirements.value(diagramNum).getRequirements()
+                        .contains(qgraphicsitem_cast<Requirement *>(item))) {
+                    item->show();
+                }
+                else if(!requirements.value(diagramNum).getRequirements()
+                        .contains(qgraphicsitem_cast<Requirement *>(item))) {
+                    item->hide();
+                }
+            }
+        }
+    }
+    else {
+        foreach(QGraphicsItem *item, scene->items()) {
+            //if(qgraphicsitem_cast<Requirement *>(item) == 0) item->hide();
+            if(item->type()==3) item->hide();
+        }
+    }
+
+}
+
+void GraphicsView::problemDiag7Toggled(bool state)
+{
+    if(state) {
+        qDebug() << "Diagram 1 button on";
+        diagramNum=7;
+        foreach(QGraphicsItem *item, scene->items()) {
+            if(item->type() == 3) {
+                if(requirements.value(diagramNum).getRequirements()
+                        .contains(qgraphicsitem_cast<Requirement *>(item))) {
+                    item->show();
+                }
+                else if(!requirements.value(diagramNum).getRequirements()
+                        .contains(qgraphicsitem_cast<Requirement *>(item))) {
+                    item->hide();
+                }
+            }
+        }
+    }
+    else {
+        foreach(QGraphicsItem *item, scene->items()) {
+            //if(qgraphicsitem_cast<Requirement *>(item) == 0) item->hide();
+            if(item->type()==3) item->hide();
+        }
+    }
+
+}
+
+void GraphicsView::problemDiag8Toggled(bool state)
+{
+    if(state) {
+        qDebug() << "Diagram 1 button on";
+        diagramNum=8;
+        foreach(QGraphicsItem *item, scene->items()) {
+            if(item->type() == 3) {
+                if(requirements.value(diagramNum).getRequirements()
+                        .contains(qgraphicsitem_cast<Requirement *>(item))) {
+                    item->show();
+                }
+                else if(!requirements.value(diagramNum).getRequirements()
+                        .contains(qgraphicsitem_cast<Requirement *>(item))) {
+                    item->hide();
+                }
+            }
+        }
+    }
+    else {
+        foreach(QGraphicsItem *item, scene->items()) {
+            //if(qgraphicsitem_cast<Requirement *>(item) == 0) item->hide();
+            if(item->type()==3) item->hide();
+        }
+    }
+
+}
+
+void GraphicsView::problemDiag9Toggled(bool state)
+{
+    if(state) {
+        qDebug() << "Diagram 1 button on";
+        diagramNum=9;
+        foreach(QGraphicsItem *item, scene->items()) {
+            if(item->type() == 3) {
+                if(requirements.value(diagramNum).getRequirements()
+                        .contains(qgraphicsitem_cast<Requirement *>(item))) {
+                    item->show();
+                }
+                else if(!requirements.value(diagramNum).getRequirements()
+                        .contains(qgraphicsitem_cast<Requirement *>(item))) {
+                    item->hide();
+                }
+            }
+        }
+    }
+    else {
+        foreach(QGraphicsItem *item, scene->items()) {
+            //if(qgraphicsitem_cast<Requirement *>(item) == 0) item->hide();
+            if(item->type()==3) item->hide();
+        }
+    }
+
+}
+
+void GraphicsView::problemDiag10Toggled(bool state)
+{
+    if(state) {
+        qDebug() << "Diagram 1 button on";
+        diagramNum=10;
+        foreach(QGraphicsItem *item, scene->items()) {
+            if(item->type() == 3) {
+                if(requirements.value(diagramNum).getRequirements()
+                        .contains(qgraphicsitem_cast<Requirement *>(item))) {
+                    item->show();
+                }
+                else if(!requirements.value(diagramNum).getRequirements()
+                        .contains(qgraphicsitem_cast<Requirement *>(item))) {
+                    item->hide();
+                }
+            }
+        }
+    }
+    else {
+        foreach(QGraphicsItem *item, scene->items()) {
+            //if(qgraphicsitem_cast<Requirement *>(item) == 0) item->hide();
+            if(item->type()==3) item->hide();
+        }
+    }
+
+}
+
+void GraphicsView::problemDiag11Toggled(bool state)
+{
+    if(state) {
+        qDebug() << "Diagram 1 button on";
+        diagramNum=11;
+        foreach(QGraphicsItem *item, scene->items()) {
+            if(item->type() == 3) {
+                if(requirements.value(diagramNum).getRequirements()
+                        .contains(qgraphicsitem_cast<Requirement *>(item))) {
+                    item->show();
+                }
+                else if(!requirements.value(diagramNum).getRequirements()
+                        .contains(qgraphicsitem_cast<Requirement *>(item))) {
+                    item->hide();
+                }
+            }
+        }
+    }
+    else {
+        foreach(QGraphicsItem *item, scene->items()) {
+            //if(qgraphicsitem_cast<Requirement *>(item) == 0) item->hide();
+            if(item->type()==3) item->hide();
+        }
+    }
+
+}
+
+void GraphicsView::problemDiag12Toggled(bool state)
+{
+    if(state) {
+        qDebug() << "Diagram 1 button on";
+        diagramNum=12;
+        foreach(QGraphicsItem *item, scene->items()) {
+            if(item->type() == 3) {
+                if(requirements.value(diagramNum).getRequirements()
+                        .contains(qgraphicsitem_cast<Requirement *>(item))) {
+                    item->show();
+                }
+                else if(!requirements.value(diagramNum).getRequirements()
+                        .contains(qgraphicsitem_cast<Requirement *>(item))) {
+                    item->hide();
+                }
+            }
+        }
+    }
+    else {
+        foreach(QGraphicsItem *item, scene->items()) {
+            //if(qgraphicsitem_cast<Requirement *>(item) == 0) item->hide();
+            if(item->type()==3) item->hide();
+        }
+    }
+
 }

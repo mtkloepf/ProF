@@ -280,12 +280,12 @@ void EditInterface::domain1ConnectionChanged()
 {
     QStringList list;
     dom1SharedListModel->setStringList(list);
-    dom1SharedPhenomena = dom1SharedPrevious;
+    dom1SharedPhenomena.empty();
 }
 
 void EditInterface::domain2ConnectionChanged()
 {
     QStringList list;
     dom2SharedListModel->setStringList(list);
-    dom2SharedPhenomena = dom2SharedPrevious;
+    dom2SharedPhenomena.empty();
 }

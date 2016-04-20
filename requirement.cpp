@@ -74,12 +74,12 @@ void Requirement::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 
 QString Requirement::getType() const
 {
-    return type;
+    return reqType;
 }
 
 void Requirement::setType(const QString &value)
 {
-    type = value;
+    reqType = value;
 
     if(value == "Requirement") {
         setColor(Qt::magenta);
@@ -89,4 +89,9 @@ void Requirement::setType(const QString &value)
         setColor("#8B008B");
         setDefaultColor("#8B008B");
     }
+}
+
+int Requirement::type() const
+{
+    return 3;
 }

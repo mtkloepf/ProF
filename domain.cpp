@@ -146,6 +146,11 @@ void Domain::copyDomainAttributes(const Domain &dom)
     setDescription(dom.getDescription());
 }
 
+int Domain::type() const
+{
+    return 1;
+}
+
 
 /******************************************************************************/
 /* Slot Functions
@@ -255,7 +260,7 @@ void Domain::setName(const QString &value)
 *******************************************************************************/
 QString Domain::getType() const
 {
-    return type;
+    return domainType;
 }
 /*******************************************************************************
 /*! \brief Setter for domain type
@@ -265,7 +270,7 @@ QString Domain::getType() const
 void Domain::setType(const QString &value)
 {
     //Change the type of the domain
-    type = value;
+    domainType = value;
 
     //Handle changing the color when the type changes
     if(value == "Designed") {

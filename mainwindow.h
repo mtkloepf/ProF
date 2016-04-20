@@ -32,10 +32,6 @@ public slots:
     void on_actionAbout_triggered();
     void on_actionClose_triggered();
 
-private slots:
-    void addProblemDiagram();
-    void deleteProblemDiagram();
-
 private:
     Ui::MainWindow *ui;
     About *about;

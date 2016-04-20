@@ -38,6 +38,7 @@ public:
 
     void copyDomainAttributes(const Domain &dom);
 
+    int type() const;
 signals:
     void deleteDomain(Domain*);
 
@@ -68,7 +69,7 @@ private:
 
     QString description;
     QString name;
-    QString type;
+    QString domainType;
 
     QColor color;
     QColor defaultColor;

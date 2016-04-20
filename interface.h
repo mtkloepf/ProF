@@ -36,6 +36,8 @@ public:
     void setFirstDomain(Domain *value);
     void setSecondDomain(Domain *value);
 
+    int type() const;
+
 public slots:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
     void hoverEnterEvent(QGraphicsSceneHoverEvent* event);

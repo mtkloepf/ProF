@@ -34,17 +34,10 @@ public:
 
     QList<Interface *> getInterfaces() const;
 
-    void addRequirement(Requirement &req);
-    void removeRequirement(Requirement &req);
-
-    const QList<Requirement *> getRequirements() const;
-    void setRequirements(const QList<Requirement *> &value);
-
 private:
     MachineDomain *machine;
     QList<Domain *> domains;
     QList<Interface *> interfaces;
-    QList<Requirement *> requirements;
     int domainCount;
 };
 

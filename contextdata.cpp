@@ -106,23 +106,3 @@ QList<Interface *> ContextData::getInterfaces() const
 {
     return interfaces;
 }
-
-void ContextData::addRequirement(Requirement &req)
-{
-    requirements.append(&req);
-}
-
-void ContextData::removeRequirement(Requirement &req)
-{
-    requirements.removeOne(&req);
-}
-
-const QList<Requirement *> ContextData::getRequirements() const
-{
-    return requirements;
-}
-
-void ContextData::setRequirements(const QList<Requirement *> &value)
-{
-    requirements = value;
-}

@@ -264,11 +264,22 @@ void Interface::updateDom2SharedPhenomena(QList<Phenomenon> phen)
 
 void Interface::setSecondDomain(Domain *value)
 {
+    if(value == NULL) {
+        dom2SharedPhenomena.empty();
+    }
     secondDomain = value;
+}
+
+int Interface::type() const
+{
+    return 2;
 }
 
 void Interface::setFirstDomain(Domain *value)
 {
+    if(value == NULL) {
+        dom1SharedPhenomena.empty();
+    }
     firstDomain = value;
 }
 
