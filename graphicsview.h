@@ -6,7 +6,6 @@
  *
  *  Custom graphics view
 *******************************************************************************/
-#include <QComboBox>
 #include <QGraphicsView>
 #include <QMouseEvent>
 
@@ -24,6 +23,8 @@ public:
     GraphicsView( QGraphicsScene *graphicsScene, ContextData *data,
                   QWidget *parent=0);
     ~GraphicsView();
+
+    void clearProblemDiagrams(int diagNum);
 
 public slots:
     void mousePressEvent (QMouseEvent *event);
@@ -43,6 +44,8 @@ public slots:
     void problemDiag11Toggled(bool state);
     void problemDiag12Toggled(bool state);
 
+//    void lineAdded(QPointF pos1, QPointF pos2);
+
 signals:
     void updateDomainList(QStringList);
     void addItem(Domain *item);
@@ -54,11 +57,6 @@ private:
     int diagramNum;
     ContextData *context;
     QMap<int, ProblemData> requirements;
-
-    bool drawingLine; //Unused
-    QPointF startPos; //Unused
-    QPointF endPos;   //Unused
-    QLineF line;      //Unused
 
     Domain *domain;
     Interface *interface;

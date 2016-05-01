@@ -14,8 +14,7 @@
 /*! \brief Constructor
 *******************************************************************************/
 MachineDomain::MachineDomain()
-    : pos(QPointF(0, 0)),
-      enabled(true)
+    : pos(QPointF(0, 0))
 {
     setFlag(ItemIsMovable);
     setColor(Qt::red);
@@ -118,14 +117,12 @@ void MachineDomain::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     //Create a new context menu to hold edit and delete actions
     //Connect the slot for editing the machine domain
-    if(enabled) {
-        QMenu menu;
+    QMenu menu;
 
-        QAction *editAction = menu.addAction("Edit");
-        connect(editAction, SIGNAL(triggered()), this, SLOT(editDomain()));
+    QAction *editAction = menu.addAction("Edit");
+    connect(editAction, SIGNAL(triggered()), this, SLOT(editDomain()));
 
-        menu.exec(event->screenPos());
-    }
+    menu.exec(event->screenPos());
 }
 
 /*******************************************************************************
@@ -223,20 +220,3 @@ void MachineDomain::setDescription(const QString &value)
 {
     description = value;
 }
-
-void MachineDomain::disableDomain()
-{
-    if(enabled) {
-        setColor(Qt::gray);
-        this->setAcceptHoverEvents(false);
-        this->setAcceptedMouseButtons(Qt::NoButton);
-        enabled = false;
-    }
-    else {
-        setColor(defaultColor);
-        this->setAcceptHoverEvents(true);
-        this->setAcceptedMouseButtons(Qt::AllButtons);
-        enabled = true;
-    }
-}
-

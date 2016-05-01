@@ -39,6 +39,9 @@ public:
     void copyDomainAttributes(const Domain &dom);
 
     int type() const;
+
+    bool getEnabled();
+
 signals:
     void deleteDomain(Domain*);
 
@@ -62,6 +65,8 @@ public slots:
     void setPhenomena(const QList<Phenomenon> &value);
 
     void disableDomain();
+
+    QPointF getPos();
 
 private:
     bool enabled;

@@ -7,11 +7,13 @@
 #include <QList>
 #include <QPainter>
 
+#include "editrequirement.h"
+
 class Requirement : public QGraphicsObject
 {
     Q_OBJECT
 public:
-    Requirement(float x, float y);
+    Requirement(float x, float y, ContextData *data);
     ~Requirement();
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
@@ -28,13 +30,33 @@ public slots:
     void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
     void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
 
+    QString getDescription() const;
+    void setDescription(const QString &value);
+
+    QString getName() const;
+    void setName(const QString &value);
+
+    void editRequirement();
+    void deleteRequirement();
+
     QString getType() const;
     void setType(const QString &value);
 
     int type() const;
 
+    void setDomains(const QString first, const QString second);
+
+    void updateDom1SharedPhenomena(QList<Phenomenon> phen);
+    void updateDom2SharedPhenomena(QList<Phenomenon> phen);
+
 private:
+    Domain *firstDomain;
+    Domain *secondDomain;
     QPointF pos;
+    QList<Phenomenon> dom1SharedPhenomena;
+    QList<Phenomenon> dom2SharedPhenomena;
+
+    ContextData *context;
 
     QString description;
     QString name;
@@ -43,8 +65,7 @@ private:
     QColor color;
     QColor defaultColor;
 
-    //EditRequirement *edit;
-
+    EditRequirement *edit;
 };
 
 #endif // REQUIREMENT_H

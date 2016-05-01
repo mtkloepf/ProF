@@ -1,30 +1,17 @@
-/*******************************************************************************
-/*! \class editinterface.cpp
- *
- *  Dialog used for editing interface properties. The fields of the dialog are
- *  initially populated from the domain creating this dialog. Once the OK
- *  button is clicked, this dialog sends the changes to the interface to update
- *  data
-*******************************************************************************/
-#include "editinterface.h"
-#include "ui_editinterface.h"
+#include "editrequirement.h"
+#include "ui_editrequirement.h"
 
 #include <qdebug.h>
 
-/*******************************************************************************
-/*! \brief Constructor
- *
- * @param parent widget that parents this dialog
-*******************************************************************************/
-EditInterface::EditInterface(ContextData *context, QWidget *parent) :
+EditRequirement::EditRequirement(ContextData *data, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::EditInterface),
-    data(context)
+    ui(new Ui::EditRequirement),
+    context(data)
 {
     ui->setupUi(this);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
-    ui->withArrowRadio->setVisible(false);
-    ui->withoutArrowRadio->setVisible(false);
+    //ui->withArrowRadio->setVisible(false);
+    //ui->withoutArrowRadio->setVisible(false);
     setFixedSize(geometry().width(), geometry().height());
 
     //Create the error message box for having duplicate connections
@@ -51,21 +38,18 @@ EditInterface::EditInterface(ContextData *context, QWidget *parent) :
             this, SLOT(domain2ConnectionChanged()));
 }
 
-/*******************************************************************************
-/*! \brief Default Destructor
-*******************************************************************************/
-EditInterface::~EditInterface()
+EditRequirement::~EditRequirement()
 {
     delete ui;
 }
 
 /*******************************************************************************
-/*! \brief Sends the text of the description text edit to the interface once OK 
+/*! \brief Sends the text of the description text edit to the interface once OK
  *         is clicked
  *
  * @param desc the text held in the text edit
 *******************************************************************************/
-void EditInterface::setInterfaceDescription(const QString desc)
+void EditRequirement::setRequirementDescription(const QString desc)
 {
     ui->descriptionTextEdit->setText(desc);
 }
@@ -76,9 +60,17 @@ void EditInterface::setInterfaceDescription(const QString desc)
  *
  * @param name the text held in the name line edit
 *******************************************************************************/
-void EditInterface::setInterfaceName(const QString name)
+void EditRequirement::setRequirementName(const QString name)
 {
     ui->nameLineEdit->setText(name);
+}
+
+void EditRequirement::setRequirementType(QString type)
+{
+    if(type == "Requirement")
+        ui->requirementRadio->setChecked(true);
+    else if(type == "Indicative Property")
+        ui->indicativeRadio->setChecked(true);
 }
 
 /*******************************************************************************
@@ -86,7 +78,7 @@ void EditInterface::setInterfaceName(const QString name)
  *
  * @param names the list of domains that can be chosen as connections
 *******************************************************************************/
-void EditInterface::setDomainNames(const QStringList names)
+void EditRequirement::setDomainNames(const QStringList names)
 {
     domains = names;
     ui->domainOne->addItems(domains);
@@ -99,21 +91,26 @@ void EditInterface::setDomainNames(const QStringList names)
  * @param first  the first domain connection
  * @param second the second domain connection
 *******************************************************************************/
-void EditInterface::setConnections(const Domain *first, const Domain *second)
+void EditRequirement::setConnections(const Domain *first, const Domain *second)
 {
     if(first != NULL)
+    {
         if(ui->domainOne->findText(first->getName()) != -1)
             ui->domainOne->setCurrentIndex(ui->domainOne->findText(first->getName()));
-    else if(first == NULL)
+    }
+    else if(first == NULL) {
         ui->domainOne->setCurrentIndex(ui->domainOne->findText("None"));
-    if(second != NULL)
+    }
+    if(second != NULL) {
         if(ui->domainTwo->findText(second->getName()) != -1)
             ui->domainTwo->setCurrentIndex(ui->domainTwo->findText(second->getName()));
-    else if(second == NULL)
+    }
+    else if(second == NULL) {
         ui->domainTwo->setCurrentIndex(ui->domainTwo->findText("None"));
+    }
 }
 
-void EditInterface::setDom1SharedPhenomena(const QList<Phenomenon> phen)
+void EditRequirement::setDom1SharedPhenomena(const QList<Phenomenon> phen)
 {
     dom1SharedPhenomena = phen;
     QStringList pheno;
@@ -124,7 +121,7 @@ void EditInterface::setDom1SharedPhenomena(const QList<Phenomenon> phen)
     dom1SharedPrevious = dom1SharedPhenomena;
 }
 
-void EditInterface::setDom2SharedPhenomena(const QList<Phenomenon> phen)
+void EditRequirement::setDom2SharedPhenomena(const QList<Phenomenon> phen)
 {
     dom2SharedPhenomena = phen;
     QStringList pheno;
@@ -135,10 +132,10 @@ void EditInterface::setDom2SharedPhenomena(const QList<Phenomenon> phen)
     dom2SharedPrevious = dom2SharedPhenomena;
 }
 
-void EditInterface::updateDomain1SharedPhenomena(QStringList phen)
+void EditRequirement::updateDomain1SharedPhenomena(QStringList phen)
 {
     QList<Phenomenon> phenomena =
-            data->findDomain(ui->domainOne->currentText())->getPhenomena();
+            context->findDomain(ui->domainOne->currentText())->getPhenomena();
 
     dom1SharedListModel->setStringList(phen);
 
@@ -153,10 +150,10 @@ void EditInterface::updateDomain1SharedPhenomena(QStringList phen)
     }
 }
 
-void EditInterface::updateDomain2SharedPhenomena(QStringList phen)
+void EditRequirement::updateDomain2SharedPhenomena(QStringList phen)
 {
     QList<Phenomenon> phenomena =
-            data->findDomain(ui->domainTwo->currentText())->getPhenomena();
+            context->findDomain(ui->domainTwo->currentText())->getPhenomena();
 
     dom2SharedListModel->setStringList(phen);
 
@@ -177,10 +174,12 @@ void EditInterface::updateDomain2SharedPhenomena(QStringList phen)
  *  This function is used to send all data currently in the form to the
  *  interface
 *******************************************************************************/
-void EditInterface::on_okButton_clicked()
+void EditRequirement::on_okButton_clicked()
 {
     emit updateName(ui->nameLineEdit->text());
     emit updateDescription(ui->descriptionTextEdit->toPlainText());
+    if(ui->requirementRadio->isChecked()) emit updateType("Requirement");
+    else emit updateType("Indicative Property");
 
     //Domain connections must be unique and must have both or no connections
     if(ui->domainOne->currentText() == ui->domainTwo->currentText() &&
@@ -193,17 +192,12 @@ void EditInterface::on_okButton_clicked()
         errorMsg->exec();
         return;
     }
-    else {
-        QPointF pos1 = data->findDomain(ui->domainOne->currentText())->getPos();
-        QPointF pos2 = data->findDomain(ui->domainOne->currentText())->getPos();
-    }
 
     //Update the domain connections to the current combo box settings
     emit updateDomains(ui->domainOne->currentText(),
                        ui->domainTwo->currentText());
     emit updateDom1SharedPhenomena(dom1SharedPhenomena);
     emit updateDom2SharedPhenomena(dom2SharedPhenomena);
-
 
     close();
 }
@@ -214,15 +208,15 @@ void EditInterface::on_okButton_clicked()
  *  Exits the interface editing dialog.
  *  If called, NO data will be saved to the interface
 *******************************************************************************/
-void EditInterface::on_cancelButton_clicked()
+void EditRequirement::on_cancelButton_clicked()
 {
     close();
 }
 
-void EditInterface::on_editDom1Phen_clicked()
+void EditRequirement::on_editDom1Phen_clicked()
 {
     QList<Phenomenon> phen;
-    foreach(Domain *dom, data->getDomains()) {
+    foreach(Domain *dom, context->getDomains()) {
         if(dom->getName() == ui->domainOne->currentText()) {
             phen = dom->getPhenomena();
             break;
@@ -250,10 +244,10 @@ void EditInterface::on_editDom1Phen_clicked()
     edit->exec();
 }
 
-void EditInterface::on_editDom2Phen_clicked()
+void EditRequirement::on_editDom2Phen_clicked()
 {
     QList<Phenomenon> phen;
-    foreach(Domain *dom, data->getDomains()) {
+    foreach(Domain *dom, context->getDomains()) {
         if(dom->getName() == ui->domainTwo->currentText()) {
             phen = dom->getPhenomena();
             break;
@@ -281,14 +275,14 @@ void EditInterface::on_editDom2Phen_clicked()
     edit->exec();
 }
 
-void EditInterface::domain1ConnectionChanged()
+void EditRequirement::domain1ConnectionChanged()
 {
     QStringList list;
     dom1SharedListModel->setStringList(list);
     dom1SharedPhenomena.empty();
 }
 
-void EditInterface::domain2ConnectionChanged()
+void EditRequirement::domain2ConnectionChanged()
 {
     QStringList list;
     dom2SharedListModel->setStringList(list);

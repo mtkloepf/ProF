@@ -5,6 +5,8 @@
 *******************************************************************************/
 #include "contextdata.h"
 
+#include <qdebug.h>
+
 ContextData::ContextData(MachineDomain *machineDom)
     : domainCount(0),
       machine(machineDom)
@@ -72,7 +74,8 @@ QStringList ContextData::getDomainNames() const
 {
     QStringList names;
     for(int i = 0; i < domains.size(); i++) {
-        names.append(domains.at(i)->getName());
+        if(domains.at(i) && domains.at(i)->getEnabled())
+            names.append(domains.at(i)->getName());
     }
     return names;
 }
@@ -106,3 +109,15 @@ QList<Interface *> ContextData::getInterfaces() const
 {
     return interfaces;
 }
+
+//void ContextData::addLine(QLineF *line)
+//{
+//    qDebug() << "Line added";
+//    lines.append(*line);
+//    emit lineAdded(line->p1(), line->p2());
+//}
+
+//QList<QLineF> ContextData::getLines()
+//{
+//    return lines;
+//}

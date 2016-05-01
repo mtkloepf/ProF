@@ -3,6 +3,7 @@
 
 #include <qlist.h>
 
+#include "domain.h"
 #include "requirement.h"
 
 class ProblemData
@@ -16,8 +17,11 @@ public:
     void addRequirement(Requirement &value);
     void removeRequirement(Requirement &value);
 
+    void clearRequirements();
+
 private:
     QList<Requirement *> requirements;
+    QList<Domain *> activeDomains;
 };
 
 #endif // PROBLEMDATA_H

@@ -123,12 +123,18 @@ void Interface::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     //Create a new context menu to hold edit and delete actions
     QMenu menu;
-    QAction *editAction = menu.addAction("Edit");
-    connect(editAction, SIGNAL(triggered()), this, SLOT(editInterface()));
-    QAction *deleteAction = menu.addAction("Delete");
-    connect(deleteAction, SIGNAL(triggered()), this, SLOT(deleteInterface()));
-
+    if(enabled) {
+        QAction *editAction = menu.addAction("Edit");
+        connect(editAction, SIGNAL(triggered()), this, SLOT(editInterface()));
+        QAction *deleteAction = menu.addAction("Delete");
+        connect(deleteAction, SIGNAL(triggered()), this, SLOT(deleteInterface()));
+    }
+    else {
+        QAction *enableAction = menu.addAction("Enable");
+        connect(enableAction, SIGNAL(triggered()), this, SLOT(disableInterface()));
+    }
     menu.exec(event->screenPos());
+
 }
 
 /*******************************************************************************
@@ -291,6 +297,11 @@ void Interface::disableInterface()
         this->setAcceptedMouseButtons(Qt::AllButtons);
         enabled = true;
     }
+}
+
+bool Interface::getEnabled()
+{
+    return enabled;
 }
 
 void Interface::setFirstDomain(Domain *value)

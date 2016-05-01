@@ -38,7 +38,7 @@ public:
 
     int type() const;
 
-    void disableInterface();
+    bool getEnabled();
 
 public slots:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
@@ -58,6 +58,8 @@ public slots:
 
     void updateDom1SharedPhenomena(QList<Phenomenon> phen);
     void updateDom2SharedPhenomena(QList<Phenomenon> phen);
+
+    void disableInterface();
 
 private:
     Domain *firstDomain;

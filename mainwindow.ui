@@ -11,18 +11,12 @@
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
   <property name="minimumSize">
-   <size>
-    <width>766</width>
-    <height>580</height>
-   </size>
-  </property>
-  <property name="maximumSize">
    <size>
     <width>766</width>
     <height>580</height>
@@ -35,97 +29,120 @@
    <layout class="QHBoxLayout" name="horizontalLayout_2">
     <item>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="13" column="0">
-       <widget class="QRadioButton" name="ProblemDiag12">
+      <item row="14" column="0">
+       <widget class="QPushButton" name="pushButton_2">
         <property name="text">
-         <string>Problem Diagram 12</string>
+         <string>Delete Problem Diagram</string>
         </property>
        </widget>
       </item>
       <item row="12" column="0">
-       <widget class="QRadioButton" name="ProblemDiag11">
-        <property name="text">
-         <string>Problem Diagram 11</string>
+       <widget class="QGroupBox" name="groupBox">
+        <property name="title">
+         <string/>
         </property>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QRadioButton" name="ContextDiag">
+           <property name="text">
+            <string>Context Diagram</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="ProblemDiag1">
+           <property name="text">
+            <string>Problem Diagram 1</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="ProblemDiag2">
+           <property name="text">
+            <string>Problem Diagram 2</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="ProblemDiag3">
+           <property name="text">
+            <string>Problem Diagram 3</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="ProblemDiag4">
+           <property name="text">
+            <string>Problem Diagram 4</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="ProblemDiag5">
+           <property name="text">
+            <string>Problem Diagram 5</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="ProblemDiag6">
+           <property name="text">
+            <string>Problem Diagram 6</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="ProblemDiag7">
+           <property name="text">
+            <string>Problem Diagram 7</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="ProblemDiag8">
+           <property name="text">
+            <string>Problem Diagram 8</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="ProblemDiag9">
+           <property name="text">
+            <string>Problem Diagram 9</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="ProblemDiag10">
+           <property name="text">
+            <string>Problem Diagram 10</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="ProblemDiag11">
+           <property name="text">
+            <string>Problem Diagram 11</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="ProblemDiag12">
+           <property name="text">
+            <string>Problem Diagram 12</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
-      <item row="11" column="0">
-       <widget class="QRadioButton" name="ProblemDiag10">
+      <item row="13" column="0">
+       <widget class="QPushButton" name="pushButton">
         <property name="text">
-         <string>Problem Diagram 10</string>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="0">
-       <widget class="QRadioButton" name="ProblemDiag7">
-        <property name="text">
-         <string>Problem Diagram 7</string>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="0">
-       <widget class="QRadioButton" name="ProblemDiag6">
-        <property name="text">
-         <string>Problem Diagram 6</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="0">
-       <widget class="QRadioButton" name="ProblemDiag5">
-        <property name="text">
-         <string>Problem Diagram 5</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0">
-       <widget class="QRadioButton" name="ProblemDiag4">
-        <property name="text">
-         <string>Problem Diagram 4</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QRadioButton" name="ProblemDiag3">
-        <property name="text">
-         <string>Problem Diagram 3</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QRadioButton" name="ProblemDiag2">
-        <property name="text">
-         <string>Problem Diagram 2</string>
-        </property>
-       </widget>
-      </item>
-      <item row="10" column="0">
-       <widget class="QRadioButton" name="ProblemDiag9">
-        <property name="text">
-         <string>Problem Diagram 9</string>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="0">
-       <widget class="QRadioButton" name="ProblemDiag8">
-        <property name="text">
-         <string>Problem Diagram 8</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QRadioButton" name="ProblemDiag1">
-        <property name="text">
-         <string>Problem Diagram 1</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QRadioButton" name="ContextDiag">
-        <property name="text">
-         <string>Context Diagram</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
+         <string>Add Problem Diagram</string>
         </property>
        </widget>
       </item>

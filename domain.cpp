@@ -151,6 +151,10 @@ int Domain::type() const
     return 3;
 }
 
+bool Domain::getEnabled()
+{
+    return enabled;
+}
 
 /******************************************************************************/
 /* Slot Functions
@@ -177,6 +181,14 @@ void Domain::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
         connect(editAction, SIGNAL(triggered()), this, SLOT(editDomain()));
         QAction *deleteAction = menu.addAction("Delete");
         connect(deleteAction, SIGNAL(triggered()), this, SLOT(deleteDomain()));
+        QAction *disableAction = menu.addAction("Disable");
+        connect(disableAction, SIGNAL(triggered()), this, SLOT(disableDomain()));
+
+        menu.exec(event->screenPos());
+    }
+    else {
+        QAction *enable = menu.addAction("Enable");
+        connect(enable, SIGNAL(triggered()), this, SLOT(disableDomain()));
 
         menu.exec(event->screenPos());
     }
@@ -323,6 +335,11 @@ void Domain::deleteDomain()
 void Domain::setPhenomena(const QList<Phenomenon> &value)
 {
     phenomena = value;
+}
+
+QPointF Domain::getPos()
+{
+    return pos;
 }
 
 void Domain::disableDomain()

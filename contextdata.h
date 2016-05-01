@@ -11,12 +11,12 @@
 
 #include "domain.h"
 #include "machinedomain.h"
-#include "requirement.h"
 
 class Interface;
 
-class ContextData
+class ContextData : public QObject
 {
+    Q_OBJECT
 public:
     ContextData(MachineDomain *machineDom);
     ~ContextData();
@@ -34,7 +34,14 @@ public:
 
     QList<Interface *> getInterfaces() const;
 
+//    void addLine(QPointF pos1, QPointF pos2);
+//    QList<QLineF> getLines();
+
+signals:
+//    void lineAdded(QPointF pos1, QPointF pos2);
+
 private:
+//    QList<QLineF> lines;
     MachineDomain *machine;
     QList<Domain *> domains;
     QList<Interface *> interfaces;

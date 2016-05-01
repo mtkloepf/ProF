@@ -8,9 +8,9 @@
 
 #include "graphicsview.h"
 
-#include <qdebug.h>
-
 #include <iostream>
+
+#include <qdebug.h>
 
 /*******************************************************************************
 /*! \brief Constructor
@@ -28,12 +28,20 @@ GraphicsView::GraphicsView( QGraphicsScene *graphicsScene, ContextData *data,
     setScene(scene);
     setMouseTracking(true);
     viewport()->setMouseTracking(true);
+
+    //    connect(context, SIGNAL(lineAdded(QPointF,QPointF)),
+    //            this, SLOT(lineAdded(QPointF,QPointF)));
 }
 
 /*******************************************************************************
 /*! \brief Default Destructor
 *******************************************************************************/
 GraphicsView::~GraphicsView() {}
+
+void GraphicsView::clearProblemDiagrams(int diagNum)
+{
+    requirements[diagNum].clearRequirements();
+}
 
 /*******************************************************************************
 /*! \brief handles mouse events on the scene
@@ -47,7 +55,6 @@ GraphicsView::~GraphicsView() {}
 *******************************************************************************/
 void GraphicsView::mousePressEvent( QMouseEvent *event)
 {
-
     //Get the coordinates of the mouse event from the scene
     QPointF pos = mapToScene( event->pos() );
 
@@ -85,7 +92,7 @@ void GraphicsView::mousePressEvent( QMouseEvent *event)
         //Problem diagrams have requirements
         if(scene->itemAt(pos, QTransform()) == NULL) {
             if(event->button() == Qt::LeftButton) {
-                requirement = new Requirement(pos.x()-25, pos.y()-25);
+                requirement = new Requirement(pos.x()-25, pos.y()-25, context);
                 requirement->setType("Requirement");
                 requirements[diagramNum].addRequirement(*requirement);
 
@@ -129,26 +136,20 @@ void GraphicsView::contextDiagToggled(bool state)
                 qgraphicsitem_cast<Interface *>(item)->disableInterface();
                 item->show();
             }
-            else if(item->type() == 4) {
-                qgraphicsitem_cast<MachineDomain *>(item)->disableDomain();
-                item->show();
-            }
         }
     }
     else {
         foreach(QGraphicsItem *item, scene->items()) {
             if(item->type() == 3) {
-                qgraphicsitem_cast<Domain *>(item)->disableDomain();
+                if(qgraphicsitem_cast<Domain *>(item)->getEnabled())
+                    qgraphicsitem_cast<Domain *>(item)->disableDomain();
             }
             else if(item->type() == 2 ) {
-                qgraphicsitem_cast<Interface *>(item)->disableInterface();
-            }
-            else if(item->type() == 4) {
-                qgraphicsitem_cast<MachineDomain *>(item)->disableDomain();
+                if(qgraphicsitem_cast<Interface *>(item)->getEnabled())
+                    qgraphicsitem_cast<Interface *>(item)->disableInterface();
             }
         }
     }
-
 }
 
 void GraphicsView::problemDiag1Toggled(bool state)
@@ -269,7 +270,6 @@ void GraphicsView::problemDiag5Toggled(bool state)
             if(item->type()== 1) item->hide();
         }
     }
-
 }
 
 void GraphicsView::problemDiag6Toggled(bool state)
@@ -294,7 +294,6 @@ void GraphicsView::problemDiag6Toggled(bool state)
             if(item->type()== 1) item->hide();
         }
     }
-
 }
 
 void GraphicsView::problemDiag7Toggled(bool state)
@@ -319,7 +318,6 @@ void GraphicsView::problemDiag7Toggled(bool state)
             if(item->type()== 1) item->hide();
         }
     }
-
 }
 
 void GraphicsView::problemDiag8Toggled(bool state)
@@ -344,7 +342,6 @@ void GraphicsView::problemDiag8Toggled(bool state)
             if(item->type()== 1) item->hide();
         }
     }
-
 }
 
 void GraphicsView::problemDiag9Toggled(bool state)
@@ -369,7 +366,6 @@ void GraphicsView::problemDiag9Toggled(bool state)
             if(item->type()== 1) item->hide();
         }
     }
-
 }
 
 void GraphicsView::problemDiag10Toggled(bool state)
@@ -394,7 +390,6 @@ void GraphicsView::problemDiag10Toggled(bool state)
             if(item->type()== 1) item->hide();
         }
     }
-
 }
 
 void GraphicsView::problemDiag11Toggled(bool state)
@@ -419,7 +414,6 @@ void GraphicsView::problemDiag11Toggled(bool state)
             if(item->type()== 1) item->hide();
         }
     }
-
 }
 
 void GraphicsView::problemDiag12Toggled(bool state)
@@ -444,5 +438,18 @@ void GraphicsView::problemDiag12Toggled(bool state)
             if(item->type()== 1) item->hide();
         }
     }
-
 }
+
+//void GraphicsView::lineAdded(QPointF pos1, QPointF pos2)
+//{
+//    qDebug() << "Drawing line";
+//    qDebug() << "Point 1: " << pos1.x() << ", " << pos1.y();
+//    qDebug() << "Point 2: " << pos2.x() << ", " << pos2.y();
+//    QLineF line(pos1, pos2);
+//    scene->addLine(line);
+//    update();
+
+//    foreach(QLineF line, context->getLines()) {
+//        scene->addLine(line);
+//    }
+//}

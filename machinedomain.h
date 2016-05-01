@@ -47,12 +47,8 @@ public slots:
     QString getDescription() const;
     void setDescription(const QString &value);
 
-    void disableDomain();
-
 private:
     QPointF pos;
-
-    bool enabled;
 
     QString description;
     QString name;

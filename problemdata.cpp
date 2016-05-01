@@ -26,3 +26,8 @@ void ProblemData::removeRequirement(Requirement &value)
     if(requirements.contains(&value))
         requirements.removeOne(&value);
 }
+
+void ProblemData::clearRequirements()
+{
+    requirements.clear();
+}

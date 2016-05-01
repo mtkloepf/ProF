@@ -28,7 +28,8 @@ SOURCES += main.cpp\
     contextdata.cpp \
     editsharedphenomenon.cpp \
     requirement.cpp \
-    problemdata.cpp
+    problemdata.cpp \
+    editrequirement.cpp
 
 HEADERS  += mainwindow.h \
     about.h \
@@ -44,14 +45,16 @@ HEADERS  += mainwindow.h \
     contextdata.h \
     editsharedphenomenon.h \
     requirement.h \
-    problemdata.h
+    problemdata.h \
+    editrequirement.h
 
 FORMS    += mainwindow.ui \
     about.ui \
     editdomain.ui \
     editinterface.ui \
     editphenomenon.ui \
-    editsharedphenomenon.ui
+    editsharedphenomenon.ui \
+    editrequirement.ui
 
 DISTFILES += \
     StylingDocument.txt

@@ -7,6 +7,7 @@
  *  The main window of the application
 *******************************************************************************/
 #include <QMainWindow>
+#include <qbuttongroup.h>
 
 #include "about.h"
 #include "contextdata.h"
@@ -32,7 +33,12 @@ public slots:
     void on_actionAbout_triggered();
     void on_actionClose_triggered();
 
+private slots:
+    void addProblemDiagram();
+    void deleteProblemDiagram();
+
 private:
+    QButtonGroup problemDiagrams;
     Ui::MainWindow *ui;
     About *about;
     MachineDomain *machine;
