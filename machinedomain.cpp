@@ -20,6 +20,7 @@ MachineDomain::MachineDomain()
     setColor(Qt::red);
     setDefaultColor(Qt::red);
     setAcceptHoverEvents(true);
+    this->setAcceptedMouseButtons(!Qt::LeftButton); //Cannot move the machine
     setName("Machine Domain");
 }
 
