@@ -240,8 +240,8 @@ void EditRequirement::on_editDom1Phen_clicked()
             this, SLOT(updateDomain1SharedPhenomena(QStringList)));
 
     edit->setAttribute( Qt::WA_DeleteOnClose );
-    edit->setSharedPhenomena(dom1SharedPhenomena);
-    edit->setUnsharedPhenomena(phen);
+//    edit->setSharedPhenomena(dom1SharedPhenomena);
+//    edit->setUnsharedPhenomena(phen);
     edit->exec();
 }
 
@@ -271,8 +271,8 @@ void EditRequirement::on_editDom2Phen_clicked()
             this, SLOT(updateDomain2SharedPhenomena(QStringList)));
 
     edit->setAttribute( Qt::WA_DeleteOnClose );
-    edit->setSharedPhenomena(dom2SharedPhenomena);
-    edit->setUnsharedPhenomena(phen);
+//    edit->setSharedPhenomena(dom2SharedPhenomena);
+//    edit->setUnsharedPhenomena(phen);
     edit->exec();
 }
 
