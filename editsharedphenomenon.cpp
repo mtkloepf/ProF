@@ -1,8 +1,12 @@
 #include "editsharedphenomenon.h"
 #include "ui_editsharedphenomenon.h"
 
-#include <qdebug.h>
-
+/*******************************************************************************
+/*! \brief Constructor
+ *
+ * @param first  determines if the domain being used is domain one or two
+ * @param parent widget that parents this dialog
+*******************************************************************************/
 EditSharedPhenomenon::EditSharedPhenomenon(bool first, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::EditSharedPhenomenon),
@@ -24,31 +28,39 @@ EditSharedPhenomenon::EditSharedPhenomenon(bool first, QWidget *parent) :
     ui->sharedListView->setModel(sharedListModel);
 }
 
+/*******************************************************************************
+/*! \brief Default Destructor
+*******************************************************************************/
 EditSharedPhenomenon::~EditSharedPhenomenon()
 {
     delete ui;
 }
 
-void EditSharedPhenomenon::setUnsharedPhenomena(QList<Phenomenon> phens)
+/*******************************************************************************
+/*! \brief Update the list of unshared phenomena in the dialog
+ *
+ * @param phens the new list
+*******************************************************************************/
+void EditSharedPhenomenon::setUnsharedPhenomena(const QStringList &phens)
 {
-    unsharedPhenomena = phens;
-    QStringList phen;
-    foreach (Phenomenon pheno, unsharedPhenomena) {
-        phen << pheno.name;
-    }
-    unsharedListModel->setStringList(phen);
+    unsharedListModel->setStringList(phens);
 }
 
-void EditSharedPhenomenon::setSharedPhenomena(QList<Phenomenon> phens)
+/*******************************************************************************
+/*! \brief Update the list of shared phenomena in the dialog
+ *
+ * @param phens the new list
+*******************************************************************************/
+void EditSharedPhenomenon::setSharedPhenomena(const QStringList &phens)
 {
-    sharedPhenomena = phens;
-    QStringList phen;
-    foreach (Phenomenon pheno, sharedPhenomena) {
-        phen << pheno.name;
-    }
-    sharedListModel->setStringList(phen);
+    sharedListModel->setStringList(phens);
 }
 
+/*******************************************************************************
+/*! \brief SLOT called when done editing shared phenomena for a domain
+ *
+ *  Sends the relevant list of shared phenomena back to the interface dialog
+*******************************************************************************/
 void EditSharedPhenomenon::on_okButton_clicked()
 {
     if(editingFirst && sharedListModel->stringList().size() > 0)
@@ -59,18 +71,32 @@ void EditSharedPhenomenon::on_okButton_clicked()
     close();
 }
 
+/*******************************************************************************
+/*! \brief SLOT called when the cancel button is clicked
+ *
+ *  Closes the dialog and does not save ANY of the editing done to shared
+ *  phenomena
+*******************************************************************************/
 void EditSharedPhenomenon::on_cancelButton_clicked()
 {
     close();
 }
 
+/*******************************************************************************
+/*! \brief SLOT called when the >> button is clicked
+ *
+ *  >> is the text for the button that adds the currently selected unshared
+ *  phenomenon to the shared phenomena list, removing it from unshared
+*******************************************************************************/
 void EditSharedPhenomenon::on_addButton_clicked()
 {
+    //Grabs the name of the currently selected phenomenon
     QString phen = unsharedListModel->index(
                 ui->unsharedListView->currentIndex().row(),0 )
             .data( Qt::DisplayRole )
             .toString();
 
+    //If the selected phenomenon is not an empty string and there IS a selection
     if(phen != "") {
         QStringList sharedList = sharedListModel->stringList();
         QStringList unsharedList = unsharedListModel->stringList();
@@ -83,13 +109,21 @@ void EditSharedPhenomenon::on_addButton_clicked()
     }
 }
 
+/*******************************************************************************
+/*! \brief SLOT called when the << button is clicked
+ *
+ *  << is the text for the button that removes the currently selected shared
+ *  phenomenon. This moves it to the unshared phenomena list.
+*******************************************************************************/
 void EditSharedPhenomenon::on_removeButton_clicked()
 {
+    //Grabs the name of the currently selected phenomenon
     QString phen = sharedListModel->index(
                 ui->sharedListView->currentIndex().row(),0 )
             .data( Qt::DisplayRole )
             .toString();
 
+    //If the selected phenomenon is not an empty string and there IS a selection
     if(phen != "") {
         QStringList sharedList = sharedListModel->stringList();
         QStringList unsharedList = unsharedListModel->stringList();

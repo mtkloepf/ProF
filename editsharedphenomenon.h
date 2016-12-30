@@ -4,8 +4,6 @@
 #include <QDialog>
 #include <QStringListModel>
 
-#include "phenomenon.h"
-
 namespace Ui {
 class EditSharedPhenomenon;
 }
@@ -18,8 +16,8 @@ public:
     explicit EditSharedPhenomenon(bool first, QWidget *parent = 0);
     ~EditSharedPhenomenon();
 
-    void setUnsharedPhenomena(QList<Phenomenon> phen);
-    void setSharedPhenomena(QList<Phenomenon> phen);
+    void setUnsharedPhenomena(const QStringList &phen);
+    void setSharedPhenomena(const QStringList &phen);
 
 private slots:
     void on_okButton_clicked();
@@ -34,9 +32,6 @@ signals:
 private:
     QStringListModel *unsharedListModel;
     QStringListModel *sharedListModel;
-
-    QList<Phenomenon> unsharedPhenomena;
-    QList<Phenomenon> sharedPhenomena;
 
     Ui::EditSharedPhenomenon *ui;
 
