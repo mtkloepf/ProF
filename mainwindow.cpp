@@ -27,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent) :
     data = new ContextData(machine);
 
     //Create the custom graphics view and add it to the main window
-    m_ContextView = new GraphicsView(new QGraphicsScene(), data, this);
+    m_ContextView = new GraphicsView(new QGraphicsScene(), *data, this);
     ui->centralWidget->layout()->addWidget(m_ContextView);
 
     //Create the machine domain and add it to the graphics view

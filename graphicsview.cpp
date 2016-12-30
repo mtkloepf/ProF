@@ -18,7 +18,7 @@
  * @param graphicsScene the scene to attach to this graphics view
  * @param parent        widget that parents this dialog
 *******************************************************************************/
-GraphicsView::GraphicsView( QGraphicsScene *graphicsScene, ContextData *data,
+GraphicsView::GraphicsView( QGraphicsScene *graphicsScene, ContextData &data,
                             QWidget *parent)
     : QGraphicsView( graphicsScene, parent),
       context(data),
@@ -72,15 +72,15 @@ void GraphicsView::mousePressEvent( QMouseEvent *event)
                 connect(domain, SIGNAL(deleteDomain(Domain*)),
                         this, SLOT(deleteDomain(Domain*)));
 
-                QString name = QString("Domain %1").arg(context->getDomainCount());
+                QString name = QString("Domain %1").arg(context.getDomainCount());
                 domain->setName(name);
-                context->addDomain(*domain);
+                context.addDomain(*domain);
                 scene->addItem(domain);
                 emit addItem(domain);
             }
             else if(event->button() == Qt::RightButton) {
                 //Create a new interface and center it on the mouse
-                interface = new Interface(pos.x()-7.5, pos.y()-7.5, context);
+                interface = new Interface(pos.x()-7.5, pos.y()-7.5, context.getDomains());
                 scene->addItem(interface);
             }
         }
@@ -92,7 +92,7 @@ void GraphicsView::mousePressEvent( QMouseEvent *event)
         //Problem diagrams have requirements
         if(scene->itemAt(pos, QTransform()) == NULL) {
             if(event->button() == Qt::LeftButton) {
-                requirement = new Requirement(pos.x()-25, pos.y()-25, context);
+                requirement = new Requirement(pos.x()-25, pos.y()-25, &context);
                 requirement->setType("Requirement");
                 requirements[diagramNum].addRequirement(*requirement);
 
@@ -113,11 +113,11 @@ void GraphicsView::mousePressEvent( QMouseEvent *event)
 void GraphicsView::deleteDomain(Domain *dom)
 {
     //If the domain to be removed exists in the context, remove it
-    if(context->getDomains().contains(dom)) {
-        context->removeDomain(*dom);
+    if(context.getDomains().contains(dom)) {
+        context.removeDomain(*dom);
     }
 
-    foreach(Interface *interface, context->getInterfaces()) {
+    foreach(Interface *interface, context.getInterfaces()) {
         if(interface->getFirstDomain() == dom) interface->setFirstDomain(NULL);
         else if(interface->getSecondDomain() == dom) interface->setSecondDomain(NULL);
     }

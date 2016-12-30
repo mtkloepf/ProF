@@ -46,7 +46,7 @@ QRectF Domain::boundingRect() const
 }
 
 /*******************************************************************************
-/*! \brief Reimplemented function since domain inherits from qgraphicsitem.
+/*! \brief Reimplemented function since domain derives from qgraphicsitem.
  *
  *  Paints and updates the domain in the graphics scene when moved or created
  *  for the first time
@@ -146,11 +146,26 @@ void Domain::copyDomainAttributes(const Domain &dom)
     setDescription(dom.getDescription());
 }
 
+/*******************************************************************************
+/*! \brief The type of object within the graphics view
+ *
+ *  This value is used to to determine what object is active based on input
+ *
+ * @return the value corresponding to domain objects
+*******************************************************************************/
 int Domain::type() const
 {
     return 3;
 }
 
+/*******************************************************************************
+/*! \brief returns whether the domain is currently enabled
+ *
+ *  Domains are only disabled during construction of problem diagrams. They are
+ *  always enabled in the context diagram
+ *
+ * @return true if enabled and false if disabled
+*******************************************************************************/
 bool Domain::getEnabled()
 {
     return enabled;

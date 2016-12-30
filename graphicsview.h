@@ -20,7 +20,7 @@ class GraphicsView : public QGraphicsView
 {
     Q_OBJECT
 public:
-    GraphicsView( QGraphicsScene *graphicsScene, ContextData *data,
+    GraphicsView( QGraphicsScene *graphicsScene, ContextData &data,
                   QWidget *parent=0);
     ~GraphicsView();
 
@@ -55,7 +55,7 @@ public:
 
 private:
     int diagramNum;
-    ContextData *context;
+    ContextData &context;
     QMap<int, ProblemData> requirements;
 
     Domain *domain;
@@ -63,7 +63,7 @@ private:
     Requirement *requirement;
 
     QStringList domainNames;
-    QList<Domain *> domains;
+    //QList<Domain *> domains;
 
     EditDomain *editDom;
 };

@@ -10,7 +10,7 @@
 #include <QMessageBox>
 #include <QStringListModel>
 
-#include "contextdata.h"
+#include "domain.h"
 #include "editsharedphenomenon.h"
 
 namespace Ui {
@@ -22,12 +22,12 @@ class EditInterface : public QDialog
     Q_OBJECT
 
 public:
-    explicit EditInterface(ContextData *data, QWidget *parent = 0);
+    explicit EditInterface(const QList<Domain *> &domains, QWidget *parent = 0);
     ~EditInterface();
 
     void setInterfaceDescription(const QString desc);
     void setInterfaceName(const QString name);
-    void setDomainNames(const QStringList names);
+    void setDomainNames();
     void setConnections(const Domain *first, const Domain *second);
     void setDom1SharedPhenomena(const QList<Phenomenon> phen);
     void setDom2SharedPhenomena(const QList<Phenomenon> phen);
@@ -54,7 +54,8 @@ signals:
 private:
     QStringListModel *dom1SharedListModel;
     QStringListModel *dom2SharedListModel;
-    ContextData *data;
+    //ContextData *data;
+    const QList<Domain *> &domains;
 
     QList<Phenomenon> dom1SharedPrevious;
     QList<Phenomenon> dom2SharedPrevious;
@@ -62,7 +63,7 @@ private:
     QList<Phenomenon> dom1SharedPhenomena;
     QList<Phenomenon> dom2SharedPhenomena;
 
-    QStringList domains;
+    //QStringList domains;
 
     QMessageBox *errorMsg;
 

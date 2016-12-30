@@ -24,7 +24,7 @@ ContextData::~ContextData()
  *
  * @return a list of pointers to all the domains that exist in the frame
 *******************************************************************************/
-QList<Domain *> ContextData::getDomains() const
+QList<Domain *> & ContextData::getDomains()
 {
     return domains;
 }

@@ -9,10 +9,8 @@
 *******************************************************************************/
 #include <qlist.h>
 
-#include "domain.h"
+#include "interface.h"
 #include "machinedomain.h"
-
-class Interface;
 
 class ContextData : public QObject
 {
@@ -21,7 +19,7 @@ public:
     ContextData(MachineDomain *machineDom);
     ~ContextData();
 
-    QList<Domain *> getDomains() const;
+    QList<Domain *> & getDomains();
     void setDomains(const QList<Domain *> &value);
 
     void addDomain(Domain &dom);

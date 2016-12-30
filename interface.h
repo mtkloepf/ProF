@@ -8,9 +8,10 @@
 *******************************************************************************/
 #include <QContextMenuEvent>
 #include <QGraphicsItem>
+#include <qlist.h>
 #include <QPainter>
 
-#include "contextdata.h"
+#include "domain.h"
 #include "editinterface.h"
 
 class Interface : public QGraphicsObject
@@ -18,7 +19,7 @@ class Interface : public QGraphicsObject
     Q_OBJECT
 
 public:
-    Interface(int x, int y, ContextData *data);
+    Interface(int x, int y, QList<Domain *> &allDomains);
     ~Interface();
 
     QRectF boundingRect() const;
@@ -76,7 +77,7 @@ private:
     QString description;
     QString name;
 
-    ContextData *context;
+    QList<Domain *> &domains;
 
     EditInterface *edit;
 };

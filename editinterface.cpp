@@ -16,10 +16,10 @@
  *
  * @param parent widget that parents this dialog
 *******************************************************************************/
-EditInterface::EditInterface(ContextData *context, QWidget *parent) :
+EditInterface::EditInterface(const QList<Domain *> &domains, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::EditInterface),
-    data(context)
+    domains(domains)
 {
     ui->setupUi(this);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
@@ -34,10 +34,6 @@ EditInterface::EditInterface(ContextData *context, QWidget *parent) :
     //Turn off editing of phenomena names directly through the list view
     ui->domain1SharedListView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->domain2SharedListView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-
-    //Add a "no connection" option for the combo boxes if it doesn't exist
-    if(!domains.contains("None"))
-        domains.append("None");
 
     //Create a model for the phenomena list view and set the prototype
     dom1SharedListModel = new QStringListModel();
@@ -86,11 +82,14 @@ void EditInterface::setInterfaceName(const QString name)
  *
  * @param names the list of domains that can be chosen as connections
 *******************************************************************************/
-void EditInterface::setDomainNames(const QStringList names)
+void EditInterface::setDomainNames()
 {
-    domains = names;
-    ui->domainOne->addItems(domains);
-    ui->domainTwo->addItems(domains);
+    QStringList domainNames;
+    foreach(Domain * dom, domains) {
+        domainNames.append(dom->getName());
+    }
+    ui->domainOne->addItems(domainNames);
+    ui->domainTwo->addItems(domainNames);
 }
 
 /*******************************************************************************
@@ -115,29 +114,29 @@ void EditInterface::setConnections(const Domain *first, const Domain *second)
 
 void EditInterface::setDom1SharedPhenomena(const QList<Phenomenon> phen)
 {
-    dom1SharedPhenomena = phen;
+    /*dom1SharedPhenomena = phen;
     QStringList pheno;
     foreach (Phenomenon phenomenon, dom1SharedPhenomena) {
         pheno << phenomenon.name;
     }
     dom1SharedListModel->setStringList(pheno);
-    dom1SharedPrevious = dom1SharedPhenomena;
+    dom1SharedPrevious = dom1SharedPhenomena;*/
 }
 
 void EditInterface::setDom2SharedPhenomena(const QList<Phenomenon> phen)
 {
-    dom2SharedPhenomena = phen;
+    /*dom2SharedPhenomena = phen;
     QStringList pheno;
     foreach (Phenomenon phenomenon, dom2SharedPhenomena) {
         pheno << phenomenon.name;
     }
     dom2SharedListModel->setStringList(pheno);
-    dom2SharedPrevious = dom2SharedPhenomena;
+    dom2SharedPrevious = dom2SharedPhenomena;*/
 }
 
 void EditInterface::updateDomain1SharedPhenomena(QStringList phen)
 {
-    QList<Phenomenon> phenomena =
+    /*QList<Phenomenon> phenomena =
             data->findDomain(ui->domainOne->currentText())->getPhenomena();
 
     dom1SharedListModel->setStringList(phen);
@@ -150,12 +149,12 @@ void EditInterface::updateDomain1SharedPhenomena(QStringList phen)
                 dom1SharedPhenomena.append(phenomenon);
             }
         }
-    }
+    }*/
 }
 
 void EditInterface::updateDomain2SharedPhenomena(QStringList phen)
 {
-    QList<Phenomenon> phenomena =
+    /*QList<Phenomenon> phenomena =
             data->findDomain(ui->domainTwo->currentText())->getPhenomena();
 
     dom2SharedListModel->setStringList(phen);
@@ -168,7 +167,7 @@ void EditInterface::updateDomain2SharedPhenomena(QStringList phen)
                 dom2SharedPhenomena.append(phenomenon);
             }
         }
-    }
+    }*/
 }
 
 /*******************************************************************************
@@ -194,8 +193,8 @@ void EditInterface::on_okButton_clicked()
         return;
     }
     else {
-        QPointF pos1 = data->findDomain(ui->domainOne->currentText())->getPos();
-        QPointF pos2 = data->findDomain(ui->domainOne->currentText())->getPos();
+        //QPointF pos1 = data->findDomain(ui->domainOne->currentText())->getPos();
+       // QPointF pos2 = data->findDomain(ui->domainOne->currentText())->getPos();
     }
 
     //Update the domain connections to the current combo box settings
@@ -221,7 +220,7 @@ void EditInterface::on_cancelButton_clicked()
 
 void EditInterface::on_editDom1Phen_clicked()
 {
-    QList<Phenomenon> phen;
+    /*QList<Phenomenon> phen;
     foreach(Domain *dom, data->getDomains()) {
         if(dom->getName() == ui->domainOne->currentText()) {
             phen = dom->getPhenomena();
@@ -247,12 +246,12 @@ void EditInterface::on_editDom1Phen_clicked()
     edit->setAttribute( Qt::WA_DeleteOnClose );
     edit->setSharedPhenomena(dom1SharedPhenomena);
     edit->setUnsharedPhenomena(phen);
-    edit->exec();
+    edit->exec();*/
 }
 
 void EditInterface::on_editDom2Phen_clicked()
 {
-    QList<Phenomenon> phen;
+   /* QList<Phenomenon> phen;
     foreach(Domain *dom, data->getDomains()) {
         if(dom->getName() == ui->domainTwo->currentText()) {
             phen = dom->getPhenomena();
@@ -278,7 +277,7 @@ void EditInterface::on_editDom2Phen_clicked()
     edit->setAttribute( Qt::WA_DeleteOnClose );
     edit->setSharedPhenomena(dom2SharedPhenomena);
     edit->setUnsharedPhenomena(phen);
-    edit->exec();
+    edit->exec();*/
 }
 
 void EditInterface::domain1ConnectionChanged()

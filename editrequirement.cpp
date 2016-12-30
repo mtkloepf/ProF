@@ -93,6 +93,7 @@ void EditRequirement::setDomainNames(const QStringList names)
 *******************************************************************************/
 void EditRequirement::setConnections(const Domain *first, const Domain *second)
 {
+    //TODO: ERRORS HAPPEN HERE WITH FIRST EDITING FIRST REQUIREMENT (SEGFAULT)
     if(first != NULL)
     {
         if(ui->domainOne->findText(first->getName()) != -1)

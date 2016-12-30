@@ -7,6 +7,8 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QMenu>
 
+#include "qdebug.h"
+
 #include "interface.h"
 
 /*******************************************************************************
@@ -15,14 +17,15 @@
  * @param x the x coordinate for the center of the interface in the scene
  * @param y the y coordinate for the center of the interface
 *******************************************************************************/
-Interface::Interface(int x, int y, ContextData *data)
+Interface::Interface(int x, int y, QList<Domain *> &allDomains)
     : pos(QPointF(x, y)),
-      context(data),
+      domains(allDomains),
       firstDomain(NULL),
       secondDomain(NULL),
       defaultColor(Qt::green),
       enabled(true)
 {
+
     setColor(defaultColor);
     setFlag(ItemIsMovable);
     setAcceptHoverEvents(true);
@@ -209,10 +212,10 @@ void Interface::editInterface()
     // Bring up the edit interface menu, connect the slots to the OK button of
     // the edit domain dialog, and give the current interface info for the
     // edit interface dialog to display
-    edit = new EditInterface(context);
+    edit = new EditInterface(domains);
     edit->setInterfaceDescription(getDescription());
     edit->setInterfaceName(getName());
-    edit->setDomainNames(context->getDomainNames());
+    edit->setDomainNames();
     edit->setConnections(firstDomain, secondDomain);
     edit->setDom1SharedPhenomena(dom1SharedPhenomena);
     edit->setDom2SharedPhenomena(dom2SharedPhenomena);
@@ -250,14 +253,16 @@ void Interface::deleteInterface()
 *******************************************************************************/
 void Interface::setDomains(const QString first, const QString second)
 {
-    if(first != "None")
-        firstDomain = context->findDomain(first);
-    else
-        firstDomain = NULL;
-    if(second != "None")
-        secondDomain = context->findDomain(second);
-    else
-        secondDomain = NULL;
+    foreach(Domain * dom, domains) {
+        if(first != "None" && dom->getName() == first) {
+            firstDomain = dom;
+        }
+        else if(second != "None" && dom->getName() == second) {
+            secondDomain = dom;
+        }
+    }
+    if(first == "None") firstDomain = NULL;
+    if(second == "None") secondDomain = NULL;
 }
 
 void Interface::updateDom1SharedPhenomena(QList<Phenomenon> phen)
