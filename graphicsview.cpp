@@ -117,10 +117,10 @@ void GraphicsView::deleteDomain(Domain *dom)
         context.removeDomain(*dom);
     }
 
-    foreach(Interface *interface, context.getInterfaces()) {
-        if(interface->getFirstDomain() == dom) interface->setFirstDomain(NULL);
-        else if(interface->getSecondDomain() == dom) interface->setSecondDomain(NULL);
-    }
+//    foreach(Interface *interface, context.getInterfaces()) {
+//        if(interface->getFirstDomain() == dom) interface->setFirstDomain(NULL);
+//        else if(interface->getSecondDomain() == dom) interface->setSecondDomain(NULL);
+//    }
 }
 
 void GraphicsView::contextDiagToggled(bool state)
