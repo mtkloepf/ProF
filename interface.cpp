@@ -225,10 +225,10 @@ void Interface::editInterface()
             SLOT(setName(QString)));
     connect(edit, SIGNAL(updateDomains(QString,QString)),
             this, SLOT(setDomains(QString,QString)));
-    connect(edit, SIGNAL(updateDom1SharedPhenomena(QList<Phenomenon>)),
-            this, SLOT(updateDom1SharedPhenomena(QList<Phenomenon>)));
-    connect(edit, SIGNAL(updateDom2SharedPhenomena(QList<Phenomenon>)),
-            this, SLOT(updateDom2SharedPhenomena(QList<Phenomenon>)));
+    connect(edit, SIGNAL(updateDom1SharedPhenomena(QStringList)),
+            this, SLOT(updateDom1SharedPhenomena(QStringList)));
+    connect(edit, SIGNAL(updateDom2SharedPhenomena(QStringList)),
+            this, SLOT(updateDom2SharedPhenomena(QStringList)));
     edit->setAttribute( Qt::WA_DeleteOnClose );
     edit->exec();
 }
@@ -265,22 +265,14 @@ void Interface::setDomains(const QString first, const QString second)
     if(second == "None") secondDomain = NULL;
 }
 
-void Interface::updateDom1SharedPhenomena(QList<Phenomenon> phen)
+void Interface::updateDom1SharedPhenomena(const QStringList phen)
 {
     dom1SharedPhenomena = phen;
 }
 
-void Interface::updateDom2SharedPhenomena(QList<Phenomenon> phen)
+void Interface::updateDom2SharedPhenomena(const QStringList phen)
 {
     dom2SharedPhenomena = phen;
-}
-
-void Interface::setSecondDomain(Domain *value)
-{
-    if(value == NULL) {
-        dom2SharedPhenomena.empty();
-    }
-    secondDomain = value;
 }
 
 int Interface::type() const
@@ -307,22 +299,4 @@ void Interface::disableInterface()
 bool Interface::getEnabled()
 {
     return enabled;
-}
-
-void Interface::setFirstDomain(Domain *value)
-{
-    if(value == NULL) {
-        dom1SharedPhenomena.empty();
-    }
-    firstDomain = value;
-}
-
-Domain *Interface::getSecondDomain() const
-{
-    return secondDomain;
-}
-
-Domain *Interface::getFirstDomain() const
-{
-    return firstDomain;
 }

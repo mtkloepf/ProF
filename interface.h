@@ -31,12 +31,6 @@ public:
     QColor getColor() const;
     void setColor(const QColor &value);
 
-    Domain *getFirstDomain() const;
-    Domain *getSecondDomain() const;
-
-    void setFirstDomain(Domain *value);
-    void setSecondDomain(Domain *value);
-
     int type() const;
 
     bool getEnabled();
@@ -57,8 +51,8 @@ public slots:
 
     void setDomains(const QString first, const QString second);
 
-    void updateDom1SharedPhenomena(QList<Phenomenon> phen);
-    void updateDom2SharedPhenomena(QList<Phenomenon> phen);
+    void updateDom1SharedPhenomena(QStringList phen);
+    void updateDom2SharedPhenomena(QStringList phen);
 
     void disableInterface();
 
@@ -66,8 +60,8 @@ private:
     Domain *firstDomain;
     Domain *secondDomain;
     QPointF pos;
-    QList<Phenomenon> dom1SharedPhenomena;
-    QList<Phenomenon> dom2SharedPhenomena;
+    QStringList dom1SharedPhenomena;
+    QStringList dom2SharedPhenomena;
 
     bool enabled;
 
