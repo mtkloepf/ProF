@@ -29,8 +29,8 @@ public:
     void setInterfaceName(const QString name);
     void setDomainNames();
     void setConnections(const Domain *first, const Domain *second);
-    void setDom1SharedPhenomena(const QList<Phenomenon> phen);
-    void setDom2SharedPhenomena(const QList<Phenomenon> phen);
+    void setDom1SharedPhenomena(const QStringList &phen);
+    void setDom2SharedPhenomena(const QStringList &phen);
 
 public slots:
     void updateDomain1SharedPhenomena(QStringList phen);
@@ -48,22 +48,16 @@ signals:
     void updateDescription(QString);
     void updateName(QString);
     void updateDomains(QString, QString);
-    void updateDom1SharedPhenomena(QList<Phenomenon>);
-    void updateDom2SharedPhenomena(QList<Phenomenon>);
+    void updateDom1SharedPhenomena(QStringList);
+    void updateDom2SharedPhenomena(QStringList);
 
 private:
     QStringListModel *dom1SharedListModel;
     QStringListModel *dom2SharedListModel;
-    //ContextData *data;
     const QList<Domain *> &domains;
 
-    QList<Phenomenon> dom1SharedPrevious;
-    QList<Phenomenon> dom2SharedPrevious;
-
-    QList<Phenomenon> dom1SharedPhenomena;
-    QList<Phenomenon> dom2SharedPhenomena;
-
-    //QStringList domains;
+    QStringList dom1SharedPhenomena;
+    QStringList dom2SharedPhenomena;
 
     QMessageBox *errorMsg;
 
