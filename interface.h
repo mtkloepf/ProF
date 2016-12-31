@@ -56,6 +56,9 @@ public slots:
 
     void disableInterface();
 
+signals:
+    void connectionCreated(Domain*, Domain*);
+
 private:
     Domain *firstDomain;
     Domain *secondDomain;

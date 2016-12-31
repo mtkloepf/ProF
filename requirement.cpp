@@ -1,9 +1,14 @@
+/*******************************************************************************
+/*! \class requirement.cpp
+ *
+ *  A custom graphics item used in problem diagrams to represent constraints
+ *  put on the machine based on user demands and the relevant environmental
+ *  attributes.
+*******************************************************************************/
 #include <QGraphicsSceneMouseEvent>
 #include <QMenu>
 
 #include "requirement.h"
-
-#include <qdebug.h>
 
 Requirement::Requirement(float x, float y, ContextData *data)
     : pos(QPointF(x, y)),

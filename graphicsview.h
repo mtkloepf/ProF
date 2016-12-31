@@ -10,11 +10,8 @@
 #include <QMouseEvent>
 
 #include "contextdata.h"
-#include "domain.h"
 #include "editdomain.h"
-#include "interface.h"
 #include "problemdata.h"
-#include "requirement.h"
 
 class GraphicsView : public QGraphicsView
 {
@@ -44,11 +41,9 @@ public slots:
     void problemDiag11Toggled(bool state);
     void problemDiag12Toggled(bool state);
 
-//    void lineAdded(QPointF pos1, QPointF pos2);
+    void connectDomains(Domain *first, Domain *second);
 
-signals:
-    void updateDomainList(QStringList);
-    void addItem(Domain *item);
+//    void lineAdded(QPointF pos1, QPointF pos2);
 
 public:
     QGraphicsScene *scene;
@@ -63,9 +58,6 @@ private:
     Requirement *requirement;
 
     QStringList domainNames;
-    //QList<Domain *> domains;
-
-    EditDomain *editDom;
 };
 
 #endif // GRAPHICSVIEW_H

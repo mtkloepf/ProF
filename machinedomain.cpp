@@ -2,7 +2,7 @@
 /*! \class machinedomain.cpp
  *
  *  Custom graphics object to act as the machine domain. Similar behavior to the
- *  domain class, but cannot be deleted, can only have on instance, and has
+ *  domain class, but cannot be deleted, can only have one instance, and has
  *  limited editing options
 *******************************************************************************/
 #include <QGraphicsSceneMouseEvent>

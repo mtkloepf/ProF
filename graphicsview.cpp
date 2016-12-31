@@ -8,10 +8,6 @@
 
 #include "graphicsview.h"
 
-#include <iostream>
-
-#include <qdebug.h>
-
 /*******************************************************************************
 /*! \brief Constructor
  *
@@ -76,12 +72,15 @@ void GraphicsView::mousePressEvent( QMouseEvent *event)
                 domain->setName(name);
                 context.addDomain(*domain);
                 scene->addItem(domain);
-                emit addItem(domain);
             }
             else if(event->button() == Qt::RightButton) {
                 //Create a new interface and center it on the mouse
                 interface = new Interface(pos.x()-7.5, pos.y()-7.5, context.getDomains());
-                scene->addItem(interface);
+
+                connect(interface, SIGNAL(connectionCreated(Domain*,Domain*)),
+                        this, SLOT(connectDomains(Domain*, Domain*)));
+
+                        scene->addItem(interface);
             }
         }
         //Propogate the mouse event down to the scene objects
@@ -117,10 +116,10 @@ void GraphicsView::deleteDomain(Domain *dom)
         context.removeDomain(*dom);
     }
 
-//    foreach(Interface *interface, context.getInterfaces()) {
-//        if(interface->getFirstDomain() == dom) interface->setFirstDomain(NULL);
-//        else if(interface->getSecondDomain() == dom) interface->setSecondDomain(NULL);
-//    }
+    //    foreach(Interface *interface, context.getInterfaces()) {
+    //        if(interface->getFirstDomain() == dom) interface->setFirstDomain(NULL);
+    //        else if(interface->getSecondDomain() == dom) interface->setSecondDomain(NULL);
+    //    }
 }
 
 void GraphicsView::contextDiagToggled(bool state)
@@ -438,6 +437,13 @@ void GraphicsView::problemDiag12Toggled(bool state)
             if(item->type()== 1) item->hide();
         }
     }
+}
+
+void GraphicsView::connectDomains(Domain *first, Domain *second)
+{
+    //TODO: We have the connected domains, now draw a line between them!
+    //QLineF line(first->boundingRect().center(), second->boundingRect().center());
+    //scene->addLine(line);
 }
 
 //void GraphicsView::lineAdded(QPointF pos1, QPointF pos2)

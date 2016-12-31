@@ -30,6 +30,8 @@ EditInterface::EditInterface(const QList<Domain *> &domains, QWidget *parent) :
     //Create the error message box for having duplicate connections
     errorMsg = new QMessageBox();
     errorMsg->setAttribute(Qt::WA_DeleteOnClose);
+    errorMsg->setStandardButtons(QMessageBox::Ok);
+    errorMsg->setWindowTitle("Error");
 
     //Turn off editing of phenomena names directly through the list view
     ui->domain1SharedListView->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -172,32 +174,26 @@ void EditInterface::updateDomain2SharedPhenomena(const QStringList phen)
 *******************************************************************************/
 void EditInterface::on_okButton_clicked()
 {
-    emit updateName(ui->nameLineEdit->text());
-    emit updateDescription(ui->descriptionTextEdit->toPlainText());
-
-    //Domain connections must be unique and must have both or no connections
+    //Domain connections must be unique
     if(ui->domainOne->currentText() == ui->domainTwo->currentText() &&
             (ui->domainOne->currentText() != "None" &&
              ui->domainTwo->currentText() != "None")) {
         errorMsg->setText("An interface must be "
                           "connected to two unique domains.");
-        errorMsg->setStandardButtons(QMessageBox::Ok);
-        errorMsg->setWindowTitle("Error");
         errorMsg->exec();
-        return;
     }
     else {
-        //QPointF pos1 = data->findDomain(ui->domainOne->currentText())->getPos();
-        // QPointF pos2 = data->findDomain(ui->domainOne->currentText())->getPos();
+        //Update the interface to the current interface settings
+        emit updateName(ui->nameLineEdit->text());
+        emit updateDescription(ui->descriptionTextEdit->toPlainText());
+
+        //Update the domain connections to the current combo box settings
+        emit updateDomains(ui->domainOne->currentText(),
+                           ui->domainTwo->currentText());
+        emit updateDom1SharedPhenomena(dom1SharedPhenomena);
+        emit updateDom2SharedPhenomena(dom2SharedPhenomena);
+        close();
     }
-
-    //Update the domain connections to the current combo box settings
-    emit updateDomains(ui->domainOne->currentText(),
-                       ui->domainTwo->currentText());
-    emit updateDom1SharedPhenomena(dom1SharedPhenomena);
-    emit updateDom2SharedPhenomena(dom2SharedPhenomena);
-
-    close();
 }
 
 /*******************************************************************************

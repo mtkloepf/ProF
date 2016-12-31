@@ -253,12 +253,19 @@ void Interface::deleteInterface()
 *******************************************************************************/
 void Interface::setDomains(const QString first, const QString second)
 {
+    bool firstFound, secondFound = false;;
     foreach(Domain * dom, domains) {
         if(first != "None" && dom->getName() == first) {
             firstDomain = dom;
+            firstFound = true;
         }
         else if(second != "None" && dom->getName() == second) {
             secondDomain = dom;
+            secondFound = true;
+        }
+        if(firstFound && secondFound) {
+            emit connectionCreated(firstDomain, secondDomain);
+            break;
         }
     }
     if(first == "None") firstDomain = NULL;
