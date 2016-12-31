@@ -28,8 +28,7 @@ EditInterface::EditInterface(const QList<Domain *> &domains, QWidget *parent) :
     setFixedSize(geometry().width(), geometry().height());
 
     //Create the error message box for having duplicate connections
-    errorMsg = new QMessageBox();
-    errorMsg->setAttribute(Qt::WA_DeleteOnClose);
+    errorMsg = new QMessageBox(this);
     errorMsg->setStandardButtons(QMessageBox::Ok);
     errorMsg->setWindowTitle("Error");
 
@@ -128,6 +127,7 @@ void EditInterface::setConnections(const Domain *first, const Domain *second)
 void EditInterface::setDom1SharedPhenomena(const QStringList &phen)
 {
     dom1SharedListModel->setStringList(phen);
+    dom1SharedPhenomena = phen;
 }
 
 /*******************************************************************************
@@ -140,6 +140,7 @@ void EditInterface::setDom1SharedPhenomena(const QStringList &phen)
 void EditInterface::setDom2SharedPhenomena(const QStringList &phen)
 {
     dom2SharedListModel->setStringList(phen);
+    dom2SharedPhenomena = phen;
 }
 
 /*******************************************************************************
@@ -216,43 +217,50 @@ void EditInterface::on_cancelButton_clicked()
 *******************************************************************************/
 void EditInterface::on_editDom1Phen_clicked()
 {
-    QStringList unshared; //List of unshared phenomena
-    QStringList shared;   //List of shared phenomena
-
-    //Get the phenomena for domain 1
-    QList<Phenomenon> unsharedPhen;
-    foreach(Domain *dom, domains) {
-        if(dom->getName() == ui->domainOne->currentText()) {
-            unsharedPhen = dom->getPhenomena();
-            break;
-        }
+    if(ui->domainOne->currentText() == "None") {
+        errorMsg->setText("Domain connection one is set to 'None' -- cannot"
+                          " create shared phenomena.");
+        errorMsg->exec();
     }
+    else {
+        QStringList unshared; //List of unshared phenomena
+        QStringList shared;   //List of shared phenomena
 
-    // Create the list of unshared phenomena by removing the shared ones from
-    // the list of all phenomena owned by the domain
-    foreach(Phenomenon phenomenon, unsharedPhen) {        //Domain 1 Phenomena
-        foreach(QString phenom, dom1SharedPhenomena) { //Currently shared
-            if(phenomenon.name == phenom) {
-                unsharedPhen.removeOne(phenomenon);
-                shared.append(phenom); //Build the shared phonomena list
+        //Get the phenomena for domain 1
+        QList<Phenomenon> unsharedPhen;
+        foreach(Domain *dom, domains) {
+            if(dom->getName() == ui->domainOne->currentText()) {
+                unsharedPhen = dom->getPhenomena();
+                break;
             }
         }
+
+        // Create the list of unshared phenomena by removing the shared ones from
+        // the list of all phenomena owned by the domain
+        foreach(Phenomenon phenomenon, unsharedPhen) {        //Domain 1 Phenomena
+            foreach(QString phenom, dom1SharedPhenomena) { //Currently shared
+                if(phenomenon.name == phenom) {
+                    unsharedPhen.removeOne(phenomenon);
+                    shared.append(phenom); //Build the shared phonomena list
+                }
+            }
+        }
+
+        // Build the list for unshared phenomena
+        foreach(Phenomenon phenomenon, unsharedPhen) {
+            unshared.append(phenomenon.name);
+        }
+
+        edit = new EditSharedPhenomenon(true);
+
+        connect(edit, SIGNAL(updateDomain1SharedPhenomena(QStringList)),
+                this, SLOT(updateDomain1SharedPhenomena(QStringList)));
+
+        edit->setAttribute(Qt::WA_DeleteOnClose, true);
+        edit->setSharedPhenomena(shared);
+        edit->setUnsharedPhenomena(unshared);
+        edit->exec();
     }
-
-    // Build the list for unshared phenomena
-    foreach(Phenomenon phenomenon, unsharedPhen) {
-        unshared.append(phenomenon.name);
-    }
-
-    edit = new EditSharedPhenomenon(true);
-
-    connect(edit, SIGNAL(updateDomain1SharedPhenomena(QStringList)),
-            this, SLOT(updateDomain1SharedPhenomena(QStringList)));
-
-    edit->setAttribute( Qt::WA_DeleteOnClose );
-    edit->setSharedPhenomena(shared);
-    edit->setUnsharedPhenomena(unshared);
-    edit->exec();
 }
 
 /*******************************************************************************
@@ -264,43 +272,50 @@ void EditInterface::on_editDom1Phen_clicked()
 *******************************************************************************/
 void EditInterface::on_editDom2Phen_clicked()
 {
-    QStringList unshared; //List of unshared phenomena
-    QStringList shared;   //List of shared phenomena
-
-    //Get the phenomena for domain 2
-    QList<Phenomenon> unsharedPhen;
-    foreach(Domain *dom, domains) {
-        if(dom->getName() == ui->domainTwo->currentText()) {
-            unsharedPhen = dom->getPhenomena();
-            break;
-        }
+    if(ui->domainTwo->currentText() == "None") {
+        errorMsg->setText("Domain connection two is set to 'None' -- cannot"
+                          " create shared phenomena.");
+        errorMsg->exec();
     }
+    else {
+        QStringList unshared; //List of unshared phenomena
+        QStringList shared;   //List of shared phenomena
 
-    // Create the list of unshared phenomena by removing the shared ones from
-    // the list of all phenomena owned by the domain
-    foreach(Phenomenon phenomenon, unsharedPhen) {        //Domain 2 Phenomena
-        foreach(QString phenom, dom1SharedPhenomena) { //Currently shared
-            if(phenomenon.name == phenom) {
-                unsharedPhen.removeOne(phenomenon);
-                shared.append(phenom); //Build the shared phonomena list
+        //Get the phenomena for domain 2
+        QList<Phenomenon> unsharedPhen;
+        foreach(Domain *dom, domains) {
+            if(dom->getName() == ui->domainTwo->currentText()) {
+                unsharedPhen = dom->getPhenomena();
+                break;
             }
         }
+
+        // Create the list of unshared phenomena by removing the shared ones from
+        // the list of all phenomena owned by the domain
+        foreach(Phenomenon phenomenon, unsharedPhen) {        //Domain 2 Phenomena
+            foreach(QString phenom, dom2SharedPhenomena) { //Currently shared
+                if(phenomenon.name == phenom) {
+                    unsharedPhen.removeOne(phenomenon);
+                    shared.append(phenom); //Build the shared phonomena list
+                }
+            }
+        }
+
+        // Build the list for unshared phenomena
+        foreach(Phenomenon phenomenon, unsharedPhen) {
+            unshared.append(phenomenon.name);
+        }
+
+        edit = new EditSharedPhenomenon(false);
+
+        connect(edit, SIGNAL(updateDomain2SharedPhenomena(QStringList)),
+                this, SLOT(updateDomain2SharedPhenomena(QStringList)));
+
+        edit->setAttribute(Qt::WA_DeleteOnClose, true);
+        edit->setSharedPhenomena(shared);
+        edit->setUnsharedPhenomena(unshared);
+        edit->exec();
     }
-
-    // Build the list for unshared phenomena
-    foreach(Phenomenon phenomenon, unsharedPhen) {
-        unshared.append(phenomenon.name);
-    }
-
-    edit = new EditSharedPhenomenon(false);
-
-    connect(edit, SIGNAL(updateDomain2SharedPhenomena(QStringList)),
-            this, SLOT(updateDomain2SharedPhenomena(QStringList)));
-
-    edit->setAttribute( Qt::WA_DeleteOnClose );
-    edit->setSharedPhenomena(shared);
-    edit->setUnsharedPhenomena(unshared);
-    edit->exec();
 }
 
 /*******************************************************************************
@@ -312,9 +327,8 @@ void EditInterface::on_editDom2Phen_clicked()
 *******************************************************************************/
 void EditInterface::domain1ConnectionChanged()
 {
-    QStringList list;
-    dom1SharedListModel->setStringList(list);
-    dom1SharedPhenomena.empty();
+    dom1SharedPhenomena.clear();
+    dom1SharedListModel->setStringList(dom1SharedPhenomena);
 }
 
 
@@ -327,7 +341,6 @@ void EditInterface::domain1ConnectionChanged()
 *******************************************************************************/
 void EditInterface::domain2ConnectionChanged()
 {
-    QStringList list;
-    dom2SharedListModel->setStringList(list);
-    dom2SharedPhenomena.empty();
+    dom2SharedPhenomena.clear();
+    dom2SharedListModel->setStringList(dom2SharedPhenomena);
 }

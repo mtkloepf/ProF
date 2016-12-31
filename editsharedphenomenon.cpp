@@ -63,9 +63,9 @@ void EditSharedPhenomenon::setSharedPhenomena(const QStringList &phens)
 *******************************************************************************/
 void EditSharedPhenomenon::on_okButton_clicked()
 {
-    if(editingFirst && sharedListModel->stringList().size() > 0)
+    if(editingFirst)
         emit updateDomain1SharedPhenomena(sharedListModel->stringList());
-    else if(!editingFirst && sharedListModel->stringList().size() > 0)
+    else if(!editingFirst)
         emit updateDomain2SharedPhenomena(sharedListModel->stringList());
 
     close();
