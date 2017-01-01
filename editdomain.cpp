@@ -14,21 +14,13 @@
  *
  * @param parent widget that parents this dialog
 *******************************************************************************/
-EditDomain::EditDomain(QWidget *parent, bool machine) :
+EditDomain::EditDomain(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::EditDomain),
-    isMachine(machine)
+    ui(new Ui::EditDomain)
 {
     ui->setupUi(this);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     setFixedSize(geometry().width(), geometry().height());
-
-    //Special logic for the machine domain. Cannot edit the type for machine
-    //domain
-    if(isMachine) {
-        ui->givenRadio->setEnabled(false);
-        ui->designedRadio->setEnabled(false);
-    } else ui->machineRadio->setEnabled(false);
 
     //Turn off editing of phenomena names directly through the list view
     ui->phenomenaListView->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -75,12 +67,19 @@ void EditDomain::setDomainName(QString name)
 *******************************************************************************/
 void EditDomain::setDomainType(QString type)
 {
-    if(type == "Designed")
+    if(type == "Designed") {
+        ui->machineRadio->setEnabled(false);
         ui->designedRadio->setChecked(true);
-    else if(type == "Given")
+    }
+    else if(type == "Given") {
+        ui->machineRadio->setEnabled(false);
         ui->givenRadio->setChecked(true);
-    else
+    }
+    else {
+        ui->givenRadio->setEnabled(false);
+        ui->designedRadio->setEnabled(false);
         ui->machineRadio->setChecked(true);
+    }
 }
 
 /*******************************************************************************
@@ -115,7 +114,7 @@ void EditDomain::setPhenomena(QList<Phenomenon> phen)
 /******************************************************************************/
 
 /*******************************************************************************
-/*! \brief Called when a phenomenon has been added through the add phenomenon
+/*! \brief SLOT Called when a phenomenon has been added through the add phenomenon
  *         button. Duplicates are not allowed. Adds the new phenomenon to the
  *         list to be displayed in the list.
  *
@@ -173,9 +172,11 @@ void EditDomain::on_okButton_clicked()
     emit updateName(ui->nameLineEdit->text());
     emit updateDescription(ui->descriptionTextEdit->toPlainText());
     if(ui->designedRadio->isChecked())
-        emit updateType("Designed");
+        emit updateDomainType("Designed");
+    else if(ui->givenRadio->isChecked())
+        emit updateDomainType("Given");
     else
-        emit updateType("Given");
+        emit updateDomainType("Machine");
     emit updatePhenomena(phenomena);
     close();
 }
@@ -275,6 +276,7 @@ void EditDomain::on_editPhenomenon_clicked()
     connect(edit, SIGNAL(updatePhenomenon(Phenomenon)),
             this, SLOT(phenomenonUpdated(Phenomenon)));
 
+    edit->setAttribute(Qt::WA_DeleteOnClose);
     edit->exec();
 
     //Disable the delete and edit buttons when the list is empty

@@ -11,7 +11,6 @@
 #include <QStringListModel>
 
 #include "editphenomenon.h"
-#include "phenomenon.h"
 
 namespace Ui {
 class EditDomain;
@@ -22,7 +21,7 @@ class EditDomain : public QDialog
     Q_OBJECT
 
 public:
-    explicit EditDomain(QWidget *parent = 0, bool machine=false);
+    explicit EditDomain(QWidget *parent = 0);
     ~EditDomain();
 
     void setDomainDescription(QString desc);
@@ -44,7 +43,7 @@ private slots:
 signals:
     void updateDescription(QString);
     void updateName(QString);
-    void updateType(QString);
+    void updateDomainType(QString);
 
     //Update the phenomena of the domain when done editing
     void updatePhenomena(QList<Phenomenon>);
@@ -53,8 +52,6 @@ private:
     QStringListModel *listModel;
 
     QList<Phenomenon> phenomena;
-
-    bool isMachine;
 
     QString name;
 

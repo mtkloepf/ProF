@@ -11,8 +11,6 @@
 
 #include "domain.h"
 
-#include <qdebug.h>
-
 /*******************************************************************************
 /*! \brief Constructor for the domain
  *
@@ -23,9 +21,9 @@ Domain::Domain(float x, float y)
     : pos(QPointF(x, y)),
       enabled(true)
 {
+    setGraphicsObjType(3); //Non-machine domains
     setFlag(ItemIsMovable);
     setAcceptHoverEvents(true);
-    defaultColor = Qt::cyan;
 }
 
 /*******************************************************************************
@@ -142,7 +140,7 @@ void Domain::copyDomainAttributes(const Domain &dom)
 {
     setName(dom.getName());
     setPhenomena(dom.getPhenomena());
-    setType(dom.getType());
+    setDomainType(dom.getDomainType());
     setDescription(dom.getDescription());
 }
 
@@ -155,7 +153,16 @@ void Domain::copyDomainAttributes(const Domain &dom)
 *******************************************************************************/
 int Domain::type() const
 {
-    return 3;
+    return objectType;
+}
+
+/*******************************************************************************
+/*! \brief sets the type of graphics object in the application
+ *
+ * @param type the value corresponding to graphics objects
+*******************************************************************************/
+void Domain::setGraphicsObjType(const int type) {
+    objectType = type;
 }
 
 /*******************************************************************************
@@ -171,6 +178,37 @@ bool Domain::getEnabled()
     return enabled;
 }
 
+/*******************************************************************************
+/*! \brief Disables or enables a domain
+ *
+ *  Domains enabled or disabled and vice versa
+*******************************************************************************/
+void Domain::disableDomain()
+{
+    if(enabled) {
+        setColor(Qt::gray);
+        this->setAcceptHoverEvents(false);
+        this->setAcceptedMouseButtons(Qt::NoButton);
+        enabled = false;
+    }
+    else {
+        setColor(defaultColor);
+        this->setAcceptHoverEvents(true);
+        this->setAcceptedMouseButtons(Qt::AllButtons);
+        enabled = true;
+    }
+}
+
+/*******************************************************************************
+/*! \brief Gets the position of the domain
+ *
+ *  @return a point of floats that represent the position of the domain
+*******************************************************************************/
+QPointF Domain::getPos()
+{
+    return pos;
+}
+
 
 /******************************************************************************/
 /* Slot Functions
@@ -178,7 +216,7 @@ bool Domain::getEnabled()
 
 
 /*******************************************************************************
-/*! \brief Used for opening the context menu for domains
+/*! \brief SLOT Used for opening the context menu for domains
  *
  *  Called when right clicking on a domain in the graphics scene. Spawns a
  *  context menu containing the edit and delete options for the domain clicked
@@ -189,29 +227,36 @@ bool Domain::getEnabled()
 *******************************************************************************/
 void Domain::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
-    //Create a new context menu to hold edit and delete actions
-    //Then connect the signals to slot functions for the menu actions
     QMenu menu;
-    if(enabled) {
+
+    //If the domain is the machine domain, only edit is necessary
+    if(type() == 4) {
         QAction *editAction = menu.addAction("Edit");
         connect(editAction, SIGNAL(triggered()), this, SLOT(editDomain()));
-        QAction *deleteAction = menu.addAction("Delete");
-        connect(deleteAction, SIGNAL(triggered()), this, SLOT(deleteDomain()));
-        QAction *disableAction = menu.addAction("Disable");
-        connect(disableAction, SIGNAL(triggered()), this, SLOT(disableDomain()));
-
         menu.exec(event->screenPos());
     }
     else {
-        QAction *enable = menu.addAction("Enable");
-        connect(enable, SIGNAL(triggered()), this, SLOT(disableDomain()));
+        if(enabled) {
+            QAction *editAction = menu.addAction("Edit");
+            connect(editAction, SIGNAL(triggered()), this, SLOT(editDomain()));
+            QAction *deleteAction = menu.addAction("Delete");
+            connect(deleteAction, SIGNAL(triggered()), this, SLOT(deleteDomain()));
+            QAction *disableAction = menu.addAction("Disable");
+            connect(disableAction, SIGNAL(triggered()), this, SLOT(disableDomain()));
 
-        menu.exec(event->screenPos());
+            menu.exec(event->screenPos());
+        }
+        else {
+            QAction *enable = menu.addAction("Enable");
+            connect(enable, SIGNAL(triggered()), this, SLOT(disableDomain()));
+
+            menu.exec(event->screenPos());
+        }
     }
 }
 
 /*******************************************************************************
-/*! \brief Darkens the domain color when hovered over
+/*! \brief SLOT that darkens the domain color when hovered over
  *
  *  Darkens the color of the domain that's currently hovered over. This makes it
  *  easier for the use to see which domain is accepting the mouse
@@ -224,7 +269,7 @@ void Domain::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
 }
 
 /*******************************************************************************
-/*! \brief Lightens the domain color when hover event ends
+/*! \brief SLOT that lightens the domain color when hover event ends
  *
  *  Resets the color of the domain to the default after the mouse leaves the
  *  bounding rect
@@ -281,7 +326,7 @@ void Domain::setName(const QString &value)
  *
  * @return QString containing the type of the domain
 *******************************************************************************/
-QString Domain::getType() const
+QString Domain::getDomainType() const
 {
     return domainType;
 }
@@ -290,7 +335,7 @@ QString Domain::getType() const
  *
  * @param value the QString containing the type of domain to set to
 *******************************************************************************/
-void Domain::setType(const QString &value)
+void Domain::setDomainType(const QString &value)
 {
     //Change the type of the domain
     domainType = value;
@@ -300,9 +345,13 @@ void Domain::setType(const QString &value)
         setColor(Qt::yellow);
         setDefaultColor(Qt::yellow);
     }
-    else {
+    else if(value == "Given") {
         setColor(Qt::cyan);
         setDefaultColor(Qt::cyan);
+    }
+    else {
+        setColor(Qt::red);
+        setDefaultColor((Qt::red));
     }
 }
 
@@ -318,7 +367,7 @@ void Domain::editDomain()
     edit = new EditDomain();
     edit->setDomainDescription(getDescription());
     edit->setDomainName(getName());
-    edit->setDomainType(getType());
+    edit->setDomainType(getDomainType());
     edit->setPhenomena(phenomena);
 
     //Connect signals for updating the domain attributes for phenomena
@@ -328,8 +377,8 @@ void Domain::editDomain()
             this, SLOT(setDescription(QString)));
     connect(edit, SIGNAL(updateName(QString)), this,
             SLOT(setName(QString)));
-    connect(edit, SIGNAL(updateType(QString)), this,
-            SLOT(setType(QString)));
+    connect(edit, SIGNAL(updateDomainType(QString)), this,
+            SLOT(setDomainType(QString)));
     edit->setAttribute( Qt::WA_DeleteOnClose );
     edit->exec();
 }
@@ -351,25 +400,4 @@ void Domain::deleteDomain()
 void Domain::setPhenomena(const QList<Phenomenon> &value)
 {
     phenomena = value;
-}
-
-QPointF Domain::getPos()
-{
-    return pos;
-}
-
-void Domain::disableDomain()
-{
-    if(enabled) {
-        setColor(Qt::gray);
-        this->setAcceptHoverEvents(false);
-        this->setAcceptedMouseButtons(Qt::NoButton);
-        enabled = false;
-    }
-    else {
-        setColor(defaultColor);
-        this->setAcceptHoverEvents(true);
-        this->setAcceptedMouseButtons(Qt::AllButtons);
-        enabled = true;
-    }
 }

@@ -63,7 +63,7 @@ void GraphicsView::mousePressEvent( QMouseEvent *event)
             if(event->button() == Qt::LeftButton) {
                 //Create a new given domain and center it on the mouse
                 domain = new Domain(pos.x()-25, pos.y()-25);
-                domain->setType("Given");
+                domain->setDomainType("Given");
 
                 connect(domain, SIGNAL(deleteDomain(Domain*)),
                         this, SLOT(deleteDomain(Domain*)));

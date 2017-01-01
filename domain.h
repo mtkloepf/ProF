@@ -13,7 +13,6 @@
 #include <QPainter>
 
 #include "editdomain.h"
-#include "phenomenon.h"
 
 class Domain : public QGraphicsObject
 {
@@ -38,9 +37,14 @@ public:
 
     void copyDomainAttributes(const Domain &dom);
 
+    void setGraphicsObjType(const int type);
     int type() const;
 
     bool getEnabled();
+
+    void disableDomain();
+
+    QPointF getPos();
 
 signals:
     void deleteDomain(Domain*);
@@ -56,20 +60,17 @@ public slots:
     QString getName() const;
     void setName(const QString &value);
 
-    QString getType() const;
-    void setType(const QString &value);
+    QString getDomainType() const;
+    void setDomainType(const QString &value);
 
     void editDomain();
     void deleteDomain();
 
     void setPhenomena(const QList<Phenomenon> &value);
 
-    void disableDomain();
-
-    QPointF getPos();
-
 private:
     bool enabled;
+    int objectType;
     QPointF pos;
 
     QString description;
