@@ -9,13 +9,19 @@
 #include "editdomain.h"
 #include "ui_editdomain.h"
 
+#include <QDebug>
 /*******************************************************************************
 /*! \brief Constructor
  *
  * @param parent widget that parents this dialog
 *******************************************************************************/
-EditDomain::EditDomain(QWidget *parent) :
+EditDomain::EditDomain(QString &name, QString &desc, QString &type,
+                       QList<Phenomenon> &phen, QWidget *parent) :
     QDialog(parent),
+    domainName(name),
+    domainDesc(desc),
+    domainType(type),
+    phenomena(phen),
     ui(new Ui::EditDomain)
 {
     ui->setupUi(this);
@@ -28,6 +34,14 @@ EditDomain::EditDomain(QWidget *parent) :
     //Create a model for the phenomena list view
     listModel = new QStringListModel();
     ui->phenomenaListView->setModel(listModel);
+
+    ui->nameLineEdit->setText(domainName);
+    ui->descriptionTextEdit->setText(domainDesc);
+
+    //Used to set the correct radio button for type and populating
+    //the phenomena list
+    setDomainType(domainType);
+    setPhenomena(phenomena);
 }
 
 /*******************************************************************************
@@ -39,33 +53,11 @@ EditDomain::~EditDomain()
 }
 
 /*******************************************************************************
-/*! \brief Sends the text of the description text edit to the domain once OK is
- *         clicked
- *
- * @param desc the text held in the text edit
-*******************************************************************************/
-void EditDomain::setDomainDescription(QString desc)
-{
-    ui->descriptionTextEdit->setText(desc);
-}
-
-/*******************************************************************************
-/*! \brief Sends the text of the name line edit to the domain once OK is
- *         clicked
- *
- * @param name the text held in the name line edit
-*******************************************************************************/
-void EditDomain::setDomainName(QString name)
-{
-    ui->nameLineEdit->setText(name);
-}
-
-/*******************************************************************************
 /*! \brief Sends the status of the radio buttons defining domain type
  *
  * @param type the text of whichever radio button is checked
 *******************************************************************************/
-void EditDomain::setDomainType(QString type)
+void EditDomain::setDomainType(QString &type)
 {
     if(type == "Designed") {
         ui->machineRadio->setEnabled(false);
@@ -88,14 +80,71 @@ void EditDomain::setDomainType(QString type)
  *
  * @param phen a list of phenomena to populate the list with
 *******************************************************************************/
-void EditDomain::setPhenomena(QList<Phenomenon> phen)
+void EditDomain::setPhenomena(const QList<Phenomenon> &phen)
 {
-    phenomena = phen;
-    QStringList pheno;
-    foreach (Phenomenon phenomenon, phenomena) {
-        pheno << phenomenon.name;
+    QStringList phenList;
+    foreach (Phenomenon phenomenon, phen) {
+        phenList << phenomenon.getName();
     }
-    listModel->setStringList(pheno);
+    listModel->setStringList(phenList);
+    phenomena = phen;
+
+    if(phenomena.size() > 0) {
+        ui->editPhenomenon->setEnabled(true);
+        ui->deletePhenomenon->setEnabled(true);
+    }
+}
+
+
+/*******************************************************************************
+ * SLOT FUNCTIONS
+/******************************************************************************/
+
+/*******************************************************************************
+/*! \brief SLOT Called when a phenomenon has been added through the add phenomenon
+ *         button or updated through the edit button. Duplicates are not allowed.
+ *         Adds the new phenomenon to the list to be displayed in the list.
+ *
+ * @param phen a phenomenon object that holds the information for the newly
+ *             created phenomenon.
+*******************************************************************************/
+void EditDomain::phenomenonUpdated(Phenomenon &phen)
+{
+    bool exists = false;
+    QStringList list = listModel->stringList();
+
+    //Check to see if the phenomenon already exists and update it
+    for(int i = 0; i < list.size(); i++) {
+        if(list.at(i) == selectedPhenName) {
+            //If the new name is an empty string, we just delete the phenomenon
+            if(phen.getName() == "") {
+                phenomena.removeAt(i);
+                list.removeAt(i);
+            }
+
+            //Otherwise update the name in the in the list
+            else {
+                list.replace((i), phen.getName());
+                phenomena.replace(i, phen);
+            }
+            listModel->setStringList(list);
+            exists = true;
+            break;
+        }
+
+        //Duplicates are not allowed
+        if(list.at(i) == phen.getName()) {
+            exists = true;
+            break;
+        }
+    }
+
+    //If the phenomenon does not exist after searching, add it
+    if(!exists) {
+        list << phen.getName();
+        listModel->setStringList(list);
+        phenomena.append(phen);
+    }
 
     if(listModel->rowCount() == 0) {
         ui->deletePhenomenon->setEnabled(false);
@@ -108,59 +157,6 @@ void EditDomain::setPhenomena(QList<Phenomenon> phen)
     }
 }
 
-
-/*******************************************************************************
- * SLOT FUNCTIONS
-/******************************************************************************/
-
-/*******************************************************************************
-/*! \brief SLOT Called when a phenomenon has been added through the add phenomenon
- *         button. Duplicates are not allowed. Adds the new phenomenon to the
- *         list to be displayed in the list.
- *
- * @param phen a phenomenon object that holds the information for the newly
- *             created phenomenon. Used to put the name into the list of
- *             phenomena
-*******************************************************************************/
-void EditDomain::phenomenonUpdated(Phenomenon phen)
-{
-    bool exists = false;
-    QStringList list = listModel->stringList();
-
-    //Check to see if the phenomenon already exists and update it
-    for(int i = 0; i < list.size(); i++) {
-        if(list.at(i) == name) {
-            //If the new name is an empty string, we just delete the phenomenon
-            if(phen.name == "") {
-                phenomena.removeAt(i);
-                list.removeAt(i);
-            }
-
-            //Otherwise update the name in the in the list
-            else {
-                list.replace((i), phen.name);
-                phenomena.replace(i, phen);
-            }
-            listModel->setStringList(list);
-            exists = true;
-            break;
-        }
-
-        //Duplicates are not allowed
-        if(list.at(i) == phen.name) {
-            exists = true;
-            break;
-        }
-    }
-
-    //If the phenomenon does not exist after searching, add it
-    if(!exists) {
-        list << phen.name;
-        listModel->setStringList(list);
-        phenomena.append(phen);
-    }
-}
-
 /*******************************************************************************
 /*! \brief SLOT called when the OK button of this dialog is clicked
  *
@@ -168,16 +164,16 @@ void EditDomain::phenomenonUpdated(Phenomenon phen)
 *******************************************************************************/
 void EditDomain::on_okButton_clicked()
 {
-    //Emit signals to update the domain attributes before closing the window
-    emit updateName(ui->nameLineEdit->text());
-    emit updateDescription(ui->descriptionTextEdit->toPlainText());
+    //Set all the values onto the domain being edited before exiting
+    //Note: The local data variables are set to references of the domain data
+    domainName = ui->nameLineEdit->text();
+    domainDesc = ui->descriptionTextEdit->toPlainText();
     if(ui->designedRadio->isChecked())
-        emit updateDomainType("Designed");
+        domainType = "Designed";
     else if(ui->givenRadio->isChecked())
-        emit updateDomainType("Given");
+        domainType = "Given";
     else
-        emit updateDomainType("Machine");
-    emit updatePhenomena(phenomena);
+        domainType = "Machine";
     close();
 }
 
@@ -226,21 +222,10 @@ void EditDomain::on_addPhenomenon_clicked()
 {
     edit = new EditPhenomenon(this);
 
-    connect(edit, SIGNAL(updatePhenomenon(Phenomenon)),
-            this, SLOT(phenomenonUpdated(Phenomenon)));
+    connect(edit, SIGNAL(updatePhenomenon(Phenomenon &)),
+            this, SLOT(phenomenonUpdated(Phenomenon &)));
 
     edit->exec();
-
-    //Disable the delete and edit buttons when the list is empty
-    if(listModel->rowCount() == 0) {
-        ui->deletePhenomenon->setEnabled(false);
-        ui->editPhenomenon->setEnabled(false);
-    }
-    //Enable the delete and edit buttons when the list has something in it
-    else {
-        ui->deletePhenomenon->setEnabled(true);
-        ui->editPhenomenon->setEnabled(true);
-    }
 }
 
 /*******************************************************************************
@@ -259,36 +244,25 @@ void EditDomain::on_editPhenomenon_clicked()
 
     //If there is no selection, return. We don't want empty names for phenomena
     if(name == "") return;
-    this->name = name;
+    this->selectedPhenName = name;
 
     edit = new EditPhenomenon(this);
 
     //Set all the phenomenon attributes for editing
     foreach(Phenomenon pheno, phenomena) {
-        if(pheno.name == name) {
+        if(pheno.getName() == name) {
             edit->setPhenonemonName(name);
-            edit->setPhenomenonDesc(pheno.description);
-            edit->setPhenomenonType(pheno.type);
+            edit->setPhenomenonDesc(pheno.getDescription());
+            edit->setPhenomenonType(pheno.getType());
             break;
         }
     }
 
-    connect(edit, SIGNAL(updatePhenomenon(Phenomenon)),
-            this, SLOT(phenomenonUpdated(Phenomenon)));
+    connect(edit, SIGNAL(updatePhenomenon(Phenomenon &)),
+            this, SLOT(phenomenonUpdated(Phenomenon &)));
 
     edit->setAttribute(Qt::WA_DeleteOnClose);
     edit->exec();
-
-    //Disable the delete and edit buttons when the list is empty
-    if(listModel->rowCount() == 0) {
-        ui->deletePhenomenon->setEnabled(false);
-        ui->editPhenomenon->setEnabled(false);
-    }
-    //Enable the delete and edit buttons when the list has something in it
-    else {
-        ui->deletePhenomenon->setEnabled(true);
-        ui->editPhenomenon->setEnabled(true);
-    }
 }
 
 /*******************************************************************************
@@ -309,15 +283,10 @@ void EditDomain::on_deletePhenomenon_clicked()
         ui->deletePhenomenon->setEnabled(false);
         ui->editPhenomenon->setEnabled(false);
     }
-    //Enable the delete and edit buttons when the list has something in it
-    else {
-        ui->deletePhenomenon->setEnabled(true);
-        ui->editPhenomenon->setEnabled(true);
-    }
 
     //Remove the phenomenon from the phenomena owned by the domain
     foreach(Phenomenon phenomenon, phenomena) {
-        if(phenomenon.name == name) {
+        if(phenomenon.getName() == name) {
             phenomena.removeOne(phenomenon);
             break;
         }

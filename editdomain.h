@@ -21,16 +21,19 @@ class EditDomain : public QDialog
     Q_OBJECT
 
 public:
-    explicit EditDomain(QWidget *parent = 0);
+    explicit EditDomain(QString &name, QString &desc,
+                        QString &type, QList<Phenomenon> &phen,
+                        QWidget *parent = 0);
     ~EditDomain();
 
-    void setDomainDescription(QString desc);
-    void setDomainName(QString name);
-    void setDomainType(QString type);
-    void setPhenomena(QList<Phenomenon> phen);
+private:
+    void setDomainDescription(QString &desc);
+    void setDomainName(QString &name);
+    void setDomainType(QString &type);
+    void setPhenomena(const QList<Phenomenon> &phen);
 
 public slots:
-    void phenomenonUpdated(Phenomenon phen);
+    void phenomenonUpdated(Phenomenon &phen);
 
 private slots:
     void on_okButton_clicked();
@@ -44,16 +47,16 @@ signals:
     void updateDescription(QString);
     void updateName(QString);
     void updateDomainType(QString);
-
-    //Update the phenomena of the domain when done editing
     void updatePhenomena(QList<Phenomenon>);
 
 private:
     QStringListModel *listModel;
 
-    QList<Phenomenon> phenomena;
-
-    QString name;
+    QList<Phenomenon> &phenomena;
+    QString selectedPhenName;
+    QString &domainName;
+    QString &domainDesc;
+    QString &domainType;
 
     Ui::EditDomain *ui;
 
