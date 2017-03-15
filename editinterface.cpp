@@ -176,11 +176,18 @@ void EditInterface::updateDomain2SharedPhenomena(const QStringList phen)
 void EditInterface::on_okButton_clicked()
 {
     //Domain connections must be unique
-    if(ui->domainOne->currentText() == ui->domainTwo->currentText() &&
-            (ui->domainOne->currentText() != "None" &&
-             ui->domainTwo->currentText() != "None")) {
+    if(ui->domainOne->currentText() != "None" &&
+            ui->domainOne->currentText() == ui->domainTwo->currentText()) {
         errorMsg->setText("An interface must be "
                           "connected to two unique domains.");
+        errorMsg->exec();
+    }
+
+    //Domain connections must be set to two valid domains or none, not one valid and one not
+    else if((ui->domainOne->currentText() == "None" && ui->domainTwo->currentText() != "None") ||
+            (ui->domainOne->currentText() != "None" && ui->domainTwo->currentText() == "None")) {
+        errorMsg->setText("An interface must have a connection to two valid domains."
+                           " Both connections can be set to 'None' as well");
         errorMsg->exec();
     }
     else {
@@ -239,7 +246,7 @@ void EditInterface::on_editDom1Phen_clicked()
         // the list of all phenomena owned by the domain
         foreach(Phenomenon phenomenon, unsharedPhen) {        //Domain 1 Phenomena
             foreach(QString phenom, dom1SharedPhenomena) { //Currently shared
-                if(phenomenon.name == phenom) {
+                if(phenomenon.getName() == phenom) {
                     unsharedPhen.removeOne(phenomenon);
                     shared.append(phenom); //Build the shared phonomena list
                 }
@@ -248,7 +255,7 @@ void EditInterface::on_editDom1Phen_clicked()
 
         // Build the list for unshared phenomena
         foreach(Phenomenon phenomenon, unsharedPhen) {
-            unshared.append(phenomenon.name);
+            unshared.append(phenomenon.getName());
         }
 
         edit = new EditSharedPhenomenon(true);
@@ -294,7 +301,7 @@ void EditInterface::on_editDom2Phen_clicked()
         // the list of all phenomena owned by the domain
         foreach(Phenomenon phenomenon, unsharedPhen) {        //Domain 2 Phenomena
             foreach(QString phenom, dom2SharedPhenomena) { //Currently shared
-                if(phenomenon.name == phenom) {
+                if(phenomenon.getName() == phenom) {
                     unsharedPhen.removeOne(phenomenon);
                     shared.append(phenom); //Build the shared phonomena list
                 }
@@ -303,7 +310,7 @@ void EditInterface::on_editDom2Phen_clicked()
 
         // Build the list for unshared phenomena
         foreach(Phenomenon phenomenon, unsharedPhen) {
-            unshared.append(phenomenon.name);
+            unshared.append(phenomenon.getName());
         }
 
         edit = new EditSharedPhenomenon(false);
