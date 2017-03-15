@@ -108,7 +108,7 @@ void EditDomain::setPhenomena(const QList<Phenomenon> &phen)
  * @param phen a phenomenon object that holds the information for the newly
  *             created phenomenon.
 *******************************************************************************/
-void EditDomain::phenomenonUpdated(Phenomenon &phen)
+void EditDomain::phenomenonUpdated(Phenomenon phen)
 {
     bool exists = false;
     QStringList list = listModel->stringList();
@@ -222,8 +222,8 @@ void EditDomain::on_addPhenomenon_clicked()
 {
     edit = new EditPhenomenon(this);
 
-    connect(edit, SIGNAL(updatePhenomenon(Phenomenon &)),
-            this, SLOT(phenomenonUpdated(Phenomenon &)));
+    connect(edit, SIGNAL(updatePhenomenon(Phenomenon)),
+            this, SLOT(phenomenonUpdated(Phenomenon)));
 
     edit->exec();
 }

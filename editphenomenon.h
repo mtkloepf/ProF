@@ -32,7 +32,7 @@ private slots:
     void on_resetButton_clicked();
 
 signals:
-    void updatePhenomenon(Phenomenon &);
+    void updatePhenomenon(Phenomenon);
 
 private:
     Ui::EditPhenomenon *ui;

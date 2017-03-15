@@ -33,7 +33,7 @@ private:
     void setPhenomena(const QList<Phenomenon> &phen);
 
 public slots:
-    void phenomenonUpdated(Phenomenon &phen);
+    void phenomenonUpdated(Phenomenon phen);
 
 private slots:
     void on_okButton_clicked();
