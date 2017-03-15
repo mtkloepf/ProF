@@ -49,3 +49,33 @@ Phenomenon* Phenomenon::clone()
     return new Phenomenon(*this);
 }
 
+QString Phenomenon::getName() const
+{
+    return name;
+}
+
+void Phenomenon::setName(QString newName)
+{
+    name = newName;
+}
+
+QString Phenomenon::getDescription() const
+{
+    return description;
+}
+
+void Phenomenon::setDescription(QString newDesc)
+{
+    description = newDesc;
+}
+
+QString Phenomenon::getType() const
+{
+    return type;
+}
+
+void Phenomenon::setType(QString newType)
+{
+    type = newType;
+}
+

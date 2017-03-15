@@ -16,13 +16,22 @@ public:
     ~Phenomenon();
 
     bool operator==(const Phenomenon &phen);
+    Phenomenon* clone();
 
-public:
+    QString getName() const;
+    void setName(QString newName);
+
+    QString getDescription() const;
+    void setDescription(QString newDesc);
+
+    QString getType() const;
+    void setType(QString newType);
+
+private:
     QString name;
     QString description;
     QString type = "Event";
 
-    Phenomenon* clone();
 };
 
 #endif // PHENOMENON_H
