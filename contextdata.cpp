@@ -30,26 +30,19 @@ QList<Domain *> & ContextData::getDomains()
 }
 
 /*******************************************************************************
-/*! \brief Setter for list of pointers to all domains
- *
- * @param value a list of pointers to all the domains that exist in the frame
-*******************************************************************************/
-void ContextData::setDomains(const QList<Domain *> &value)
-{
-    domains = value;
-}
-
-/*******************************************************************************
 /*! \brief Add a domain to the context
  *
  * @param dom domain to be added if it does not already exist in the context
+ * @return true if the domain was added, false otherwise
 *******************************************************************************/
-void ContextData::addDomain(Domain &dom)
+bool ContextData::addDomain(Domain &dom)
 {
     if(!domains.contains(&dom)) {
         domains.append(&dom);
         domainCount++;
+        return true;
     }
+    return false;
 }
 
 /*******************************************************************************
@@ -63,6 +56,29 @@ void ContextData::removeDomain(Domain &dom)
         domains.removeOne(&dom);
         domainCount--;
     }
+}
+
+/*******************************************************************************
+/*! \brief Add an interface to the context
+ *
+ * @param interface interface to be added to the context
+*******************************************************************************/
+bool ContextData::addInterface(Interface &interface)
+{
+    //Interface already exists in the context
+    if(interfaces.contains(&interface)) return false;
+
+    interfaces.append(&interface);
+}
+
+/*******************************************************************************
+/*! \brief Remove a domain from the context
+ *
+ * @param dom domain to be removed if it exists in the context
+*******************************************************************************/
+void ContextData::removeInterface(Interface &interface)
+{
+
 }
 
 /*******************************************************************************
