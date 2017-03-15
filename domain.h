@@ -42,8 +42,6 @@ public:
 
     bool getEnabled();
 
-    void disableDomain();
-
     QPointF getPos();
 
 signals:
@@ -67,6 +65,7 @@ public slots:
     void deleteDomain();
 
     void setPhenomena(const QList<Phenomenon> &value);
+    void disableDomain();
 
 private:
     bool enabled;

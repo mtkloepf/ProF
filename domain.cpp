@@ -10,7 +10,6 @@
 #include <QMenu>
 
 #include "domain.h"
-
 /*******************************************************************************
 /*! \brief Constructor for the domain
  *
@@ -364,21 +363,7 @@ void Domain::editDomain()
     // Bring up the edit domain menu, connect the slots to the OK button of
     // the edit domain dialog, and give the current domain info for the
     // edit domain dialog to display
-    edit = new EditDomain();
-    edit->setDomainDescription(getDescription());
-    edit->setDomainName(getName());
-    edit->setDomainType(getDomainType());
-    edit->setPhenomena(phenomena);
-
-    //Connect signals for updating the domain attributes for phenomena
-    connect(edit, SIGNAL(updatePhenomena(QList<Phenomenon>)),
-            this, SLOT(setPhenomena(QList<Phenomenon>)));
-    connect(edit, SIGNAL(updateDescription(QString)),
-            this, SLOT(setDescription(QString)));
-    connect(edit, SIGNAL(updateName(QString)), this,
-            SLOT(setName(QString)));
-    connect(edit, SIGNAL(updateDomainType(QString)), this,
-            SLOT(setDomainType(QString)));
+    edit = new EditDomain(name, description, domainType, phenomena);
     edit->setAttribute( Qt::WA_DeleteOnClose );
     edit->exec();
 }
