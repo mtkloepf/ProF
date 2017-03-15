@@ -116,7 +116,7 @@ void EditRequirement::setDom1SharedPhenomena(const QList<Phenomenon> phen)
     dom1SharedPhenomena = phen;
     QStringList pheno;
     foreach (Phenomenon phenomenon, dom1SharedPhenomena) {
-        pheno << phenomenon.name;
+        pheno << phenomenon.getName();
     }
     dom1SharedListModel->setStringList(pheno);
     dom1SharedPrevious = dom1SharedPhenomena;
@@ -127,7 +127,7 @@ void EditRequirement::setDom2SharedPhenomena(const QList<Phenomenon> phen)
     dom2SharedPhenomena = phen;
     QStringList pheno;
     foreach (Phenomenon phenomenon, dom2SharedPhenomena) {
-        pheno << phenomenon.name;
+        pheno << phenomenon.getName();
     }
     dom2SharedListModel->setStringList(pheno);
     dom2SharedPrevious = dom2SharedPhenomena;
@@ -144,7 +144,7 @@ void EditRequirement::updateDomain1SharedPhenomena(QStringList phen)
     dom1SharedPhenomena.clear();
     foreach(Phenomenon phenomenon, phenomena) {
         foreach(QString name, phen) {
-            if(phenomenon.name == name) {
+            if(phenomenon.getName() == name) {
                 dom1SharedPhenomena.append(phenomenon);
             }
         }
@@ -162,7 +162,7 @@ void EditRequirement::updateDomain2SharedPhenomena(QStringList phen)
     dom2SharedPhenomena.clear();
     foreach(Phenomenon phenomenon, phenomena) {
         foreach(QString name, phen) {
-            if(phenomenon.name == name) {
+            if(phenomenon.getName() == name) {
                 dom2SharedPhenomena.append(phenomenon);
             }
         }
@@ -228,7 +228,7 @@ void EditRequirement::on_editDom1Phen_clicked()
     // the list of all phenomena owned by the domain
     foreach(Phenomenon phenomenon, phen) {
         foreach(Phenomenon phenom, dom1SharedPhenomena) {
-            if(phenomenon.name == phenom.name) {
+            if(phenomenon.getName() == phenom.getName()) {
                 phen.removeOne(phenomenon);
             }
         }
@@ -259,7 +259,7 @@ void EditRequirement::on_editDom2Phen_clicked()
     // the list of all phenomena owned by the domain
     foreach(Phenomenon phenomenon, phen) {
         foreach(Phenomenon phenom, dom1SharedPhenomena) {
-            if(phenomenon.name == phenom.name) {
+            if(phenomenon.getName() == phenom.getName()) {
                 phen.removeOne(phenomenon);
             }
         }

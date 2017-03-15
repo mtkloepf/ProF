@@ -7,25 +7,21 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QMenu>
 
-#include "qdebug.h"
-
 #include "interface.h"
-
 /*******************************************************************************
 /*! \brief Constructor for the interface
  *
  * @param x the x coordinate for the center of the interface in the scene
  * @param y the y coordinate for the center of the interface
 *******************************************************************************/
-Interface::Interface(int x, int y, QList<Domain *> &allDomains)
+Interface::Interface(int x, int y, QList<Domain *> &doms)
     : pos(QPointF(x, y)),
-      domains(allDomains),
+      domains(doms),
       firstDomain(NULL),
       secondDomain(NULL),
       defaultColor(Qt::green),
       enabled(true)
 {
-
     setColor(defaultColor);
     setFlag(ItemIsMovable);
     setAcceptHoverEvents(true);
@@ -253,7 +249,14 @@ void Interface::deleteInterface()
 *******************************************************************************/
 void Interface::setDomains(const QString first, const QString second)
 {
-    bool firstFound, secondFound = false;;
+    bool firstFound, secondFound = false;
+
+    //Cannot have only one connection
+    if(first == "None" || second == "None") {
+        firstDomain = NULL;
+        secondDomain = NULL;
+        return;
+    }
     foreach(Domain * dom, domains) {
         if(first != "None" && dom->getName() == first) {
             firstDomain = dom;
@@ -268,8 +271,6 @@ void Interface::setDomains(const QString first, const QString second)
             break;
         }
     }
-    if(first == "None") firstDomain = NULL;
-    if(second == "None") secondDomain = NULL;
 }
 
 void Interface::updateDom1SharedPhenomena(const QStringList phen)
