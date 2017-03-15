@@ -78,13 +78,12 @@ void EditPhenomenon::on_okButton_clicked()
         close();
     }
 
-    Phenomenon phen("", "");
-    phen.name = ui->nameLineEdit->text();
+    Phenomenon phen(ui->nameLineEdit->text(),
+                    ui->descriptionTextEdit->toPlainText());
     if(ui->stateRadio->isChecked())
-        phen.type = "State";
+        phen.setType("State");
     else
-        phen.type = "Event";
-    phen.description = ui->descriptionTextEdit->toPlainText();
+        phen.setType("Event");
     emit updatePhenomenon(phen);
 
     close();
