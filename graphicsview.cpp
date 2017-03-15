@@ -24,9 +24,6 @@ GraphicsView::GraphicsView( QGraphicsScene *graphicsScene, ContextData &data,
     setScene(scene);
     setMouseTracking(true);
     viewport()->setMouseTracking(true);
-
-    //    connect(context, SIGNAL(lineAdded(QPointF,QPointF)),
-    //            this, SLOT(lineAdded(QPointF,QPointF)));
 }
 
 /*******************************************************************************
@@ -70,8 +67,13 @@ void GraphicsView::mousePressEvent( QMouseEvent *event)
 
                 QString name = QString("Domain %1").arg(context.getDomainCount());
                 domain->setName(name);
-                context.addDomain(*domain);
-                scene->addItem(domain);
+
+                //Add the newly created domain to the scene
+                if(context.addDomain(*domain)) scene->addItem(domain);
+                else {
+                    delete domain;
+                    domain = NULL;
+                }
             }
             else if(event->button() == Qt::RightButton) {
                 //Create a new interface and center it on the mouse
@@ -80,7 +82,11 @@ void GraphicsView::mousePressEvent( QMouseEvent *event)
                 connect(interface, SIGNAL(connectionCreated(Domain*,Domain*)),
                         this, SLOT(connectDomains(Domain*, Domain*)));
 
-                        scene->addItem(interface);
+                if(context.addInterface(*interface)) scene->addItem(interface);
+                else {
+                    delete interface;
+                    interface = NULL;
+                }
             }
         }
         //Propogate the mouse event down to the scene objects
@@ -439,23 +445,3 @@ void GraphicsView::problemDiag12Toggled(bool state)
     }
 }
 
-void GraphicsView::connectDomains(Domain *first, Domain *second)
-{
-    //TODO: We have the connected domains, now draw a line between them!
-    //QLineF line(first->boundingRect().center(), second->boundingRect().center());
-    //scene->addLine(line);
-}
-
-//void GraphicsView::lineAdded(QPointF pos1, QPointF pos2)
-//{
-//    qDebug() << "Drawing line";
-//    qDebug() << "Point 1: " << pos1.x() << ", " << pos1.y();
-//    qDebug() << "Point 2: " << pos2.x() << ", " << pos2.y();
-//    QLineF line(pos1, pos2);
-//    scene->addLine(line);
-//    update();
-
-//    foreach(QLineF line, context->getLines()) {
-//        scene->addLine(line);
-//    }
-//}

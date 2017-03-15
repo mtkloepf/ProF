@@ -41,10 +41,6 @@ public slots:
     void problemDiag11Toggled(bool state);
     void problemDiag12Toggled(bool state);
 
-    void connectDomains(Domain *first, Domain *second);
-
-//    void lineAdded(QPointF pos1, QPointF pos2);
-
 public:
     QGraphicsScene *scene;
 
